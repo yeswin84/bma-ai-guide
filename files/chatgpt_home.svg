@@ -1,0 +1,155 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 600" font-family="'Pretendard Variable',-apple-system,'Malgun Gothic',sans-serif">
+  <defs>
+    <g id="badge"><circle r="13" fill="#d61f1f"/></g>
+  </defs>
+  <rect width="1600" height="600" fill="#fbfaf8"/>
+  <!-- 사이드바 -->
+  <rect width="80" height="600" fill="#f7f6f3"/>
+  <line x1="80" y1="0" x2="80" y2="600" stroke="#e8e6e1" stroke-width="1.5"/>
+
+  <!-- ① 사이드바 접기 -->
+  <g stroke="#333" stroke-width="2.4" fill="none">
+    <rect x="27" y="33" width="26" height="26" rx="6"/>
+    <line x1="37" y1="33" x2="37" y2="59"/>
+  </g>
+  <rect x="18" y="24" width="44" height="44" stroke="#d61f1f" stroke-width="4" fill="none"/>
+  <line x1="62" y1="46" x2="88" y2="46" stroke="#d61f1f" stroke-width="2.5"/>
+  <circle cx="103" cy="46" r="13" fill="#d61f1f"/><text x="103" y="51" font-size="14" font-weight="800" fill="#fff" text-anchor="middle">1</text>
+  <rect x="122" y="30" width="118" height="32" rx="8" fill="#fff" stroke="#d9d4c8" stroke-width="1.5"/>
+  <text x="134" y="51" font-size="16" font-weight="700" fill="#1f2730">사이드바 접기</text>
+
+  <!-- ② 새 채팅 -->
+  <g stroke="#333" stroke-width="2.4" fill="none">
+    <rect x="28" y="120" width="22" height="22" rx="5"/>
+    <path d="M 38 130 L 53 115"/>
+  </g>
+  <rect x="18" y="108" width="44" height="44" stroke="#d61f1f" stroke-width="4" fill="none"/>
+  <line x1="62" y1="130" x2="88" y2="130" stroke="#d61f1f" stroke-width="2.5"/>
+  <circle cx="103" cy="130" r="13" fill="#d61f1f"/><text x="103" y="135" font-size="14" font-weight="800" fill="#fff" text-anchor="middle">2</text>
+  <rect x="122" y="114" width="78" height="32" rx="8" fill="#fff" stroke="#d9d4c8" stroke-width="1.5"/>
+  <text x="134" y="135" font-size="16" font-weight="700" fill="#1f2730">새 채팅</text>
+
+  <!-- ③ 검색 -->
+  <g stroke="#333" stroke-width="2.4" fill="none">
+    <circle cx="38" cy="212" r="9"/>
+    <line x1="45" y1="219" x2="52" y2="226"/>
+  </g>
+  <rect x="18" y="192" width="44" height="44" stroke="#d61f1f" stroke-width="4" fill="none"/>
+  <line x1="62" y1="214" x2="88" y2="214" stroke="#d61f1f" stroke-width="2.5"/>
+  <circle cx="103" cy="214" r="13" fill="#d61f1f"/><text x="103" y="219" font-size="14" font-weight="800" fill="#fff" text-anchor="middle">3</text>
+  <rect x="122" y="198" width="62" height="32" rx="8" fill="#fff" stroke="#d9d4c8" stroke-width="1.5"/>
+  <text x="134" y="219" font-size="16" font-weight="700" fill="#1f2730">검색</text>
+
+  <!-- ④ 고정 항목 -->
+  <g stroke="#333" stroke-width="2.4" fill="none" stroke-linecap="round">
+    <path d="M 32 286 l 12 12 M 30 295 l 8 -16 l 12 6 l -16 8 Z M 35 293 l -7 11"/>
+  </g>
+  <rect x="18" y="276" width="44" height="44" stroke="#d61f1f" stroke-width="4" fill="none"/>
+  <line x1="62" y1="298" x2="88" y2="298" stroke="#d61f1f" stroke-width="2.5"/>
+  <circle cx="103" cy="298" r="13" fill="#d61f1f"/><text x="103" y="303" font-size="14" font-weight="800" fill="#fff" text-anchor="middle">4</text>
+  <rect x="122" y="282" width="100" height="32" rx="8" fill="#fff" stroke="#d9d4c8" stroke-width="1.5"/>
+  <text x="134" y="303" font-size="16" font-weight="700" fill="#1f2730">고정 항목</text>
+
+  <!-- ⑤ 대화 -->
+  <g stroke="#333" stroke-width="2.4" fill="none">
+    <path d="M 29 372 h 18 a 4 4 0 0 1 4 4 v 10 a 4 4 0 0 1 -4 4 h -9 l -6 5 v -5 h -3 a 4 4 0 0 1 -4 -4 v -10 a 4 4 0 0 1 4 -4 Z"/>
+  </g>
+  <rect x="18" y="360" width="44" height="44" stroke="#d61f1f" stroke-width="4" fill="none"/>
+  <line x1="62" y1="382" x2="88" y2="382" stroke="#d61f1f" stroke-width="2.5"/>
+  <circle cx="103" cy="382" r="13" fill="#d61f1f"/><text x="103" y="387" font-size="14" font-weight="800" fill="#fff" text-anchor="middle">5</text>
+  <rect x="122" y="366" width="62" height="32" rx="8" fill="#fff" stroke="#d9d4c8" stroke-width="1.5"/>
+  <text x="134" y="387" font-size="16" font-weight="700" fill="#1f2730">대화</text>
+
+  <!-- ⑬ 계정 (아바타) -->
+  <circle cx="40" cy="538" r="18" fill="#b9b3a6"/>
+  <text x="40" y="544" font-size="13" text-anchor="middle" fill="#fff" font-weight="700">SS</text>
+  <rect x="16" y="514" width="48" height="48" stroke="#d61f1f" stroke-width="4" fill="none"/>
+  <line x1="64" y1="538" x2="88" y2="538" stroke="#d61f1f" stroke-width="2.5"/>
+  <circle cx="103" cy="538" r="13" fill="#d61f1f"/><text x="103" y="543" font-size="14" font-weight="800" fill="#fff" text-anchor="middle">13</text>
+  <rect x="122" y="522" width="62" height="32" rx="8" fill="#fff" stroke="#d9d4c8" stroke-width="1.5"/>
+  <text x="134" y="543" font-size="16" font-weight="700" fill="#1f2730">계정</text>
+
+  <!-- 인사말 -->
+  <text x="850" y="120" font-size="27" text-anchor="middle" fill="#1f1f1f" font-weight="600">오늘은 무슨 이야기를 할까요?</text>
+
+  <!-- ⑥ 프롬프트 입력창 라벨 -->
+  <circle cx="763" cy="172" r="13" fill="#d61f1f"/><text x="763" y="177" font-size="14" font-weight="800" fill="#fff" text-anchor="middle">6</text>
+  <rect x="782" y="156" width="148" height="32" rx="8" fill="#fff" stroke="#d9d4c8" stroke-width="1.5"/>
+  <text x="794" y="177" font-size="16" font-weight="700" fill="#1f2730">프롬프트 입력창</text>
+  <line x1="850" y1="188" x2="850" y2="200" stroke="#d61f1f" stroke-width="2.5"/>
+
+  <!-- 입력 영역 큰 박스 -->
+  <rect x="340" y="200" width="1020" height="130" stroke="#d61f1f" stroke-width="4.5" fill="none"/>
+  <!-- 입력 필 -->
+  <rect x="362" y="237" width="976" height="56" rx="28" fill="#ffffff" stroke="#ddd8cb" stroke-width="1.6"/>
+  <!-- + -->
+  <text x="405" y="274" font-size="26" text-anchor="middle" fill="#333">+</text>
+  <rect x="385" y="247" width="40" height="36" stroke="#d61f1f" stroke-width="3.5" fill="none"/>
+  <!-- 플레이스홀더 -->
+  <text x="445" y="272" font-size="17" fill="#9a948a">무엇이든 물어보세요</text>
+  <!-- Instant -->
+  <text x="1090" y="272" font-size="16" fill="#6b655b">Instant</text>
+  <path d="M 1146 261 l 7 8 l 7 -8" stroke="#6b655b" stroke-width="2" fill="none"/>
+  <rect x="1075" y="247" width="92" height="36" stroke="#d61f1f" stroke-width="3.5" fill="none"/>
+  <!-- 마이크 -->
+  <g stroke="#444" stroke-width="2.2" fill="none">
+    <rect x="1199" y="252" width="11" height="17" rx="5.5"/>
+    <path d="M 1194 263 a 10 10 0 0 0 21 0 M 1204.5 273 v 7"/>
+  </g>
+  <rect x="1184" y="245" width="42" height="40" stroke="#d61f1f" stroke-width="3.5" fill="none"/>
+  <!-- 음성 대화 -->
+  <circle cx="1285" cy="265" r="22" fill="#1a1a1a"/>
+  <g stroke="#ffffff" stroke-width="3.2" stroke-linecap="round">
+    <line x1="1275" y1="259" x2="1275" y2="271"/>
+    <line x1="1282" y1="255" x2="1282" y2="275"/>
+    <line x1="1289" y1="258" x2="1289" y2="272"/>
+    <line x1="1296" y1="261" x2="1296" y2="269"/>
+  </g>
+  <rect x="1255" y="237" width="60" height="56" stroke="#d61f1f" stroke-width="3.5" fill="none"/>
+
+  <!-- ⑦ 파일 첨부 -->
+  <line x1="405" y1="330" x2="405" y2="362" stroke="#d61f1f" stroke-width="2.5"/>
+  <circle cx="370" cy="382" r="13" fill="#d61f1f"/><text x="370" y="387" font-size="14" font-weight="800" fill="#fff" text-anchor="middle">7</text>
+  <rect x="389" y="366" width="100" height="32" rx="8" fill="#fff" stroke="#d9d4c8" stroke-width="1.5"/>
+  <text x="401" y="387" font-size="16" font-weight="700" fill="#1f2730">파일 첨부</text>
+
+  <!-- ⑧ 모델 선택 -->
+  <line x1="1121" y1="330" x2="1121" y2="362" stroke="#d61f1f" stroke-width="2.5"/>
+  <circle cx="1066" cy="382" r="13" fill="#d61f1f"/><text x="1066" y="387" font-size="14" font-weight="800" fill="#fff" text-anchor="middle">8</text>
+  <rect x="1085" y="366" width="100" height="32" rx="8" fill="#fff" stroke="#d9d4c8" stroke-width="1.5"/>
+  <text x="1097" y="387" font-size="16" font-weight="700" fill="#1f2730">모델 선택</text>
+
+  <!-- ⑨ 음성 입력 -->
+  <line x1="1205" y1="330" x2="1205" y2="345" stroke="#d61f1f" stroke-width="2.5"/>
+  <line x1="1205" y1="345" x2="1240" y2="362" stroke="#d61f1f" stroke-width="2.5"/>
+  <circle cx="1213" cy="425" r="13" fill="#d61f1f"/><text x="1213" y="430" font-size="14" font-weight="800" fill="#fff" text-anchor="middle">9</text>
+  <rect x="1232" y="409" width="100" height="32" rx="8" fill="#fff" stroke="#d9d4c8" stroke-width="1.5"/>
+  <text x="1244" y="430" font-size="16" font-weight="700" fill="#1f2730">음성 입력</text>
+  <line x1="1240" y1="362" x2="1255" y2="409" stroke="#d61f1f" stroke-width="0"/>
+
+  <!-- ⑩ 음성 대화 -->
+  <line x1="1285" y1="330" x2="1285" y2="362" stroke="#d61f1f" stroke-width="2.5"/>
+  <circle cx="1360" cy="382" r="13" fill="#d61f1f"/><text x="1360" y="387" font-size="14" font-weight="800" fill="#fff" text-anchor="middle">10</text>
+  <rect x="1379" y="366" width="100" height="32" rx="8" fill="#fff" stroke="#d9d4c8" stroke-width="1.5"/>
+  <text x="1391" y="387" font-size="16" font-weight="700" fill="#1f2730">음성 대화</text>
+  <line x1="1285" y1="362" x2="1347" y2="376" stroke="#d61f1f" stroke-width="2.5"/>
+
+  <!-- SELECT / EXPORT (브라우저 확장) -->
+  <rect x="1380" y="225" width="86" height="38" rx="8" fill="#fff" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="1423" y="249" font-size="14" font-weight="700" fill="#8b5cf6" text-anchor="middle">SELECT</text>
+  <rect x="1470" y="225" width="34" height="38" rx="8" fill="#fff" stroke="#8b5cf6" stroke-width="2"/>
+  <path d="M 1481 240 l 6 7 l 6 -7" stroke="#8b5cf6" stroke-width="2" fill="none"/>
+  <circle cx="1528" cy="244" r="13" fill="#d61f1f"/><text x="1528" y="249" font-size="14" font-weight="800" fill="#fff" text-anchor="middle">11</text>
+  <rect x="1547" y="228" width="50" height="32" rx="8" fill="#fff" stroke="#d9d4c8" stroke-width="1.5"/>
+  <text x="1557" y="249" font-size="16" font-weight="700" fill="#1f2730">선택</text>
+
+  <rect x="1380" y="278" width="86" height="38" rx="8" fill="#f1efe9" stroke="#cfcabc" stroke-width="1.5"/>
+  <text x="1423" y="302" font-size="13" font-weight="700" fill="#6b655b" text-anchor="middle">EXPORT</text>
+  <rect x="1470" y="278" width="34" height="38" rx="8" fill="#f1efe9" stroke="#cfcabc" stroke-width="1.5"/>
+  <path d="M 1481 293 l 6 7 l 6 -7" stroke="#6b655b" stroke-width="2" fill="none"/>
+  <circle cx="1528" cy="340" r="13" fill="#d61f1f"/><text x="1528" y="345" font-size="14" font-weight="800" fill="#fff" text-anchor="middle">12</text>
+  <rect x="1547" y="324" width="50" height="32" rx="8" fill="#fff" stroke="#d9d4c8" stroke-width="1.5"/>
+  <text x="1551" y="345" font-size="14.5" font-weight="700" fill="#1f2730">내보내기</text>
+  <line x1="1504" y1="307" x2="1520" y2="330" stroke="#d61f1f" stroke-width="2.5"/>
+  <!-- v2 -->
+</svg>

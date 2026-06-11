@@ -1,0 +1,1954 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>병무청 × ChatGPT·Gemini·NotebookLM — 4시간 실무 가이드</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<style>
+:root {
+  --bg: #f5f1e8;
+  --sidebar-bg: #1a2e4f;
+  --sidebar-hover: #243959;
+  --sidebar-active: #2c4368;
+  --sidebar-text: #e6dfc9;
+  --sidebar-text-dim: #a39c8a;
+  --accent: #1a2e4f;
+  --accent-light: #2c4368;
+  --mustard: #C8951F;
+  --mustard-light: #d9a838;
+  --text: #1f2730;
+  --text-dim: #5f574f;
+  --card: #ffffff;
+  --border: #e2dcc8;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, 'Malgun Gothic', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 17px;
+  line-height: 1.75;
+  letter-spacing: -0.01em;
+}
+.app { display: flex; min-height: 100vh; }
+
+.sidebar {
+  width: 320px; background: var(--sidebar-bg); color: var(--sidebar-text);
+  position: sticky; top: 0; height: 100vh; overflow-y: auto;
+  padding: 24px 0 40px; flex-shrink: 0;
+}
+.brand {
+  padding: 0 24px 22px; display: flex; gap: 12px; align-items: center;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  margin-bottom: 12px;
+}
+.logo {
+  width: 50px; height: 50px; background: var(--mustard); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-weight: 700; font-size: 15px; flex-shrink: 0;
+}
+.brand-title { font-weight: 700; color: #fff; font-size: 15.5px; line-height: 1.3; }
+.brand-sub { font-size: 12.5px; color: var(--sidebar-text-dim); margin-top: 3px; }
+
+.nav-chapter { padding: 2px 12px; }
+.nav-chapter-header {
+  display: flex; align-items: center; gap: 10px;
+  padding: 14px 10px; cursor: pointer; user-select: none;
+  border-radius: 6px; transition: background 0.15s;
+}
+.nav-chapter-header:hover { background: var(--sidebar-hover); }
+.ch-num {
+  background: rgba(200, 149, 31, 0.92); color: #1a1a1a; font-size: 11px; font-weight: 700;
+  padding: 5px 10px; border-radius: 4px; letter-spacing: 0.04em;
+  flex-shrink: 0; white-space: nowrap;
+}
+.ch-title {
+  font-size: 15px; color: var(--sidebar-text); font-weight: 700;
+  line-height: 1.35; flex: 1; min-width: 0;
+}
+.ch-time { font-size: 12px; color: var(--sidebar-text-dim); white-space: nowrap; }
+.ch-caret { color: var(--sidebar-text-dim); transition: transform 0.2s; font-size: 11px; }
+.nav-chapter.open .ch-caret { transform: rotate(180deg); }
+.sections { padding-left: 14px; display: none; margin: 2px 0 8px; }
+.nav-chapter.open .sections { display: block; }
+
+.section-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 10px 10px 14px; cursor: pointer; border-radius: 4px;
+  font-size: 13.5px; color: var(--sidebar-text);
+  transition: background 0.15s; border-left: 2px solid transparent;
+}
+.section-item:hover { background: var(--sidebar-hover); }
+.section-item.active {
+  background: var(--sidebar-active); border-left: 2px solid var(--mustard);
+  color: #fff;
+}
+.section-item .dot {
+  width: 5px; height: 5px; background: var(--mustard); border-radius: 50%; flex-shrink: 0;
+}
+.section-item .title { flex: 1; }
+
+.tag {
+  font-size: 10.5px; padding: 2px 7px; border-radius: 3px;
+  font-weight: 700; letter-spacing: 0.02em; flex-shrink: 0;
+}
+.tag-plat { background: #c5dcc8; color: #2f5534; }
+.tag-concept { background: #c5d5e4; color: #2a4664; }
+.tag-practice { background: #efd9a8; color: #7a5a18; }
+.tag-workshop { background: #dcc8e4; color: #5a2a74; }
+.tag-opening { background: #f0c8c8; color: #7a1a1a; }
+.tag-demo { background: #d4c5e4; color: #4a2a74; }
+.tag-caution { background: #f4d4d4; color: #8b1c1c; }
+
+.main { flex: 1; min-width: 0; }
+.top {
+  background: var(--bg); padding: 20px 44px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 10;
+}
+.breadcrumb { font-size: 14.5px; color: var(--text-dim); }
+.breadcrumb .current { color: var(--text); font-weight: 600; }
+.breadcrumb span + span::before { content: "›"; margin: 0 8px; color: var(--text-dim); }
+.font-ctrl { display: flex; gap: 0; background: #fff; border: 1px solid var(--border); border-radius: 5px; overflow: hidden; }
+.font-ctrl button {
+  background: transparent; border: none; padding: 7px 14px; cursor: pointer;
+  font-size: 13px; color: var(--text-dim);
+}
+.font-ctrl button.active { background: var(--text); color: #fff; }
+
+.content { padding: 48px 50px 80px; max-width: 940px; }
+
+h1 { font-size: 38px; font-weight: 800; margin-bottom: 14px; letter-spacing: -0.025em; color: var(--accent); line-height: 1.25; }
+h2 { font-size: 26px; font-weight: 700; margin: 38px 0 14px; letter-spacing: -0.02em; line-height: 1.35; }
+h3 { font-size: 19px; font-weight: 700; margin: 24px 0 10px; }
+p { margin: 10px 0; }
+strong { font-weight: 700; color: var(--text); }
+
+.page-desc { font-size: 18px; color: var(--text-dim); margin-bottom: 28px; line-height: 1.75; }
+.section-heading {
+  border-bottom: 3px solid var(--accent); padding-bottom: 8px;
+  font-size: 22px; font-weight: 700; margin: 40px 0 20px;
+  display: inline-block; color: var(--text);
+}
+
+.hero {
+  background: linear-gradient(135deg, var(--accent) 0%, #243d65 100%);
+  color: #fff; padding: 36px 40px; border-radius: 14px;
+  margin: 26px 0 32px;
+  box-shadow: 0 8px 28px rgba(26, 46, 79, 0.18);
+  text-align: center;
+}
+.hero-label { font-size: 13px; font-weight: 700; letter-spacing: 0.12em; color: var(--mustard); margin-bottom: 12px; text-transform: uppercase; }
+.hero-main { font-size: 28px; font-weight: 800; line-height: 1.4; letter-spacing: -0.02em; }
+.hero-main b { color: var(--mustard); }
+.hero-sub { font-size: 16px; margin-top: 14px; opacity: 0.85; line-height: 1.6; }
+
+.callout {
+  background: #fff; border-left: 5px solid var(--accent);
+  padding: 22px 28px; border-radius: 8px; margin: 24px 0;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04); font-size: 16px;
+}
+.callout-title { font-weight: 700; margin-bottom: 8px; color: var(--accent); font-size: 17px; }
+.callout-mustard { border-left-color: var(--mustard); }
+.callout-mustard .callout-title { color: #8a6512; }
+.callout-caution { border-left-color: #b54141; background: #fdf4f4; }
+.callout-caution .callout-title { color: #8b1c1c; }
+
+.card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+  padding: 26px 30px; margin: 18px 0; box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.card-title { font-weight: 700; margin-bottom: 10px; font-size: 19px; color: var(--text); }
+.card-desc { color: var(--text-dim); font-size: 16px; margin-bottom: 12px; line-height: 1.7; }
+
+.cta-wrap { margin: 34px 0; text-align: center; }
+.cta-button {
+  display: inline-flex; align-items: center; gap: 14px;
+  background: var(--accent); color: #fff !important;
+  padding: 24px 48px; border-radius: 12px;
+  font-size: 20px; font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 8px 24px rgba(26, 46, 79, 0.28);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.cta-button:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(26, 46, 79, 0.35); }
+.cta-button .cta-icon { font-size: 26px; }
+.cta-button .cta-arrow { font-size: 16px; opacity: 0.9; }
+.cta-button.mustard { background: var(--mustard); box-shadow: 0 8px 24px rgba(200, 149, 31, 0.28); }
+.cta-sub { margin-top: 12px; font-size: 13.5px; color: var(--text-dim); }
+
+.bignum-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 24px 0; }
+.bignum-card {
+  background: #fff; border: 1px solid var(--border); border-radius: 12px;
+  padding: 26px 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  display: flex; flex-direction: column; gap: 8px;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.bignum-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+.bignum-num {
+  width: 44px; height: 44px; background: var(--mustard); color: #fff;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-size: 20px; font-weight: 800; margin-bottom: 4px;
+}
+.bignum-title { font-size: 18px; font-weight: 700; color: var(--accent); line-height: 1.35; }
+.bignum-desc { font-size: 15px; color: var(--text-dim); line-height: 1.65; }
+
+.icongrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin: 22px 0; }
+.iconcard {
+  background: #fff; border: 1px solid var(--border); border-radius: 12px;
+  padding: 24px 22px; text-align: center;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  transition: transform 0.15s;
+}
+.iconcard:hover { transform: translateY(-2px); }
+.iconcard .ic-emoji { font-size: 40px; margin-bottom: 10px; display: block; }
+.iconcard .ic-title { font-size: 17px; font-weight: 700; margin-bottom: 6px; color: var(--accent); line-height: 1.3; }
+.iconcard .ic-desc { font-size: 14.5px; color: var(--text-dim); line-height: 1.6; }
+
+.timeline { margin: 26px 0; position: relative; }
+.timeline::before {
+  content: ""; position: absolute; top: 28px; left: 50px; right: 50px;
+  height: 3px; background: linear-gradient(90deg, var(--mustard), var(--accent));
+  border-radius: 2px;
+}
+.timeline-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; position: relative; }
+.timeline-item {
+  background: #fff; border: 2px solid var(--border); border-radius: 12px;
+  padding: 18px 12px; text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.timeline-item.current { border-color: var(--mustard); box-shadow: 0 6px 16px rgba(200, 149, 31, 0.18); }
+.timeline-year {
+  background: var(--accent); color: #fff;
+  display: inline-block; padding: 6px 12px; border-radius: 16px;
+  font-size: 13px; font-weight: 800; margin-bottom: 12px;
+  position: relative; z-index: 2;
+}
+.timeline-item.current .timeline-year { background: var(--mustard); }
+.timeline-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 6px; line-height: 1.35; }
+.timeline-desc { font-size: 13px; color: var(--text-dim); line-height: 1.55; }
+.timeline-now { display: inline-block; background: var(--mustard); color: #fff; font-size: 10.5px; font-weight: 800; padding: 2px 8px; border-radius: 10px; margin-top: 6px; letter-spacing: 0.05em; }
+
+.compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin: 22px 0; }
+.compare-box { border-radius: 12px; padding: 24px 26px; }
+.compare-bad { background: #fdf4f4; border: 1.5px solid #f3cac8; }
+.compare-good { background: #f0f7ed; border: 1.5px solid #b4d1a8; }
+.compare-label { font-size: 13px; font-weight: 800; letter-spacing: 0.08em; margin-bottom: 12px; text-transform: uppercase; }
+.compare-bad .compare-label { color: #a53545; }
+.compare-good .compare-label { color: #3a6b2e; }
+.compare-content {
+  background: #fff; border-radius: 8px; padding: 16px 18px;
+  font-size: 15.5px; line-height: 1.7; color: var(--text);
+  font-family: 'Pretendard Variable', monospace;
+}
+.compare-bad .compare-content { border: 1px dashed #d4b6b2; color: #6b5e5a; }
+.compare-good .compare-content { border: 1px solid #d0e0c8; }
+.compare-foot { margin-top: 14px; font-size: 14px; font-weight: 600; }
+.compare-bad .compare-foot { color: #7a1a1a; }
+.compare-good .compare-foot { color: #3a6b2e; }
+
+.plan-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin: 22px 0; }
+.plan-card {
+  background: #fff; border-radius: 14px; padding: 28px 24px;
+  border: 2px solid var(--border);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.plan-card.recommended {
+  border-color: var(--mustard); position: relative;
+  box-shadow: 0 6px 20px rgba(200, 149, 31, 0.18);
+}
+.plan-card.recommended::before {
+  content: "오늘 사용"; position: absolute; top: -12px; left: 50%;
+  transform: translateX(-50%); background: var(--mustard); color: #fff;
+  padding: 4px 14px; border-radius: 12px; font-size: 12px; font-weight: 700;
+  letter-spacing: 0.05em;
+}
+.plan-name { font-size: 22px; font-weight: 800; color: var(--accent); margin-bottom: 6px; }
+.plan-price { font-size: 28px; font-weight: 800; color: var(--text); margin-bottom: 4px; }
+.plan-price small { font-size: 14px; font-weight: 500; color: var(--text-dim); }
+.plan-target { font-size: 13.5px; color: var(--text-dim); margin-bottom: 16px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+.plan-feats { list-style: none; padding: 0; margin: 0; }
+.plan-feats li { padding: 6px 0; font-size: 14.5px; color: var(--text); display: flex; align-items: flex-start; gap: 8px; }
+.plan-feats li::before { content: "✓"; color: var(--mustard); font-weight: 700; flex-shrink: 0; }
+.plan-feats li.no::before { content: "✗"; color: #b54141; }
+.plan-feats li.no { color: var(--text-dim); }
+
+.prompt-block {
+  background: #fcfaf5; border: 1px solid var(--border); border-radius: 10px;
+  margin: 14px 0 24px; overflow: hidden;
+}
+.prompt-header {
+  background: #ede6d3; padding: 12px 18px;
+  display: flex; justify-content: space-between; align-items: center;
+  border-bottom: 1px solid var(--border);
+}
+.prompt-label { font-size: 14px; font-weight: 700; color: var(--text); }
+.copy-btn {
+  background: var(--mustard); color: white; border: none;
+  padding: 8px 18px; border-radius: 5px; cursor: pointer;
+  font-size: 13px; font-weight: 700; transition: background 0.15s;
+}
+.copy-btn:hover { background: var(--mustard-light); }
+.copy-btn.copied { background: #5a7c5a; }
+.prompt-body {
+  padding: 20px 24px; white-space: pre-wrap;
+  font-family: 'Pretendard Variable', monospace;
+  font-size: 15px; line-height: 1.8; color: #2c2626;
+}
+
+.file-card {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 22px 26px; background: #fff;
+  border: 1px solid var(--border); border-radius: 10px; margin: 12px 0;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  text-decoration: none; color: inherit; gap: 16px;
+}
+.file-info h4 { font-size: 17px; font-weight: 700; margin-bottom: 6px; color: var(--text); }
+.file-info p { font-size: 14.5px; color: var(--text-dim); margin: 0; line-height: 1.5; }
+.dl-btn {
+  background: var(--mustard); color: white; border: none;
+  padding: 12px 26px; border-radius: 6px; cursor: pointer;
+  font-size: 14px; font-weight: 700; text-decoration: none;
+  display: inline-block; white-space: nowrap;
+}
+.dl-btn:hover { background: var(--mustard-light); }
+.dl-btn.pending { background: #bbaa95; cursor: not-allowed; }
+
+ul { padding-left: 24px; margin: 12px 0; }
+li { margin: 8px 0; font-size: 16.5px; line-height: 1.75; }
+
+.demo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; margin: 18px 0; }
+.demo-topic {
+  background: #fff; border: 1px solid var(--border); border-radius: 10px;
+  padding: 20px 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.demo-topic .tt { font-weight: 700; margin-bottom: 8px; color: var(--text); font-size: 16px; }
+.demo-topic .dd { font-size: 15px; color: var(--text-dim); line-height: 1.65; }
+
+table { width: 100%; border-collapse: collapse; margin: 18px 0; background: #fff; border-radius: 10px; overflow: hidden; border: 1px solid var(--border); }
+th, td { padding: 14px 18px; text-align: left; border-bottom: 1px solid var(--border); font-size: 15.5px; vertical-align: top; line-height: 1.65; }
+th { background: #f1ead7; font-weight: 700; font-size: 14.5px; color: var(--accent); }
+tr:last-child td { border-bottom: none; }
+
+.pills { display: flex; gap: 10px; flex-wrap: wrap; margin: 10px 0 26px; }
+.pill { padding: 6px 16px; background: #fff; border: 1px solid var(--border); border-radius: 16px; font-size: 13.5px; color: var(--text-dim); font-weight: 600; }
+.pill.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+.pill.mustard { background: var(--mustard); color: #fff; border-color: var(--mustard); }
+
+.footer-nav { display: flex; justify-content: space-between; margin-top: 60px; padding-top: 28px; border-top: 1px solid var(--border); gap: 14px; }
+.nav-btn {
+  background: #fff; border: 1px solid var(--border);
+  padding: 14px 24px; border-radius: 8px; cursor: pointer;
+  font-size: 15px; color: var(--text); font-weight: 600;
+  transition: all 0.15s; flex: 1; max-width: 48%;
+}
+.nav-btn:hover:not(.disabled) { background: var(--accent); color: #fff; border-color: var(--accent); }
+.nav-btn.disabled { opacity: 0.4; cursor: not-allowed; }
+.nav-btn.next { text-align: right; }
+
+.stub-notice {
+  background: #fef9eb; border: 1px dashed #d9b85a; border-radius: 10px;
+  padding: 18px 22px; margin: 20px 0; font-size: 15px; color: #6b5418; line-height: 1.7;
+}
+.stub-notice b { color: #8a6512; }
+
+.mockup {
+  border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
+  margin: 18px 0 8px; background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+}
+.mockup-bar {
+  background: #ece5d4; padding: 8px 14px; display: flex; gap: 6px; align-items: center;
+  border-bottom: 1px solid var(--border);
+}
+.mdot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+.mock-url { flex: 1; background: #fff; border: 1px solid var(--border); border-radius: 5px; padding: 2px 10px; font-size: 12px; color: var(--text-dim); margin-left: 6px; }
+.mock-item { padding: 8px 12px; border-radius: 8px; margin: 2px 4px; font-size: 14px; }
+.mock-item:hover { background: #f5f1e8; }
+.mock-badge { background: var(--mustard); color: #fff; border-radius: 8px; padding: 0 7px; font-size: 11px; font-weight: 700; display: inline-block; }
+.mock-caption { font-size: 13.5px; color: var(--text-dim); margin: 0 0 18px; }
+.mock-legend { background: #fcfaf5; border-top: 1px solid var(--border); padding: 10px 16px; font-size: 13px; color: var(--text-dim); line-height: 1.7; }
+.mock-legend b { color: #8a6512; }
+
+.shot-wrap { position: relative; margin: 18px 0 8px; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+.shot-wrap img { width: 100%; display: block; }
+.shot-num {
+  position: absolute; width: 30px; height: 30px; border-radius: 50%;
+  background: #d61f1f; color: #fff; font-weight: 800; font-size: 15px;
+  display: flex; align-items: center; justify-content: center;
+  transform: translate(-50%, -50%); box-shadow: 0 2px 6px rgba(0,0,0,0.35);
+  border: 2px solid #fff;
+}
+
+.hamburger { display: none; background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text); }
+
+@media (max-width: 900px) {
+  .sidebar { position: fixed; left: -320px; z-index: 100; transition: left 0.25s; }
+  .sidebar.open { left: 0; }
+  .content { padding: 28px; }
+  .top { padding: 18px 22px; }
+  .hamburger { display: block; }
+  .timeline-grid { grid-template-columns: repeat(2, 1fr); }
+  .timeline::before { display: none; }
+  .compare-grid, .plan-grid { grid-template-columns: 1fr; }
+  h1 { font-size: 30px; }
+  h2 { font-size: 22px; }
+  .hero-main { font-size: 22px; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="logo">BMA</div>
+      <div>
+        <div class="brand-title">병무청 × AI 실무 가이드</div>
+        <div class="brand-sub">넥스트 레벨 리더십 (5급) 1기 · 4H</div>
+      </div>
+    </div>
+    <nav class="nav" id="nav"></nav>
+  </aside>
+  <main class="main">
+    <header class="top">
+      <button class="hamburger" onclick="toggleSidebar()">☰</button>
+      <div class="breadcrumb" id="breadcrumb">Home</div>
+      <div class="font-ctrl">
+        <button onclick="setFont(-1)">A-</button>
+        <button class="active" onclick="setFont(0)">기본</button>
+        <button onclick="setFont(1)">A+</button>
+      </div>
+    </header>
+    <div class="content" id="content"></div>
+  </main>
+</div>
+<script>
+const chapters = [
+  { id:"pre", num:"사전준비", title:"패들렛 접속", time:"",
+    sections:[ {id:"pre", title:"패들렛 접속 & 사이트 안내", type:"opening", label:"준비"} ] },
+  { id:"ch01", num:"1교시", title:"오프닝 + ChatGPT 이해·가입", time:"13:00–13:50",
+    sections:[
+      {id:"0-1", title:"오늘의 여정 한눈에", type:"opening"},
+      {id:"1-1", title:"ChatGPT 바로가기", type:"practice", label:"접속"},
+      {id:"1-2", title:"ChatGPT가 뭐야 — 원리와 발전 과정", type:"concept"},
+      {id:"1-3", title:"회원가입 + 첫 화면", type:"practice", label:"실습"},
+      {id:"1-4", title:"핵심 기능 한눈에", type:"concept"},
+      {id:"1-5", title:"무료 vs 유료", type:"concept"}
+    ] },
+  { id:"ch02", num:"2교시", title:"ChatGPT로 실습", time:"14:00–14:50",
+    sections:[
+      {id:"2-1", title:"프롬프트 4원칙 + 핵심 5가지", type:"practice"},
+      {id:"2-2", title:"심층 리서치 실습", type:"practice", label:"실습 1"},
+      {id:"2-3", title:"이미지 생성", type:"practice", label:"실습 2"},
+      {id:"2-4", title:"회의록 정리", type:"practice", label:"실습 3"},
+      {id:"2-5", title:"데이터 분석", type:"practice", label:"실습 4"}
+    ] },
+  { id:"ch03", num:"3교시", title:"Gemini 설명 & 실습", time:"15:00–15:50",
+    sections:[
+      {id:"3-1", title:"Gemini 바로가기", type:"practice", label:"접속"},
+      {id:"3-2", title:"Gemini 소개", type:"concept"},
+      {id:"3-3", title:"Canvas로 PPT 8장 즉석 생성", type:"practice"},
+      {id:"3-4", title:"@Gmail · @Drive · @Calendar 연결", type:"practice", label:"실습"},
+      {id:"3-5", title:"Gems 만들기", type:"practice"},
+      {id:"3-6", title:"동영상 만들기 (Veo)", type:"practice", label:"실습"}
+    ] },
+  { id:"ch04", num:"4교시", title:"NotebookLM 설명 & 실습", time:"16:00–16:50",
+    sections:[
+      {id:"4-1", title:"NotebookLM 바로가기", type:"plat", label:"접속"},
+      {id:"4-2", title:"NotebookLM이 뭐야", type:"plat"},
+      {id:"4-3", title:"[방향 1] 자료가 없을 때 — 조사·검증", type:"practice"}
+    ] },
+  { id:"end", num:"마무리", title:"AI 윤리 + 체크리스트", time:"16:50–17:00",
+    sections:[
+      {id:"5-1", title:"공공부문 AI 윤리·보안", type:"caution"},
+      {id:"5-2", title:"5급 관리자 체크리스트", type:"opening", label:"종료"},
+      {id:"5-3", title:"Q&A", type:"opening", label:"Q&A"}
+    ] }
+];
+
+const typeLabel = { opening:"안내", concept:"개념", practice:"실습", workshop:"워크숍", plat:"플랫폼", demo:"시연", caution:"주의" };
+const typeClass = { opening:"tag-opening", concept:"tag-concept", practice:"tag-practice", workshop:"tag-workshop", plat:"tag-plat", demo:"tag-demo", caution:"tag-caution" };
+
+function esc(s){ return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+function promptBlock(label, text) {
+  return '<div class="prompt-block"><div class="prompt-header"><span class="prompt-label">'+esc(label)+'</span><button class="copy-btn" onclick="copyPrompt(this)">복사</button></div><div class="prompt-body">'+esc(text)+'</div></div>';
+}
+function fileCard(name, desc, file) {
+  if (!file) return '<div class="file-card"><div class="file-info"><h4>'+esc(name)+'</h4><p>'+esc(desc)+'</p></div><button class="dl-btn pending">준비 중</button></div>';
+  return '<div class="file-card"><div class="file-info"><h4>'+esc(name)+'</h4><p>'+esc(desc)+'</p></div><a class="dl-btn" href="'+file+'" download>다운로드</a></div>';
+}
+function ctaButton(icon, label, url, sub, mustard) {
+  const cls = mustard ? 'cta-button mustard' : 'cta-button';
+  return '<div class="cta-wrap"><a class="'+cls+'" href="'+url+'" target="_blank" rel="noopener"><span class="cta-icon">'+icon+'</span> '+label+' <span class="cta-arrow">↗</span></a><div class="cta-sub">'+sub+'</div></div>';
+}
+function hero(label, main, sub) {
+  let h = '<div class="hero">';
+  if (label) h += '<div class="hero-label">'+label+'</div>';
+  h += '<div class="hero-main">'+main+'</div>';
+  if (sub) h += '<div class="hero-sub">'+sub+'</div>';
+  h += '</div>';
+  return h;
+}
+function bigNumGrid(items) {
+  let h = '<div class="bignum-grid">';
+  items.forEach((it, i) => { h += '<div class="bignum-card"><div class="bignum-num">'+(i+1)+'</div><div class="bignum-title">'+it.title+'</div><div class="bignum-desc">'+it.desc+'</div></div>'; });
+  h += '</div>';
+  return h;
+}
+function iconGrid(items) {
+  let h = '<div class="icongrid">';
+  items.forEach(it => { h += '<div class="iconcard"><span class="ic-emoji">'+it.icon+'</span><div class="ic-title">'+it.title+'</div><div class="ic-desc">'+it.desc+'</div></div>'; });
+  h += '</div>';
+  return h;
+}
+function timeline(items) {
+  let h = '<div class="timeline"><div class="timeline-grid">';
+  items.forEach(it => {
+    const cls = it.current ? 'timeline-item current' : 'timeline-item';
+    h += '<div class="'+cls+'"><div class="timeline-year">'+it.year+'</div><div class="timeline-title">'+it.title+'</div><div class="timeline-desc">'+it.desc+'</div>';
+    if (it.current) h += '<div class="timeline-now">현재</div>';
+    h += '</div>';
+  });
+  h += '</div></div>';
+  return h;
+}
+function compareBox(badLabel, badText, badFoot, goodLabel, goodText, goodFoot) {
+  return '<div class="compare-grid">'
+    +'<div class="compare-box compare-bad"><div class="compare-label">'+badLabel+'</div><div class="compare-content">'+badText+'</div><div class="compare-foot">→ '+badFoot+'</div></div>'
+    +'<div class="compare-box compare-good"><div class="compare-label">'+goodLabel+'</div><div class="compare-content">'+goodText+'</div><div class="compare-foot">→ '+goodFoot+'</div></div>'
+    +'</div>';
+}
+function stub(planned) {
+  let h = '<div class="stub-notice"><b>📝 작성 진행 중인 페이지입니다.</b> 강의 골격 확정 후 본문이 채워집니다.</div>';
+  h += '<h2 class="section-heading">이 페이지에 들어갈 내용</h2><ul>';
+  planned.forEach(p => { h += '<li>'+p+'</li>'; });
+  h += '</ul>';
+  return h;
+}
+
+const pages = {};
+pages["pre"] = [
+'<h1>실습 전 준비</h1>',
+'<p class="page-desc">수업 시작 전, 패들렛 보드에 미리 접속해주세요. 오늘 실습 결과물·질문·자료를 함께 공유하는 공간입니다.</p>',
+ctaButton('📌', '패들렛 열기', 'https://padlet.com/sseul2460/ai-d4he8hy9x7jb97b3', 'padlet.com/sseul2460/ai-d4he8hy9x7jb97b3'),
+'<h2 class="section-heading">이 사이트 사용법</h2>',
+iconGrid([
+  {icon:'🗂️', title:'왼쪽 사이드바', desc:'교시 제목을 클릭하면 ▼ 펼쳐져요. 모바일은 왼쪽 위 ☰ 누르세요'},
+  {icon:'⬅️➡️', title:'이전/다음 버튼', desc:'페이지 맨 아래 [← 이전] [다음 →] 버튼으로 순서대로'},
+  {icon:'📋', title:'복사 버튼', desc:'프롬프트 박스의 [복사] 클릭 한 번에 클립보드 저장'},
+  {icon:'📎', title:'다운로드 버튼', desc:'실습 자료 파일 [다운로드] 클릭으로 즉시 받기'},
+  {icon:'🔠', title:'글자 크기 조절', desc:'오른쪽 위 [A-] [기본] [A+] 버튼'},
+  {icon:'🔖', title:'언제든 재방문', desc:'강의 끝나도 이 사이트는 계속 열려 있어요'}
+]),
+'<h2 class="section-heading">🔑 가장 중요한 준비물 — 구글 계정</h2>',
+'<div class="callout callout-mustard"><div class="callout-title">개인 구글 계정 아이디·비밀번호를 기억해오세요</div>오늘 가입할 3개 도구 모두 <b>구글 계정 하나면 1분 만에</b> 시작됩니다. 비밀번호가 기억 안 나면 가입에만 10분 이상 걸려요.<br><br>· <b>개인 계정 권장</b> — 업무용(공직자통합메일 등) 계정은 보안 정책상 외부 서비스 로그인이 막힐 수 있습니다<br>· 구글 계정이 아예 없다면 → 수업 전에 gmail.com에서 미리 만들어 오시면 가장 편합니다</div>',
+'<h2 class="section-heading">오늘 가입할 도구 3개</h2>',
+bigNumGrid([
+  {title:'ChatGPT', desc:'1교시(13:00)에 다 같이 가입. 구글 계정 권장 — 1분이면 끝.'},
+  {title:'Gemini', desc:'3교시(15:00)에 접속. 구글 계정만 있으면 즉시 시작.'},
+  {title:'NotebookLM', desc:'4교시(16:00)에 접속. 같은 구글 계정으로.'}
+]),
+'<div class="callout callout-mustard"><div class="callout-title">💡 보조진행자가 없습니다 — 피어 헬프</div>가입을 먼저 끝낸 분은 옆자리 동료를 도와주세요. 모르겠으면 강사에게 손을 들어주시면 됩니다.</div>',
+'<div class="callout callout-caution"><div class="callout-title">⚠️ AI에 입력 금지 정보 (공공기관 필수)</div>· <b>주민등록번호, 군번, 병적 정보</b><br>· <b>민원인의 개인정보</b><br>· <b>비공개 보고서, 결재 전 내부 문서</b><br>· <b>대외비 자료, 비공개 통계</b><br><br>👉 오늘 실습 자료는 모두 <b>가상으로 만든 샘플</b>입니다.</div>'
+].join('');
+
+pages["0-1"] = [
+'<h1>오늘의 여정</h1>',
+hero('NEXT LEVEL LEADERSHIP', '4시간 안에 <b>3가지 AI</b>를<br>가입부터 실무 활용까지', 'ChatGPT · Gemini · NotebookLM — 5급 관리자에게 필요한 기능 위주로'),
+'<div class="pills"><span class="pill primary">13:00 – 17:00 · 4H</span><span class="pill mustard">매시간 50분 + 10분 휴식</span><span class="pill">약 20명</span><span class="pill">대부분 무료 플랜</span></div>',
+'<h2 class="section-heading">📅 4교시 시간표</h2>',
+'<table><thead><tr><th style="width:80px">교시</th><th style="width:130px">시간</th><th>주요 활동</th></tr></thead>',
+'<tbody>',
+'<tr><td><b>1교시</b></td><td>13:00–13:50</td><td>오프닝 + <b>ChatGPT 이해·가입</b> (원리·발전 과정·가입·핵심 기능·플랜)</td></tr>',
+'<tr><td>휴식</td><td>13:50–14:00</td><td>10분</td></tr>',
+'<tr><td><b>2교시</b></td><td>14:00–14:50</td><td><b>ChatGPT로 실습</b> — 프롬프트·맞춤지침·병무 응용 4종·심층 리서치</td></tr>',
+'<tr><td>휴식</td><td>14:50–15:00</td><td>10분</td></tr>',
+'<tr><td><b>3교시</b></td><td>15:00–15:50</td><td><b>Gemini 설명 & 실습</b> — 매핑·Canvas·@앱·Gems</td></tr>',
+'<tr><td>휴식</td><td>15:50–16:00</td><td>10분</td></tr>',
+'<tr><td><b>4교시</b></td><td>16:00–16:50</td><td><b>NotebookLM 설명 & 실습</b> — 정책 자료·부서 자료</td></tr>',
+'<tr><td><b>마무리</b></td><td>16:50–17:00</td><td>AI 윤리·보안 + 5급 관리자 체크리스트 + Q&A</td></tr>',
+'</tbody></table>',
+'<h2 class="section-heading">🧭 도구 3개, 한 줄씩 미리 보기</h2>',
+'<p style="font-size:16px;color:var(--text-dim)">오늘 처음 들어보셔도 괜찮습니다. 지금은 <b>"셋의 용도가 다르다"</b>는 것만 기억하세요.</p>',
+iconGrid([
+  {icon:'💬', title:'ChatGPT', desc:'가장 범용적인 AI 비서 — 보고서·민원 답변·분석·이미지까지'},
+  {icon:'🔷', title:'Gemini', desc:'구글이 만든 AI — Gmail·Drive·Calendar와 한 몸으로 움직임'},
+  {icon:'📚', title:'NotebookLM', desc:'내가 넣은 자료 안에서만 답하는 AI — 정책 자료 분석에 최적'}
+]),
+'<h2 class="section-heading">🎯 오늘 가져갈 결과물</h2>',
+iconGrid([
+  {icon:'✅', title:'내 ChatGPT', desc:'공공기관 톤으로 맞춤 설정된 나만의 ChatGPT'},
+  {icon:'✅', title:'내 Gemini', desc:'구글 계정 기반, 출근 첫날부터 활용 가능'},
+  {icon:'✅', title:'내 NotebookLM', desc:'정책 자료 기반 검색·분석 환경'},
+  {icon:'✅', title:'병무 응용 실습', desc:'심층리서치·이미지·회의록·데이터 직접 해봄'},
+  {icon:'✅', title:'관리자 체크리스트', desc:'AI 시대 5급 관리자가 챙겨야 할 4가지'},
+  {icon:'✅', title:'이 사이트', desc:'강의 끝나도 언제든 재방문 가능'}
+]),
+'<div class="callout callout-mustard"><div class="callout-title">🎯 오늘의 약속</div><b>전달이 빠를 수 있어요.</b> 따라가다 막히면 손을 들어주세요. 옆자리에게 물어봐도 좋아요.<br>완벽하게 다 익히지 않아도 됩니다 — <b>"내 업무에 쓸 수 있겠다"는 감</b>을 잡는 게 목표입니다.</div>'
+].join('');
+
+pages["1-1"] = [
+'<h1>ChatGPT 바로가기</h1>',
+hero('CHATGPT', '먼저 ChatGPT 사이트를<br>열어둡니다', '잠시 후 1-3에서 다 같이 가입합니다. 지금은 사이트만 열어두세요.'),
+ctaButton('🚀', 'ChatGPT 바로가기', 'https://chatgpt.com', 'chatgpt.com'),
+'<h2 class="section-heading">🗺️ 1교시 50분 흐름</h2>',
+bigNumGrid([
+  {title:'ChatGPT가 뭐야 — 원리 + 발전 과정', desc:'어떻게 대답을 만드는지, 2022년 챗봇에서 2026년 일하는 AI까지 — 10분'},
+  {title:'회원가입 + 첫 화면', desc:'다 같이 가입 (구글 계정 권장) — 20분'},
+  {title:'핵심 기능 한눈에', desc:'알면 무조건 쓰는 8가지 기능 투어 — 10분'},
+  {title:'무료 vs 유료', desc:'오늘 실습은 무료로 가능 — 5분'}
+]),
+'<p style="font-size:16px;color:var(--text-dim);text-align:center;margin-top:24px">👇 페이지 맨 아래 <b>[다음 →]</b> 버튼으로 진행</p>'
+].join('');
+
+pages["1-2"] = [
+'<h1>ChatGPT가 뭐야</h1>',
+hero('3년 반 전엔 챗봇', '지금은 <b>일을 대신 해내는</b> AI', '검색하고, 글 쓰고, 분석하고, 자료까지 만들어요. 원리부터 변화 과정까지 10분 만에.'),
+
+'<h2 class="section-heading">🤖 먼저 — ChatGPT는 어떻게 대답할까</h2>',
+'<p style="font-size:16.5px;line-height:1.8">ChatGPT는 인터넷의 방대한 글을 학습한 뒤, 질문을 받으면 <b>"다음에 올 가장 자연스러운 말"을 예측해서 문장을 만들어내는 AI</b>입니다. 휴대폰 자동완성의 초강력 버전이라고 생각하시면 쉽습니다. 이렇게 <b>글·이미지 등을 새로 만들어내는 AI</b>를 <b>생성형 AI</b>라고 부릅니다.</p>',
+iconGrid([
+  {icon:'⌨️', title:'프롬프트', desc:'AI에게 보내는 요청문. 오늘 가장 많이 듣게 될 단어 — "질문을 잘 쓰는 법"이 2교시 주제'},
+  {icon:'🔮', title:'답을 "만들어냄"', desc:'어딘가의 문서를 찾아주는 게 아니라, 학습한 내용을 바탕으로 답을 새로 생성'},
+  {icon:'🔍', title:'검색과 다른 점', desc:'네이버 검색 = 문서 목록을 줌 / ChatGPT = 정리된 답을 바로 줌'}
+]),
+'<div class="callout callout-caution"><div class="callout-title">⚠️ 단, 치명적 약점이 하나 있습니다 — 환각(할루시네이션)</div>"가장 자연스러운 말"을 만들다 보니, <b>모르는 것도 아는 것처럼 그럴듯하게 지어낼 때</b>가 있습니다. 없는 법 조항, 없는 통계를 자신 있게 말하기도 해요.<br><br>👉 그래서 오늘 모든 실습의 마지막은 항상 <b>"사람이 검증"</b>으로 끝납니다. 이 원칙 하나만 기억하셔도 절반은 성공입니다.</div>',
+
+'<h2 class="section-heading">📅 ChatGPT 발전 과정</h2>',
+timeline([
+  {year:'2022.11', title:'ChatGPT 첫 공개', desc:'GPT-3.5 — "사람처럼 대화하는 AI" 충격'},
+  {year:'2023', title:'GPT-4 · GPTs', desc:'추론·정확도 도약 / 웹 검색·나만의 GPT 등장'},
+  {year:'2024', title:'GPT-4o · 캔버스', desc:'멀티모달 통합 / 문서를 옆에 두고 협업'},
+  {year:'2025', title:'심층 리서치 · GPT-5', desc:'AI가 직접 조사·실행 (08월 GPT-5)'},
+  {year:'2026.04', title:'GPT-5.5', desc:'책 수십 권 분량을 한 번에 읽고 기억 / 코딩·리서치·실행 통합', current:true}
+]),
+'<h2 class="section-heading">💡 2026년에도 통하는 핵심</h2>',
+'<div class="card" style="background:linear-gradient(135deg, #fef9eb 0%, #fff 100%); border-left:5px solid var(--mustard);"><div style="font-size:20px;font-weight:800;color:var(--accent);margin-bottom:10px;line-height:1.5">"AI가 똑똑해진 만큼,<br>중요한 건 <span style="color:#8a6512">어떤 기능이 있는지 알고</span> <span style="color:#8a6512">명확하게 요청하는 것</span>"</div><div style="font-size:15.5px;color:var(--text-dim);line-height:1.7;margin-top:12px">예전엔 프롬프트를 잘 써야 했지만, 이제는 <b>어떤 기능이 있는지 알고</b> 활용하는 능력이 더 중요해졌습니다. 오늘 그 기능들을 하나씩 익혀봅니다.</div></div>'
+].join('');
+
+pages["1-4"] = [
+'<h1>핵심 기능 한눈에</h1>',
+hero('알면 쓴다', 'ChatGPT가 할 수 있는 <b>8가지</b>', '이 중 5가지는 오늘 직접 실습합니다 — 익혀두면 평생 씁니다'),
+'<h2 class="section-heading">💎 핵심 기능 8가지</h2>',
+iconGrid([
+  {icon:'💬', title:'① 일반 대화·글쓰기', desc:'보고서 초안·메일 정중하게·아이디어'},
+  {icon:'⚙️', title:'② 맞춤형 지침·메모리', desc:'한 번 설정, 매번 자동 적용'},
+  {icon:'🕵️', title:'③ 임시채팅', desc:'민감정보 다룰 때 — 저장 안 됨'},
+  {icon:'📝', title:'④ 캔버스', desc:'문서를 옆에 두고 AI랑 같이 편집'},
+  {icon:'🎨', title:'⑤ 이미지 생성', desc:'인포그래픽·포스터·카드뉴스'},
+  {icon:'🔬', title:'⑥ 심층 리서치', desc:'AI가 직접 조사·보고서 작성'},
+  {icon:'🤖', title:'⑦ GPTs·프로젝트', desc:'업무별 특화 AI 비서'},
+  {icon:'⚡', title:'⑧ 에이전트', desc:'AI가 컴퓨터 직접 조작 (구경거리)'}
+]),
+'<h2 class="section-heading">🖥️ 실제 화면에서 위치 확인</h2>',
+'<div class="shot-wrap" id="shot-home">',
+'<img src="files/chatgpt_home.svg" alt="ChatGPT 첫 화면 — 주요 기능 위치" onerror="this.parentElement.outerHTML=\'\'">',
+'</div>',
+'<p class="mock-caption">※ 실제 ChatGPT 첫 화면을 재현한 그림 — 버전에 따라 배치가 조금 다를 수 있습니다.</p>',
+'<table><thead><tr><th style="width:70px">번호</th><th style="width:190px">이름</th><th>설명</th></tr></thead><tbody>',
+'<tr><td><b style="color:#d61f1f">①</b></td><td><b>사이드바 접기</b></td><td>왼쪽 사이드바를 펼치고 접기 — 화면을 넓게 쓰고 싶을 때</td></tr>',
+'<tr><td><b style="color:#d61f1f">②</b></td><td><b>새 채팅</b></td><td>새 대화 시작 — <b>주제가 바뀌면 새 채팅</b>이 답 품질에 좋아요</td></tr>',
+'<tr><td><b style="color:#d61f1f">③</b></td><td><b>검색</b></td><td>지난 대화를 키워드로 검색</td></tr>',
+'<tr><td><b style="color:#d61f1f">④</b></td><td><b>고정 항목</b></td><td>자주 쓰는 대화를 핀으로 고정해 위쪽에 유지</td></tr>',
+'<tr><td><b style="color:#d61f1f">⑤</b></td><td><b>대화</b></td><td>지난 대화 목록 — 클릭하면 이어서 작업 가능</td></tr>',
+'<tr><td><b style="color:#d61f1f">⑥</b></td><td><b>프롬프트 입력창</b></td><td>"무엇이든 물어보세요" — 여기에 쓰는 요청문이 <b>프롬프트</b></td></tr>',
+'<tr><td><b style="color:#d61f1f">⑦</b></td><td><b>파일 첨부 (+)</b></td><td>파일·이미지·심층 리서치·캔버스 메뉴 — 바로 아래 그림에서 자세히</td></tr>',
+'<tr><td><b style="color:#d61f1f">⑧</b></td><td><b>모델 선택 (Instant)</b></td><td>즉시/생각 모드 전환 — 복잡한 질문일수록 생각(높음) 모드로</td></tr>',
+'<tr><td><b style="color:#d61f1f">⑨</b></td><td><b>음성 입력</b></td><td>마이크 — 타자 대신 말로 받아쓰기</td></tr>',
+'<tr><td><b style="color:#d61f1f">⑩</b></td><td><b>음성 대화</b></td><td>AI와 실시간 음성 대화 (운전·이동 중 유용)</td></tr>',
+'<tr><td><b style="color:#d61f1f">⑪</b></td><td><b>선택</b></td><td>대화 내용 일부를 선택해 활용 — <span style="color:var(--text-dim)">브라우저 확장 기능이라 안 보일 수 있음</span></td></tr>',
+'<tr><td><b style="color:#d61f1f">⑫</b></td><td><b>내보내기</b></td><td>대화를 파일로 내보내기 — <span style="color:var(--text-dim)">브라우저 확장 기능이라 안 보일 수 있음</span></td></tr>',
+'<tr><td><b style="color:#d61f1f">⑬</b></td><td><b>계정</b></td><td>설정 입구 — <b>맞춤형 지침(2교시)</b>이 이 안에 있습니다</td></tr>',
+'</tbody></table>',
+'<h2 class="section-heading">📍 어디서 찾나</h2>',
+'<table><thead><tr><th style="width:30%">기능</th><th>위치</th></tr></thead><tbody>',
+'<tr><td><b>맞춤형 지침·메모리</b></td><td>오른쪽 위 프로필 → 설정 → 개인 맞춤 설정</td></tr>',
+'<tr><td><b>임시채팅</b></td><td>사이드바 맨 위 연필 아이콘 옆 ✏️</td></tr>',
+'<tr><td><b>캔버스·이미지·심층 리서치</b></td><td>입력창 왼쪽 <b>+ 버튼</b> 안에 모두</td></tr>',
+'<tr><td><b>GPTs</b></td><td>사이드바 → "GPT 탐색"</td></tr>',
+'<tr><td><b>지능 선택</b></td><td>입력창 중간 "중간/높음" 드롭다운</td></tr>',
+'</tbody></table>',
+'<div style="display:flex;gap:24px;align-items:flex-start;flex-wrap:wrap">',
+'<div class="shot-wrap" style="width:280px;flex-shrink:0;margin:0"><img src="files/chatgpt_plus_menu.svg" alt="+ 버튼 메뉴" onerror="this.parentElement.outerHTML=\'\'"></div>',
+'<div style="flex:1;min-width:240px;margin-top:6px">',
+'<p style="font-size:15.5px;color:var(--text-dim);margin-top:0"><b>⑦번 + 버튼을 누르면 나오는 메뉴</b>입니다. 오늘 쓸 기능 대부분이 이 안에 있어요 — 위치를 못 찾겠으면 일단 + 버튼부터 눌러보세요.</p>',
+'<table style="margin-top:14px"><tbody>',
+'<tr><td style="padding:9px 14px;white-space:nowrap"><b style="color:#d61f1f">①</b> <b>사진 및 파일 추가</b></td><td style="padding:9px 14px">엑셀·PDF·캡처 첨부 → 실습 4 데이터 분석에서 사용</td></tr>',
+'<tr><td style="padding:9px 14px;white-space:nowrap"><b style="color:#d61f1f">②</b> <b>최근 파일</b></td><td style="padding:9px 14px">최근 올렸던 파일을 다시 첨부</td></tr>',
+'<tr><td style="padding:9px 14px;white-space:nowrap"><b style="color:#d61f1f">③</b> <b>이미지 만들기</b></td><td style="padding:9px 14px">포스터·카드뉴스 생성 → 실습 2</td></tr>',
+'<tr><td style="padding:9px 14px;white-space:nowrap"><b style="color:#d61f1f">④</b> <b>심층 리서치</b></td><td style="padding:9px 14px">AI가 웹을 조사해 보고서로 → 실습 1</td></tr>',
+'<tr><td style="padding:9px 14px;white-space:nowrap"><b style="color:#d61f1f">⑤</b> <b>웹 검색</b></td><td style="padding:9px 14px">최신 정보 기반으로 답하게 하기</td></tr>',
+'<tr><td style="padding:9px 14px;white-space:nowrap"><b style="color:#d61f1f">⑥</b> <b>더 보기 ›</b></td><td style="padding:9px 14px">캔버스 등 나머지 기능은 이 안에</td></tr>',
+'<tr><td style="padding:9px 14px;white-space:nowrap"><b style="color:#d61f1f">⑦</b> <b>프로젝트 ›</b></td><td style="padding:9px 14px">업무별로 대화·파일을 묶어 관리 (유료 플랜)</td></tr>',
+'</tbody></table>',
+'<p style="font-size:13.5px;color:var(--text-dim)">※ 실제 메뉴를 재현한 그림 — 플랜·버전에 따라 항목이 조금 다를 수 있습니다.</p>',
+'</div>',
+'</div>',
+'<div class="callout"><div class="callout-title">🎯 오늘 직접 써볼 기능 5가지</div><b>맞춤형 지침</b> · <b>캔버스</b> · <b>이미지 생성</b> · <b>심층 리서치</b> · <b>임시채팅</b> — 2교시에 다 해봅니다.</div>'
+].join('');
+
+pages["1-5"] = [
+'<h1>무료 vs 유료</h1>',
+hero('오늘 실습은', '모두 <b>무료 플랜</b>으로 가능합니다', '결제 안 해도 ChatGPT의 80%를 쓸 수 있어요'),
+'<h2 class="section-heading">💳 3가지 플랜 비교</h2>',
+'<div class="plan-grid">',
+'<div class="plan-card recommended"><div class="plan-name">무료</div><div class="plan-price">0원</div><div class="plan-target">처음 써보는 분 · 오늘 실습용</div>',
+'<ul class="plan-feats"><li>기본 채팅·맞춤형 지침</li><li>메모리·임시채팅·캔버스</li><li>GPTs 사용</li><li>웹 검색·심층 리서치 <small>(월 5회)</small></li><li>이미지 생성 <small>(일일 제한)</small></li><li class="no">프로젝트·에이전트</li></ul></div>',
+'<div class="plan-card"><div class="plan-name">Plus</div><div class="plan-price">$20<small>/월 (약 2.9만원)</small></div><div class="plan-target">업무에 매일 쓰는 분</div>',
+'<ul class="plan-feats"><li>무료의 모든 것</li><li>심층 리서치 <small>(월 25회)</small></li><li>이미지 생성 <small>(거의 무제한)</small></li><li>프로젝트 기능</li><li>고급 음성·에이전트</li><li>최신 모델 우선 사용</li></ul></div>',
+'<div class="plan-card"><div class="plan-name">Pro</div><div class="plan-price">$200<small>/월</small></div><div class="plan-target">헤비 유저 · 연구자</div>',
+'<ul class="plan-feats"><li>Plus의 모든 것</li><li>심층 리서치 무제한</li><li>최고 성능 모델 무제한</li><li>Pulse (아침 브리핑)</li><li class="no">대부분 5급 관리자에겐 과함</li></ul></div>',
+'</div>',
+'<h2 class="section-heading">🏛️ 5급 관리자에게 추천</h2>',
+bigNumGrid([
+  {title:'본인은 무료부터', desc:'한 달 써보고 부족함을 느낄 때 Plus로 — 충동 결제 X'},
+  {title:'부서원은 무료', desc:'전사 도입 전 무료로 충분. 6개월 후 결과 보고 결정'},
+  {title:'경비 처리', desc:'개인 계정 결제 → 영수증 → 청 차원 가이드 확인 필요'}
+]),
+'<div class="callout callout-mustard"><div class="callout-title">💡 오늘은 무료로 충분합니다</div>4시간 실습에서 다루는 모든 기능은 무료 플랜으로 가능합니다. 심층 리서치는 무료 월 5회 한도 안에서 1회 실습 — 오늘 한 번씩만 돌려보세요.</div>',
+'<div class="callout"><div class="callout-title">🏁 1교시 정리 — 3가지만 기억하세요</div>① ChatGPT는 답을 <b>만들어내는</b> AI라서 빠르지만 <b>틀릴 수 있다</b> (검증 필수)<br>② 기능 8가지가 있고, 대부분 <b>+ 버튼</b> 안에 모여 있다<br>③ 오늘 실습은 전부 <b>무료 플랜</b>으로 가능하다<br><br>☕ 10분 쉬고, 2교시부터는 <b>직접 손으로</b> 해봅니다.</div>'
+].join('');
+
+pages["1-3"] = [
+'<h1>회원가입 + 첫 화면</h1>',
+hero('GET STARTED', '다 같이 <b>가입</b>합니다', '구글 계정 권장 — 1분 / 이메일+휴대폰 — 10~15분'),
+'<h2 class="section-heading">📝 가입 순서</h2>',
+bigNumGrid([
+  {title:'chatgpt.com 접속', desc:'주소창에 chatgpt.com 입력 → 첫 화면'},
+  {title:'회원가입 클릭', desc:'화면 오른쪽 위 "회원가입" 버튼'},
+  {title:'구글 계정 선택', desc:'"Google 계정으로 계속" 클릭 — 1분이면 끝'},
+  {title:'첫 화면 도착', desc:'입력창 보이면 가입 완료'}
+]),
+'<div class="callout callout-mustard"><div class="callout-title">💡 구글 계정 로그인을 강력 추천</div>이메일 가입은 휴대폰 SMS 인증까지 거쳐야 해서 10~15분 걸립니다. 구글 계정이 있으면 1분이면 끝나요.</div>',
+'<h2 class="section-heading">👋 가입 끝난 분이 할 일</h2>',
+iconGrid([
+  {icon:'🤝', title:'옆자리 도와주기', desc:'먼저 끝낸 분이 옆 사람의 가입을 함께'},
+  {icon:'✏️', title:'첫 대화', desc:'"안녕! 너 잘 부탁해"로 첫 메시지 보내기'},
+  {icon:'🎯', title:'도전 미션', desc:'"5급 사무관의 하루를 4컷 만화 줄거리로 써줘" 던지기'}
+]),
+'<h2 class="section-heading">🖥️ 첫 화면 한눈에</h2>',
+'<p style="font-size:15.5px;color:var(--text-dim)">가운데 입력창에 쓰는 요청문이 바로 <b>프롬프트</b>입니다. 2교시에 "잘 쓰는 법"을 배워요.</p>',
+'<div class="mockup"><div class="mockup-bar"><span class="mdot" style="background:#e8888a"></span><span class="mdot" style="background:#e6c35c"></span><span class="mdot" style="background:#8fc98f"></span><span class="mock-url">chatgpt.com</span></div>',
+'<div style="display:flex;min-height:280px">',
+'<div style="width:172px;background:#171717;color:#ccc;padding:14px 12px;font-size:12.5px;display:flex;flex-direction:column;gap:10px;flex-shrink:0">',
+'<div style="display:flex;justify-content:space-between;align-items:center"><b style="color:#fff">ChatGPT</b><span>✏️ 🕵️<span class="mock-badge" style="margin-left:4px">③</span></span></div>',
+'<div>🔍 채팅 검색</div><div>🧩 GPT 탐색 <span class="mock-badge">④</span></div>',
+'<div style="margin-top:8px;color:#777;font-size:11px">대화 이력</div>',
+'<div style="background:#262626;border-radius:6px;padding:6px 8px">사회복무 보고서 초안</div>',
+'<div style="background:#262626;border-radius:6px;padding:6px 8px">회의 안건 정리</div>',
+'<div style="margin-top:auto;display:flex;gap:8px;align-items:center"><span style="width:22px;height:22px;border-radius:50%;background:#C8951F;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:11px;flex-shrink:0">나</span><span>내 프로필 <span class="mock-badge">⑤</span></span></div>',
+'</div>',
+'<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:20px;min-width:0">',
+'<div style="font-size:18px;font-weight:700;color:#333">무엇을 도와드릴까요?</div>',
+'<div style="width:100%;max-width:480px;border:1.5px solid #d5cfc0;border-radius:24px;padding:10px 16px;display:flex;align-items:center;gap:8px;font-size:13px;color:#888;flex-wrap:wrap">',
+'<b style="font-size:17px;color:#333">＋</b><span class="mock-badge">①</span>',
+'<span style="flex:1;min-width:120px">무엇이든 물어보세요</span>',
+'<span style="border:1px solid #ddd;border-radius:12px;padding:2px 8px;font-size:11px;white-space:nowrap">지능: 중간 ▾</span><span class="mock-badge">②</span>',
+'<span>🎤</span></div>',
+'</div></div>',
+'<div class="mock-legend"><b>①</b> + 버튼 — 파일 첨부·이미지·심층 리서치·캔버스가 모두 여기에 &nbsp;·&nbsp; <b>②</b> 지능 선택 (복잡한 일은 "높음") &nbsp;·&nbsp; <b>③</b> 임시채팅 (저장 안 됨) &nbsp;·&nbsp; <b>④</b> GPT 탐색 &nbsp;·&nbsp; <b>⑤</b> 설정·맞춤형 지침 입구</div></div>',
+'<p class="mock-caption">※ 이해를 돕기 위한 예시 그림 — 실제 화면과 배치·문구가 조금 다를 수 있습니다.</p>',
+'<table><thead><tr><th style="width:30%">위치</th><th>무엇이 있나</th></tr></thead><tbody>',
+'<tr><td><b>왼쪽 사이드바</b></td><td>대화 이력 · 새 채팅 · GPT 탐색 · 프로필</td></tr>',
+'<tr><td><b>가운데 입력창</b></td><td>여기에 질문(프롬프트) 입력</td></tr>',
+'<tr><td><b>+ 버튼 (입력창 왼쪽)</b></td><td>파일 첨부 · 이미지 생성 · 심층 리서치 · 캔버스</td></tr>',
+'<tr><td><b>지능 드롭다운</b></td><td>즉시 / 중간 / 높음 — 복잡할수록 "높음"</td></tr>',
+'<tr><td><b>사이드바 ✏️ 옆</b></td><td>임시채팅 — 민감정보 다룰 때</td></tr>',
+'</tbody></table>',
+'<div class="callout callout-caution"><div class="callout-title">⚠️ 가입 후 첫 메시지에서 절대 금지</div>본인 실명·소속 정확한 명칭·민감 정보 입력 금지. <b>"안녕"</b> 같은 간단한 인사로 시작하세요.</div>'
+].join('');
+pages["2-1"] = [
+'<h1>프롬프트 4원칙 + 맞춤형 지침</h1>',
+hero('PROMPT', '<b>네 가지</b>만 챙기면<br>AI가 똑똑하게 답합니다', '"내가 누구고, 왜, 뭘, 어떻게 원하는지" — 그게 전부'),
+'<p class="page-desc">1교시에서 봤듯 <b>프롬프트 = AI에게 보내는 요청문</b>입니다. 같은 부탁도 어떻게 쓰느냐에 따라 결과가 하늘과 땅 차이 — 그 차이를 먼저 눈으로 확인합니다.</p>',
+'<h2 class="section-heading">❌ Before vs ✅ After</h2>',
+compareBox('❌ 평범한 프롬프트', '"사회복무요원 활용 보고서 써줘"', '일반적이고 두루뭉술한 답변',
+  '✅ 4원칙 적용', '"<b>병무청 사무관으로서</b> / <b>정책 검토를 위해</b> / <b>최근 3년 사회복무요원 현황을</b> / <b>A4 1장 결재 보고서 형식으로</b> 정리해줘"', '즉시 결재 올릴 수 있는 수준의 초안'),
+'<h2 class="section-heading">💎 4원칙</h2>',
+'<table><thead><tr><th style="width:100px">요소</th><th style="width:140px">질문</th><th>병무청 5급 예시</th></tr></thead><tbody>',
+'<tr><td><b>① 역할</b></td><td>누구처럼?</td><td>"병무청 사무관으로서" / "병역판정검사 담당자로서"</td></tr>',
+'<tr><td><b>② 맥락</b></td><td>왜? 어떤 상황?</td><td>"국정감사 보고용" / "민원인에게 안내할 것"</td></tr>',
+'<tr><td><b>③ 작업</b></td><td>뭘 해줘?</td><td>"~ 현황을 분석하고" / "~ 답변 초안을 작성하고"</td></tr>',
+'<tr><td><b>④ 형식</b></td><td>어떻게?</td><td>"A4 1장" / "표로" / "결재 보고서 형식"</td></tr>',
+'</tbody></table>',
+'<div class="callout callout-mustard"><div class="callout-title">💡 외우기 쉬운 한 줄</div><b style="font-size:18px">"내가 누구고, 왜, 뭘, 어떻게 원하는지"</b></div>',
+
+'<h2 class="section-heading">🚀 요즘 트렌드 — 프롬프트 핵심 5가지</h2>',
+'<p style="font-size:17px;color:var(--text-dim);margin-bottom:18px">모델이 똑똑해진 만큼 잘 쓰는 핵심도 달라졌어요. <b>4원칙이 기본기라면, 아래 5가지가 2026년 프롬프트 트렌드입니다.</b></p>',
+bigNumGrid([
+  {title:'맥락을 충분히 주기', desc:'❌ "이메일 써줘"<br>✅ "거래처에 납기 지연 사과 메일, 격식 톤, 5문장"'},
+  {title:'AI에게 거꾸로 묻기', desc:'"이 일을 잘하려면 너한테 어떻게 질문하면 좋을까?" — AI가 질문 자체를 다듬어줍니다'},
+  {title:'모델을 골라 쓰기', desc:'복잡한 추론 → <b>생각하는 모델(높음)</b> / 단순·빠른 답 → <b>즉시 모델</b>'},
+  {title:'첨부·검색·도구 활용', desc:'스크린샷·PDF는 그냥 첨부 / 사실 확인은 "검색해서 답해줘" 명시'},
+  {title:'반복 대화로 다듬기', desc:'첫 답이 완벽일 필요 X — "더 짧게", "다른 버전 3개", "표로 다시"'}
+]),
+'<div class="callout callout-mustard"><div class="callout-title">➕ 보너스 — 5급 관리자 필수 2가지</div><b>① 비판적 검증</b> — AI가 만든 통계·법령은 반드시 원문 확인 (특히 결재 문서)<br><b>② 개인정보 마스킹</b> — 이름·회사·학교·민원인 정보는 모두 가명으로 처리 후 입력</div>',
+
+'<h2 class="section-heading">⚙️ 맞춤형 지침 — 한 번 설정, 매번 자동 적용</h2>',
+'<p style="font-size:17px;color:var(--text-dim)">매번 "나 병무청 사무관이야"를 반복하기 귀찮죠? <b>한 번만</b> 설정해두면 모든 대화에 자동 반영됩니다.</p>',
+bigNumGrid([
+  {title:'설정 메뉴 열기', desc:'오른쪽 위 프로필 → 설정 → 개인 맞춤 설정 → 맞춤형 지침'},
+  {title:'입력칸 2개에 붙여넣기', desc:'설정 화면에 질문이 2개 나옵니다 — 아래 템플릿을 각각 복사, [대괄호]만 수정'},
+  {title:'저장 → 새 대화', desc:'"오늘 회의 안건 3개 정리해줘"로 효과 확인'}
+]),
+'<div class="mockup"><div class="mockup-bar"><span class="mdot" style="background:#e8888a"></span><span class="mdot" style="background:#e6c35c"></span><span class="mdot" style="background:#8fc98f"></span><span class="mock-url">ChatGPT › 설정 › 개인 맞춤 설정 › 맞춤형 지침</span></div>',
+'<div style="padding:20px 22px">',
+'<div style="font-weight:700;margin-bottom:6px;font-size:14px">ChatGPT가 회원님에 대해 알아야 할 내용이 있다면 무엇인가요? <span class="mock-badge">입력칸 ①</span></div>',
+'<div style="border:1.5px solid #d5cfc0;border-radius:8px;padding:10px 12px;font-size:12.5px;color:#999;min-height:52px;line-height:1.6">나는 병무청 5급 사무관(과장급)이야. 주로 … &nbsp;<span style="color:#bbb">(아래 템플릿 ① 붙여넣기)</span></div>',
+'<div style="font-weight:700;margin:16px 0 6px;font-size:14px">ChatGPT가 어떻게 응답하기를 원하시나요? <span class="mock-badge">입력칸 ②</span></div>',
+'<div style="border:1.5px solid #d5cfc0;border-radius:8px;padding:10px 12px;font-size:12.5px;color:#999;min-height:52px;line-height:1.6">항상 한국어로 답해줘. 결론을 먼저 말하고 … &nbsp;<span style="color:#bbb">(아래 템플릿 ② 붙여넣기)</span></div>',
+'<div style="text-align:right;margin-top:14px"><span style="color:#8b1c1c;font-size:12.5px;font-weight:700">꼭 누르세요! → </span><span style="background:#1a2e4f;color:#fff;border-radius:6px;padding:7px 18px;font-size:13px;font-weight:700">저장</span></div>',
+'</div></div>',
+'<p class="mock-caption">※ 이해를 돕기 위한 예시 그림 — 실제 화면과 배치·문구가 조금 다를 수 있습니다.</p>',
+'<h3>입력칸 ① — 나에 대해 알려주기</h3>',
+promptBlock("입력칸 ① 템플릿 (복사용)", "나는 병무청 5급 사무관(과장급)이야.\n주로 [정책기획 / 병역판정 / 사회복무 / 입영관리 / 민원응대 등] 업무를 맡고 있어.\n공공기관 특성상 격식 있는 공문 톤이 필요하고,\n결재 보고서, 민원 답변, 회의 자료, 국정감사 대응 자료를 주로 작성해.\n때로는 부서원에게 업무 지시도 내려야 해."),
+'<h3>입력칸 ② — 어떻게 응답하기를 원하는지</h3>',
+promptBlock("입력칸 ② 템플릿 (복사용)", "항상 한국어로 답해줘.\n결론을 먼저 말하고(두괄식), 근거나 세부 내용은 그 다음에.\n공공기관 보고서 관용구를 자연스럽게 사용해줘.\n어려운 용어는 쉽게 풀고, 추측한 부분은 명확히 표시해줘.\n보고서 형태가 필요할 때는 제목·요약·본문·기대효과 순서로 구성해줘.\n민감하거나 확실하지 않은 정보는 반드시 \"추가 확인이 필요합니다\"라고 알려줘."),
+'<h2 class="section-heading">📎 템플릿 다운로드</h2>',
+fileCard('맞춤형지침_공공기관_템플릿.txt', '병무청 5급 사무관용 맞춤형 지침 입력칸 ①·② 템플릿', 'files/custom_instructions_template.txt'),
+'<div class="callout callout-caution"><div class="callout-title">⚠️ 맞춤형 지침에 적지 말 것</div>· 본인 실명·구체적 부서명·구체적 직책 최소화<br>· 비공개 프로젝트명·내부 코드명 입력 금지<br>· "병무청 사무관, ○○ 분야 담당" 정도로 추상화</div>'
+].join('');
+
+pages["2-2"] = [
+'<h1>실습 1 · 심층 리서치 실습</h1>',
+hero('DEEP RESEARCH', 'AI가 직접 <b>웹을 돌며 자료를 모으고</b><br>출처 달린 보고서로 정리합니다',
+  '5분 안에 며칠 걸릴 조사를 끝낼 수 있는 — ChatGPT의 가장 강력한 기능'),
+
+'<h2 class="section-heading">🔬 심층 리서치란?</h2>',
+'<table><thead><tr><th style="width:25%">구분</th><th>일반 ChatGPT</th><th>심층 리서치</th></tr></thead><tbody>',
+'<tr><td><b>정보 출처</b></td><td>학습 데이터 (과거)</td><td>실시간 웹 탐색</td></tr>',
+'<tr><td><b>탐색 소스</b></td><td>없음</td><td>수십~수백 개</td></tr>',
+'<tr><td><b>출처 표시</b></td><td>없음</td><td><b>답변에 출처 링크 포함</b></td></tr>',
+'<tr><td><b>소요 시간</b></td><td>수 초</td><td>5~15분</td></tr>',
+'<tr><td><b>적합 용도</b></td><td>초안·아이디어</td><td><b>심층 조사 보고서</b></td></tr>',
+'</tbody></table>',
+
+'<h2 class="section-heading">🎯 시작하는 법 — 3가지 진입</h2>',
+bigNumGrid([
+  {title:'+ 버튼', desc:'입력창 왼쪽 + → "심층 리서치" 선택'},
+  {title:'지능 드롭다운', desc:'입력창 중간 → "심층 리서치" 선택'},
+  {title:'말로 호출', desc:'프롬프트 첫 줄에 "심층 리서치로 알아봐줘"'}
+]),
+
+'<div class="callout callout-mustard"><div class="callout-title">⏰ 강의 시간 활용 팁</div>',
+'심층 리서치는 5~15분 걸려요. 프롬프트 던져놓고 <b>다음 실습(이미지 생성·회의록·데이터 분석)으로 넘어가다가</b> 돌아와서 결과 확인하는 방식으로 진행합니다.',
+'</div>',
+
+'<h2 class="section-heading">📚 주제 3가지 — 본인 업무 골라서 시작</h2>',
+'<p style="font-size:16px;color:var(--text-dim)">아래 3가지 주제 중 본인 업무에 가까운 것 하나를 골라 복사해서 던지세요. 본인 업무로 살짝 바꿔 써도 됩니다.</p>',
+
+'<h3>📌 주제 ① — 학령인구 감소와 해외 병역 제도 트렌드</h3>',
+'<p style="font-size:15.5px;color:var(--text-dim);margin:-4px 0 10px">정책기획·인력관리 담당 사무관에게 — 현역 처분율·징집 자원 부족 대응 검토용</p>',
+promptBlock("주제 ① 심층 리서치 프롬프트",
+`너는 병무청 정책기획 담당 사무관이야.
+심층 리서치로 조사해줘.
+
+주제: 학령인구 감소에 대응한 주요국(대만, 이스라엘, 스위스, 독일 등)의
+병역 제도 변경 트렌드 — 최근 5년 법령 개정과 모병·징병 혼합 운영 사례
+
+목적: 우리나라 현역 처분율 조정 및 징집 자원 부족 문제 대응을 위한
+정책 검토 자료
+
+필요한 내용:
+- 주요국별 제도 변경 시점·내용 (시간순 표로 정리)
+- 변경 배경 (인구 구조·안보 환경)
+- 운영 효과 및 부작용 사례
+- 한국 적용 시 시사점 3가지
+
+형식: A4 2장, 출처 링크 필수 포함, 공공기관 보고서 톤
+사실관계 확실하지 않은 부분은 "추가 확인 필요" 명시`),
+
+'<h3>📌 주제 ② — 의료 AI(VLM·OCR) 도입 타당성 검토</h3>',
+'<p style="font-size:15.5px;color:var(--text-dim);margin:-4px 0 10px">병역판정·기술 도입 담당 사무관에게 — 중앙병역판정검사소 의무기록 자동 처리 도입 검토용</p>',
+promptBlock("주제 ② 심층 리서치 프롬프트",
+`너는 병무청 병역판정 정책 담당 사무관이야.
+심층 리서치로 조사해줘.
+
+주제: 국내외 의료용 AI(Vision-Language Model, OCR)의
+진단서·의무기록지 판독 정확도 사례 및
+공공 행정 도입 시 보안 가이드라인
+
+목적: 중앙병역판정검사소의 비정형 의료 서류 자동 요약 시스템
+도입 타당성 검토 및 부작용 선제 분석
+
+필요한 내용:
+- 최근 2년 의료 AI 판독 정확도 벤치마크 (특히 한글 의무기록)
+- 공공기관 의료 데이터 처리 시 적용되는 보안 규정·가이드라인
+- 도입 부작용·오판 사례
+- 국내외 비교 분석 및 도입 검토 시 핵심 체크포인트
+
+형식: A4 2장, 출처 링크 필수, 기술 용어는 풀어서 설명
+민감 데이터 보호 관련 부분은 별도 강조`),
+
+'<h3>📌 주제 ③ — 지능형 병역면탈 수법 변화와 단속 기법</h3>',
+'<p style="font-size:15.5px;color:var(--text-dim);margin:-4px 0 10px">사이버조사·병역조사과 사무관에게 — AI 기반 이상 탐지 시스템(공정병역 지킴e) 규칙 정교화용</p>',
+promptBlock("주제 ③ 심층 리서치 프롬프트",
+`너는 병무청 사이버조사과 담당 사무관이야.
+심층 리서치로 조사해줘.
+
+주제: 최근 3년간 온라인 커뮤니티·SNS상에서 확인되는
+지능형 병역면탈 수법(뇌전증·청각 마비 등) 패러다임 변화 및
+국내외 단속 기법
+
+목적: AI 기반 이상 탐지 시스템 규칙 정교화를 위한 기초 자료
+
+필요한 내용:
+- 최근 적발된 주요 면탈 수법 유형 (시간순)
+- 적발 사례·판결 동향 (일반화·익명화하여 서술)
+- 해외 유사 사례 (있는 경우)
+- 데이터·AI 기반 단속 기법 활용 사례
+
+형식: A4 2장, 출처 링크 필수
+※ 개별 사건 식별 가능한 정보는 제외, 패턴·통계 중심으로 서술`),
+
+'<h2 class="section-heading">🔍 결과 검증 — 가장 중요한 단계</h2>',
+'<p style="font-size:16px;color:var(--text-dim)">1교시에서 배운 <b>환각</b>, 기억하시죠? 심층 리서치는 출처를 표시해주지만, <b>그 출처가 진짜 신뢰할 만한지는 사람이 확인</b>해야 합니다.</p>',
+iconGrid([
+  {icon:'🔗', title:'출처 링크 클릭', desc:'AI가 인용한 사이트가 실제로 그 내용을 담고 있는지 확인'},
+  {icon:'📊', title:'수치·통계 재확인', desc:'특히 한국 통계는 통계청·기관 원문에서 직접 확인'},
+  {icon:'⚖️', title:'법령·조문', desc:'국가법령정보센터에서 정확한 조항 확인'},
+  {icon:'📰', title:'출처 신뢰도', desc:'정부·학계·정론지 > 블로그·익명 글'}
+]),
+
+'<h2 class="section-heading">💳 무료 플랜에서 가능?</h2>',
+'<div class="card"><div class="card-title">무료 플랜 한도</div>',
+'<div class="card-desc">· 심층 리서치 <b>월 5회</b>까지 무료 사용 가능<br>· Plus($20/월): 월 25회<br>· Pro: 거의 무제한<br><br>👉 오늘 실습은 무료 한도 안에서 가능. 한 달에 4번 정도 정말 중요한 조사에 아껴 쓰는 게 좋습니다.</div>',
+'</div>',
+
+'<div class="callout callout-caution"><div class="callout-title">⚠️ 심층 리서치 활용 시 주의</div>',
+'· <b>AI가 인용한 출처도 반드시 원문 확인</b> — 인용 자체가 틀릴 수 있음<br>· 결재 보고서에 활용 시 "AI 심층 리서치 활용" 명시 권장<br>· 비공개 키워드·내부 정보 입력 금지<br>· 결과 그대로 사용 X — <b>사람이 종합·해석</b>한 후 보고서로',
+'</div>'
+].join('');
+
+pages["2-3"] = [
+'<h1>실습 2 · 이미지 생성</h1>',
+hero('IMAGES 2.0', '말로 그리는 <b>업무 시각화</b>',
+  '한글 글자도 또렷하게 — 인포그래픽·카드뉴스·포스터를 5분 만에'),
+
+'<h2 class="section-heading">🎨 ChatGPT 이미지 2.0 — 뭐가 새로워졌나</h2>',
+iconGrid([
+  {icon:'🇰🇷', title:'한글이 안 깨짐', desc:'카드뉴스·포스터·표지의 한글 텍스트가 또렷'},
+  {icon:'🧠', title:'생각하고 그림', desc:'레이아웃을 먼저 계획한 뒤 이미지 생성 (Plus+)'},
+  {icon:'🖼️', title:'여러 장 한 번에', desc:'같은 캐릭터·사물 유지하며 최대 8장'},
+  {icon:'🆓', title:'무료 플랜도 OK', desc:'일일 횟수 제한은 있지만 충분히 실습 가능'}
+]),
+
+'<h2 class="section-heading">🚀 시작하는 법</h2>',
+bigNumGrid([
+  {title:'+ 버튼 클릭', desc:'입력창 왼쪽 + 누르기'},
+  {title:'이미지 만들기', desc:'메뉴에서 "이미지 만들기" 선택'},
+  {title:'한 줄 던지기', desc:'길게 안 써도 됨 — 개념만 던지면 알아서 레이아웃'},
+  {title:'결과 다듬기', desc:'"글자 더 크게", "색 더 차분하게" 등 추가 요청'}
+]),
+
+'<h2 class="section-heading">📌 주제 ① — 병무청 업무 생애주기 한눈에 보기</h2>',
+'<p style="font-size:15.5px;color:var(--text-dim);margin:-4px 0 10px">5급 사무관들이 자기 업무가 전체 구조에서 어디에 있는지 한눈에 — <b>신입 부서원 교육·부서 발표·내부 안내용</b></p>',
+promptBlock("주제 ① 업무 생애주기 인포그래픽",
+`병무청의 업무 생애주기를 한눈에 보여주는 인포그래픽 한 장을 만들어줘.
+
+단계 5개를 좌→우 흐름으로 시각화:
+① 병역판정검사 → ② 입영·모집 → ③ 동원·예비군 → ④ 사회복무 → ⑤ 병역공개·민원
+
+각 단계마다:
+- 단계명 (큰 글자, 한국어)
+- 핵심 키워드 1~2개
+- 단계별 아이콘 (직관적)
+
+스타일: 단계형 프로세스 인포그래픽, 깔끔하고 공공기관에 어울리는 톤
+색감: 차분한 네이비·머스타드 계열 / 한글 글자가 또렷하게 보일 것
+용도: 부서 발표·신입 부서원 교육용`),
+
+'<h2 class="section-heading">📌 주제 ② — 병역의무 절차 안내 카드뉴스</h2>',
+'<p style="font-size:15.5px;color:var(--text-dim);margin:-4px 0 10px">병역 의무자(청년)에게 보낼 SNS·홈페이지 게시용 카드뉴스 표지</p>',
+promptBlock("주제 ② 병역의무 안내 카드뉴스",
+`병역의무 안내 카드뉴스 표지 한 장을 만들어줘.
+
+제목: "병역의무, 처음부터 끝까지 알려드립니다"
+서브타이틀: "신청부터 복무까지 5단계 안내"
+
+스타일: 청년(20대)이 호감을 느낄 모던한 카드뉴스 표지
+요소: 깔끔한 타이포그래피 중심, 작은 일러스트 아이콘 1~2개
+색감: 밝고 신뢰감 있는 톤 (연한 파랑·흰색 베이스)
+크기: 정사각형 (1:1)
+주의: 군사적·위협적 이미지 배제 / 친근하고 안내하는 분위기로`),
+
+'<h2 class="section-heading">📌 주제 ③ — 사회복무요원 복무 가이드</h2>',
+'<p style="font-size:15.5px;color:var(--text-dim);margin:-4px 0 10px">사회복무요원 대상 복무환경 개선·권리 안내 — 복무 현장 비치용 포스터</p>',
+promptBlock("주제 ③ 사회복무 가이드 포스터",
+`사회복무요원 복무 가이드 포스터 한 장을 만들어줘.
+
+제목: "사회복무, 함께 지키는 약속"
+내용 4가지 (체크박스 형식으로 시각화):
+☐ 정해진 복무 규칙 준수
+☐ 건강·안전 우선
+☐ 권리 침해 시 신고 채널 안내
+☐ 복무 후 사회 진출 지원
+
+스타일: 따뜻하고 명확한 안내 포스터, 일러스트 + 타이포그래피
+색감: 부드러운 파스텔 톤 (자칫 위압적이지 않게)
+용도: 사회복무 현장 비치 / 한글 가독성 최우선`),
+
+'<h2 class="section-heading">📌 주제 ④ — 부서 워크숍 안내 포스터</h2>',
+'<p style="font-size:15.5px;color:var(--text-dim);margin:-4px 0 10px">내부 행사·교육·세미나 등 사내 게시판·메신저 공유용</p>',
+promptBlock("주제 ④ 부서 워크숍 안내 포스터",
+`병무청 부서 워크숍 안내 포스터를 만들어줘.
+
+제목: "함께 만드는 병무행정"
+부제: "2026년 하반기 부서 워크숍"
+날짜·장소 표시 영역: "○월 ○일 / 서울지방병무청 대회의실"
+
+스타일: 공공기관 행사 포스터, 격식 있되 무겁지 않게
+요소: 큰 제목, 깔끔한 정보 영역 구분
+색감: 네이비·머스타드 계열
+용도: 사내 게시판 / 메신저 공유 / A4 인쇄`),
+
+'<h2 class="section-heading">📌 주제 ⑤ — 발표 표지 슬라이드</h2>',
+'<p style="font-size:15.5px;color:var(--text-dim);margin:-4px 0 10px">청장님 보고·국정감사 대응·부서 발표 슬라이드 표지</p>',
+promptBlock("주제 ⑤ 발표 표지 슬라이드",
+`발표 자료 표지 슬라이드 이미지를 만들어줘.
+
+제목: "병무행정 디지털 전환 — 2026년 추진 방향"
+부제: "AI 기반 업무 혁신 전략"
+
+스타일: 임원 보고용 격식 있는 슬라이드 표지
+요소: 한글 제목 크게, 작은 아이콘 1개 정도, 우측 또는 하단에 여백
+색감: 딥 네이비 + 화이트, 머스타드 포인트
+크기: 16:9 와이드
+주의: 너무 화려하지 않게, 공공기관 보고서 톤 유지`),
+
+'<h2 class="section-heading">💡 이미지 생성 팁</h2>',
+iconGrid([
+  {icon:'🎯', title:'구체적일수록 좋다', desc:'"포스터" 보다 "공공기관 행사 포스터 / A4 인쇄용"'},
+  {icon:'🔁', title:'다시 요청 OK', desc:'"방금 거 색만 더 차분하게" / "글자 더 크게"'},
+  {icon:'📐', title:'크기·비율 지정', desc:'정사각형(SNS) / 16:9(슬라이드) / A4 세로 등'},
+  {icon:'🚫', title:'금지 명시', desc:'"실존 인물 얼굴 금지", "군사적 이미지 배제" 등'}
+]),
+
+'<div class="callout callout-caution"><div class="callout-title">⚠️ 공공기관 이미지 생성 — 반드시 확인</div>',
+'· <b>실제 회사·기관 로고는 프롬프트에 포함 금지</b> (저작권 위반 가능)<br>· <b>실존 인물 얼굴을 닮게 만들지 말 것</b> (초상권)<br>· 외부 공유 전 디자인 부서 또는 법무 검토<br>· AI 생성 이미지임을 외부 게시 시 명시 권장',
+'</div>'
+].join('');
+
+pages["2-4"] = [
+'<h1>실습 3 · 회의록 정리</h1>',
+hero('산만한 발언 기록', '<b>3단 구조</b>로 한 방에 정리', '결정사항 / Action Items / 다음 회의 안건'),
+'<h2 class="section-heading">🗺️ 진행 순서 (5분)</h2>',
+bigNumGrid([
+  {title:'회의록 준비', desc:'아래 [다운로드] 또는 회의록 원문 [복사]'},
+  {title:'프롬프트 복사', desc:'"회의록 정리" 프롬프트 복사 → 입력창에 붙여넣기'},
+  {title:'회의록 붙여넣기', desc:'프롬프트 맨 아래에 회의록 텍스트 이어 붙이고 전송'},
+  {title:'결과 확인', desc:'결정사항·Action Items 표가 제대로 나왔는지 원문과 대조'}
+]),
+'<h2 class="section-heading">📎 실습 자료</h2>',
+fileCard('가상_회의록_샘플.txt', '사회복무 정책 협의회 가상 회의록 (3개 안건·5명·90분)', 'files/sample_meeting_minutes.txt'),
+'<details style="margin:14px 0"><summary style="cursor:pointer;font-weight:700;font-size:16px;color:var(--accent)">📄 다운로드가 어려우면 — 회의록 원문 펼쳐서 복사하기</summary>',
+promptBlock("가상 회의록 원문 (복사용)",
+`[가상] 사회복무 정책 협의회 발언 기록
+일시: 2026. 5. 28.(목) 14:00~15:30 (90분) / 장소: 본청 3층 소회의실
+참석: 김 과장(주재), 이 사무관, 박 사무관, 최 주무관, 정 주무관
+안건: ① 복무기관 만족도 조사 후속 조치 ② 복무 부적응자 지원 프로그램 개편 ③ 하반기 복무기관 합동 점검
+
+--- 발언 기록 (정리 안 된 원문) ---
+
+김 과장: 자, 시작합시다. 먼저 만족도 조사부터. 최 주무관, 결과 요약해주세요.
+최 주무관: 네, 4월에 복무기관 120곳 대상으로 조사했고 회수율은 78%였습니다. 전반 만족도는 5점 만점에 3.6점인데 작년보다 0.2점 떨어졌습니다. 특히 '담당자와의 소통' 항목이 3.1점으로 가장 낮았습니다.
+이 사무관: 소통 점수가 낮은 건 담당자 교체가 잦았던 영향도 있을 겁니다. 상반기에만 담당 변경이 두 번 있었으니까요.
+김 과장: 그 부분은 인사 쪽 사정이라 우리가 어쩔 수 없고. 후속 조치로 뭘 할 수 있죠?
+박 사무관: 분기별 복무기관 담당자 간담회를 정례화하면 어떨까요? 지금은 비정기라서요.
+김 과장: 좋아요. 그건 박 사무관이 계획안 만들어 봐요. 다음 달 첫 주까지.
+박 사무관: 네, 6월 첫 주까지 초안 올리겠습니다.
+정 주무관: 간담회 정례화하면 출장 예산이 추가로 필요할 텐데요.
+김 과장: 예산은 일단 초안 보고 판단합시다. 다음 안건.
+이 사무관: 부적응자 지원 프로그램인데요, 현재 상담 연계까지 평균 3주 걸립니다. 너무 늦다는 지적이 계속 있었고요.
+김 과장: 3주는 너무 길지. 단축 방안은?
+이 사무관: 외부 상담기관 풀을 현재 5곳에서 10곳으로 늘리고, 신청 절차를 복무기관 경유 없이 본인 직접 신청으로 바꾸는 안을 검토 중입니다.
+최 주무관: 직접 신청으로 바꾸면 복무기관이 상황을 모르는 채로 진행될 수 있지 않나요?
+이 사무관: 신청 사실만 기관에 자동 통보하고 상담 내용은 비공개로 하면 될 것 같습니다.
+김 과장: 방향은 좋은데 개인정보 쪽 검토가 필요하겠네. 이 사무관이 법무 검토 의뢰까지 진행해 주세요. 기한은 6월 중순까지 가능?
+이 사무관: 네, 6월 19일까지 검토 결과 포함해서 보고드리겠습니다.
+김 과장: 상담기관 확대 예산은요?
+정 주무관: 기관당 연 800만원 정도라 5곳 늘리면 4천만원입니다. 하반기 예산 조정 때 반영해야 합니다.
+김 과장: 그건 오늘 결정 말고 예산 협의 후에 다시 봅시다. 보류. 마지막, 합동 점검 일정.
+박 사무관: 하반기 점검은 9월 둘째 주부터 4주간으로 잡았습니다. 대상은 작년 지적사항 있었던 18개 기관 우선입니다.
+김 과장: 작년처럼 점검표가 늦게 나오면 안 됩니다. 점검표는 언제까지?
+박 사무관: 8월 둘째 주까지 확정하겠습니다.
+최 주무관: 점검 인력이 매번 부족했는데, 이번에는 지방청 협조 공문을 미리 보내면 좋겠습니다.
+김 과장: 그래요. 협조 공문은 최 주무관이 7월 말까지 초안 잡고. 오늘은 여기까지. 다음 회의는 6월 25일 같은 시간. 부적응자 프로그램 예산 건이랑 간담회 계획안 그때 다시 봅니다.
+
+(끝)`),
+'</details>',
+'<h2 class="section-heading">📋 기본 프롬프트</h2>',
+promptBlock("회의록 정리", "너는 회의록 정리 담당 사무관이야.\n아래 회의 발언 기록을 다음 구조로 재정리해줘.\n\n## 🎯 한 줄 요약\n- 회의 전체를 30자 이내로 압축\n\n## 📌 핵심 논의 흐름 (3~5줄)\n- 안건이 어떻게 제기되고 결론까지 갔는지 순서대로\n\n## ✅ 결정사항\n- 확정된 결정 항목 (보류된 건은 ⏸️ 표시)\n\n## 🚀 Action Items\n| 담당 | 할 일 | 기한 |\n형식으로 표 작성\n\n## 📋 다음 회의 안건\n- 미해결 이슈 및 다음 회의에서 다룰 내용\n\n[여기에 회의록 텍스트 붙여넣기]"),
+'<div class="callout callout-mustard"><div class="callout-title">🔍 결과가 나오면 — 이것부터 확인</div>AI가 정리한 <b>기한·담당자가 원문과 일치하는지</b> 대조해보세요. "보류"된 예산 건을 결정사항으로 잘못 넣지 않았는지도. 이 대조 습관이 실무에서 가장 중요합니다.</div>',
+'<h2 class="section-heading">🎨 후속 응용</h2>',
+iconGrid([
+  {icon:'📧', title:'팀원 공유 메일', desc:'"메일 초안으로 다시 써줘, 5문장 이내"'},
+  {icon:'👔', title:'임원 1분 보고', desc:'"핵심 결정 3개 + 결재 필요사항 1개"'},
+  {icon:'🔍', title:'이니셜 처리', desc:'"발언자 실명을 직책·이니셜로 바꿔서 재정리"'}
+])
+].join('');
+
+pages["2-5"] = [
+'<h1>실습 4 · 데이터 분석</h1>',
+hero('DATA', '엑셀 파일 한 번 던지면<br><b>핵심 인사이트 + 보고서 단락</b>까지',
+  '6개월치 모집병 지원현황 224행 → 5분 안에'),
+
+'<h2 class="section-heading">📎 실습 자료</h2>',
+fileCard('병무청_모집병_지원현황.xlsx', '2026.01~06 · 224행 · 5개 지방청·3개 군별·15개 모집분야 (예시 데이터)', 'files/recruitment_data.xlsx'),
+
+'<div class="callout"><div class="callout-title">📋 데이터 구조</div>',
+'<b>10개 컬럼</b>: 모집월 / 지방청 / 군별 / 모집분야 / 모집인원 / 지원자수 / 합격자수 / 미충원인원 / 경쟁률 / 충원율<br>',
+'<b>입력 방법</b>: + 버튼 → 파일 추가로 엑셀 첨부 (가장 정확) · 또는 표 영역 복사 후 붙여넣기',
+'</div>',
+
+'<h2 class="section-heading">🔬 Step 1 — 데이터 한눈에 보기 (EDA)</h2>',
+'<p style="font-size:16px;color:var(--text-dim)">먼저 데이터 <b>전체 윤곽</b>을 잡습니다. AI가 알아서 살펴보고 핵심 신호를 던져줍니다.</p>',
+promptBlock("EDA — 전체 훑기",
+`첨부한 데이터를 탐색해서 다음을 정리해줘.
+
+1) 데이터 개요 (행·컬럼·기간·결측 여부)
+2) 핵심 수치 요약 (모집인원·지원자수·충원율의 평균과 분포)
+3) 가장 눈에 띄는 패턴 3가지 (수치로 근거 제시)
+4) 추가로 깊이 봐야 할 질문 3가지 제안
+
+형식: 표 활용, 두괄식, 공공기관 보고서 톤`),
+
+'<h2 class="section-heading">🎯 Step 2 — 핵심 질문 3가지</h2>',
+'<p style="font-size:16px;color:var(--text-dim)">EDA에서 잡은 윤곽으로 <b>5급 사무관이 진짜 알고 싶은 3가지</b>를 파고듭니다.</p>',
+
+'<table><thead><tr><th style="width:60%">분석 질문</th><th>엑셀로 한다면</th></tr></thead><tbody>',
+'<tr><td><b>① 미충원이 가장 심각한 분야는?</b><br><span style="font-size:13px;color:var(--text-dim)">충원율 낮음 = 지원자 부족과 사실상 같은 분석</span></td><td>정렬·조건부 서식</td></tr>',
+'<tr><td><b>② 인기 분야 vs 비인기 분야의 차이는?</b></td><td>피벗테이블</td></tr>',
+'<tr><td><b>③ 지방청별·군별 미충원 패턴은?</b></td><td>피벗차트</td></tr>',
+'</tbody></table>',
+
+'<h3>📌 질문 ① — 미충원이 심각한 분야</h3>',
+promptBlock("질문 ① 미충원 핵심 분야",
+`충원율이 낮은 Top 10을 표로 정리해줘.
+컬럼: 지방청·군별·모집분야·모집인원·지원자수·충원율·미충원인원
+
+표 아래에:
+- 이 10건의 공통점 1~2가지
+- 우선 대응이 필요한 분야 3개와 이유`),
+
+'<h3>📌 질문 ② — 인기 vs 비인기 분야</h3>',
+promptBlock("질문 ② 분야별 경쟁률",
+`모집분야별 평균 경쟁률을 계산해서
+경쟁률 Top 3와 Bottom 3를 비교 표로 보여줘.
+컬럼: 모집분야·평균 모집인원·평균 지원자수·평균 경쟁률
+
+표 아래에:
+- 인기 분야와 비인기 분야의 차이 추론 (2~3줄)
+- 비인기 분야 활성화 방안 1가지`),
+
+'<h3>📌 질문 ③ — 지방청별·군별 미충원 패턴</h3>',
+promptBlock("질문 ③ 지역·군별 미충원",
+`지방청별·군별 미충원 인원을 교차표(행: 지방청, 열: 군별)로 만들고,
+지방청별 총 미충원 인원도 함께 정리해줘.
+
+표 아래에:
+- 미충원이 가장 큰 지방청·군별 조합 Top 3
+- 지역별 대응이 필요한 이유 (간단히)`),
+
+'<h2 class="section-heading">📝 Step 3 — 결재 보고서 한 단락으로</h2>',
+promptBlock("보고서 단락으로 압축",
+`방금 분석을 종합해서 부서장 결재 보고서 본문 한 단락(약 200자)으로 압축해줘.
+
+- 두괄식 (가장 중요한 발견 먼저)
+- 공공기관 보고서 톤
+- 핵심 수치 2~3개 인용
+- 정책 제안 1가지로 마무리`),
+
+'<h2 class="section-heading">🎨 시간 남으면 — 응용 3가지</h2>',
+iconGrid([
+  {icon:'📊', title:'시각화 제안', desc:'"이 데이터를 잘 보여줄 차트 3가지 + 각각 어떤 메시지"'},
+  {icon:'🎯', title:'정책 시나리오', desc:'"미충원 해소 위한 3가지 정책 시나리오와 예상 효과"'},
+  {icon:'❓', title:'국감 대비', desc:'"의원이 물어볼 만한 질문 5가지와 답변 초안"'}
+]),
+
+'<div class="callout callout-mustard"><div class="callout-title">💡 전체 흐름</div>',
+'<b>EDA → 핵심 질문 3가지 → 보고서 단락 → (시간 되면) 응용</b><br>',
+'본인 부서 데이터에 그대로 적용 가능. 단, <b>비공개 통계는 절대 입력 금지</b>.',
+'</div>',
+
+'<div class="callout callout-caution"><div class="callout-title">⚠️ 주의</div>',
+'· 본 데이터는 <b>예시 데이터</b> — 실제 정책 결정에 활용 금지<br>· 실제 비공개 통계·민감 데이터 입력 금지<br>· <b>AI 계산 결과는 반드시 원본과 대조</b>',
+'</div>',
+
+'<div class="callout"><div class="callout-title">🏁 2교시 정리</div>',
+'① 프롬프트 4원칙: <b>역할·맥락·작업·형식</b> ② 맞춤형 지침으로 내 ChatGPT 세팅 완료 ③ 심층 리서치·이미지·회의록·데이터 분석 4종 실습<br><br>',
+'👉 아까 던져둔 <b>심층 리서치(2-2) 결과가 도착했을 시간</b>입니다 — 돌아가서 출처 검증까지 해보세요.<br>☕ 10분 쉬고, 3교시는 <b>Gemini</b>로 넘어갑니다.',
+'</div>'
+].join('');
+pages["3-1"] = [
+'<h1>Gemini 바로가기</h1>',
+hero('GEMINI', '<b>구글 계정만 있으면</b> 즉시 시작', 'ChatGPT 가입할 때 만든 구글 계정 그대로 — 별도 가입 X'),
+ctaButton('🚀', 'Gemini 바로가기', 'https://gemini.google.com', 'gemini.google.com'),
+'<p class="page-desc" style="text-align:center;margin-top:8px">채팅·리서치·Canvas·이미지·영상이 한 화면에 모인 <b>후반부 홈 그라운드</b></p>',
+'<h2 class="section-heading">🗺️ 3교시(50분)에 다룰 5가지</h2>',
+bigNumGrid([
+  {title:'Gemini 소개 + 매핑', desc:'ChatGPT랑 뭐가 같고 뭐가 다른지 — 10분'},
+  {title:'Canvas로 PPT 즉석', desc:'5분 발표자료 8장 자동 생성 — 15분'},
+  {title:'@앱 연결 시연', desc:'Gmail·Drive·Calendar 자동 연동 — 10분'},
+  {title:'Gems 만들기', desc:'다 같이 "민원 답변 코치" Gem 만들기 — 10분'},
+  {title:'Veo 동영상 (보너스)', desc:'텍스트로 8초 영상 생성 시연 — 5분'}
+])
+].join('');
+
+pages["3-2"] = [
+'<h1>Gemini 소개</h1>',
+hero('GEMINI', 'Google 계정 안에 들어온<br><b>작업실</b>입니다',
+  'ChatGPT가 똑똑한 상담사라면, Gemini는 Google 앱과 한 몸으로 움직이는 작업 공간'),
+
+'<h2 class="section-heading">🗺️ Gemini가 할 수 있는 것 (전체 지도)</h2>',
+iconGrid([
+  {icon:'💬', title:'대화·질문', desc:'긴 문서 요약 / 번역 / 글쓰기 / 아이디어'},
+  {icon:'🔎', title:'Deep Research', desc:'수십 개 웹 출처를 자동 조사해 보고서로 (= ChatGPT 심층 리서치)'},
+  {icon:'🎨', title:'Canvas', desc:'문서·코드·웹페이지를 옆에 두고 편집 (= ChatGPT 캔버스)'},
+  {icon:'🖼️', title:'이미지 생성', desc:'프롬프트 한 줄로 포스터·배너·썸네일'},
+  {icon:'🎬', title:'동영상 (Veo)', desc:'텍스트로 8초 홍보 영상 생성 — ChatGPT엔 없는 기능'},
+  {icon:'💎', title:'Gems', desc:'반복 프롬프트를 저장하는 나만의 비서 (= ChatGPT GPTs)'}
+]),
+
+'<h2 class="section-heading">🖥️ Gemini 첫 화면 한눈에</h2>',
+'<p style="font-size:15.5px;color:var(--text-dim)">1교시 ChatGPT 화면과 구조가 거의 같습니다 — 위치만 확인하면 바로 쓸 수 있어요.</p>',
+'<div class="shot-wrap"><img src="files/gemini_home.svg" alt="Gemini 첫 화면 — 주요 기능 위치" onerror="this.parentElement.outerHTML=\'\'"></div>',
+'<p class="mock-caption">※ 실제 Gemini 첫 화면을 재현한 그림 — 버전에 따라 배치가 조금 다를 수 있습니다.</p>',
+'<table><thead><tr><th style="width:70px">번호</th><th style="width:190px">이름</th><th>설명</th></tr></thead><tbody>',
+'<tr><td><b style="color:#d61f1f">①</b></td><td><b>새 채팅</b></td><td>새 대화 시작 (= ChatGPT ②)</td></tr>',
+'<tr><td><b style="color:#d61f1f">②</b></td><td><b>검색</b></td><td>지난 대화 검색</td></tr>',
+'<tr><td><b style="color:#d61f1f">③</b></td><td><b>라이브러리</b></td><td>내가 만든 이미지·Canvas 결과물이 모이는 보관함</td></tr>',
+'<tr><td><b style="color:#d61f1f">④</b></td><td><b>앱/확장 기능</b></td><td>Gmail·Drive·Calendar 등 <b>@ 연결 앱 관리</b> → 3-4에서 실습</td></tr>',
+'<tr><td><b style="color:#d61f1f">⑤</b></td><td><b>프롬프트 입력창</b></td><td>"Gemini에게 물어보기" — ChatGPT와 동일하게 사용</td></tr>',
+'<tr><td><b style="color:#d61f1f">⑥</b></td><td><b>파일 첨부 (+)</b></td><td>파일·이미지·Canvas·Deep Research 메뉴 — 아래 그림에서 자세히</td></tr>',
+'<tr><td><b style="color:#d61f1f">⑦</b></td><td><b>모델 선택 (Flash)</b></td><td>Flash = 빠른 답변 / Thinking = 깊은 추론 (= ChatGPT 지능 선택)</td></tr>',
+'<tr><td><b style="color:#d61f1f">⑧</b></td><td><b>음성 입력</b></td><td>마이크로 말해서 입력</td></tr>',
+'<tr><td><b style="color:#d61f1f">⑨</b></td><td><b>설정</b></td><td><b>개인 컨텍스트(= 맞춤형 지침)</b>가 이 안에 있습니다</td></tr>',
+'<tr><td><b style="color:#d61f1f">⑩</b></td><td><b>계정</b></td><td>구글 계정 전환·관리</td></tr>',
+'</tbody></table>',
+
+'<h2 class="section-heading">➕ + 버튼 — 도구 메뉴 한눈에</h2>',
+'<p style="font-size:15.5px;color:var(--text-dim)"><b>⑥번 + 버튼</b>을 누르면 왼쪽 메뉴가, 거기서 <b>"도구 더보기"</b>를 누르면 오른쪽 패널이 열립니다.</p>',
+'<div class="shot-wrap"><img src="files/gemini_plus_menu.svg" alt="Gemini + 버튼 도구 메뉴" onerror="this.parentElement.outerHTML=\'\'"></div>',
+'<p class="mock-caption">※ 실제 메뉴를 재현한 그림 — 플랜·버전에 따라 항목이 조금 다를 수 있습니다.</p>',
+'<table><thead><tr><th style="width:70px">번호</th><th style="width:200px">이름</th><th>설명</th></tr></thead><tbody>',
+'<tr><td><b style="color:#d61f1f">①</b></td><td><b>파일 업로드</b></td><td>내 컴퓨터의 파일 첨부</td></tr>',
+'<tr><td><b style="color:#d61f1f">②</b></td><td><b>Drive에서 파일 추가</b></td><td>구글 드라이브 문서를 바로 첨부 — <b>Gemini만의 강점</b></td></tr>',
+'<tr><td><b style="color:#d61f1f">③</b></td><td><b>업로드 더보기 ›</b></td><td>카메라·사진 등 추가 업로드 방법</td></tr>',
+'<tr><td><b style="color:#d61f1f">④</b></td><td><b>이미지 만들기</b></td><td>포스터·배너 등 이미지 생성 (= ChatGPT 이미지)</td></tr>',
+'<tr><td><b style="color:#d61f1f">⑤</b></td><td><b>동영상 만들기</b></td><td>Veo로 8초 영상 생성 → 3-6에서 시연</td></tr>',
+'<tr><td><b style="color:#d61f1f">⑥</b></td><td><b>도구 더보기 ›</b></td><td>누르면 오른쪽 패널이 열림 — 핵심 도구는 이 안에!</td></tr>',
+'<tr><td><b style="color:#d61f1f">⑦</b></td><td><b>Canvas</b></td><td>문서·PPT를 옆에 두고 편집 → 3-3에서 바로 실습</td></tr>',
+'<tr><td><b style="color:#d61f1f">⑧</b></td><td><b>Deep Research</b></td><td>웹 자동 조사 보고서 (= ChatGPT 심층 리서치)</td></tr>',
+'<tr><td><b style="color:#d61f1f">⑨</b></td><td><b>음악 만들기</b></td><td>텍스트로 음악 생성 — ChatGPT엔 없는 기능</td></tr>',
+'<tr><td><b style="color:#d61f1f">⑩</b></td><td><b>가이드 학습</b></td><td>주제를 단계별로 가르쳐주는 학습 모드</td></tr>',
+'<tr><td><b style="color:#d61f1f">⑪</b></td><td><b>개인 인텔리전스 (Labs)</b></td><td>실험 기능 — 내 데이터 기반 개인화 (켜기/끄기 선택)</td></tr>',
+'</tbody></table>',
+
+'<h2 class="section-heading">💳 Gemini 무료 vs 유료</h2>',
+'<table><thead><tr><th style="width:30%">구분</th><th>무료 (Google 계정만)</th><th>Google AI Pro ($20/월)</th></tr></thead><tbody>',
+'<tr><td><b>기본 채팅</b></td><td>✓ 충분</td><td>✓</td></tr>',
+'<tr><td><b>Canvas · 이미지 생성</b></td><td>✓ 일일 제한</td><td>✓ 거의 무제한</td></tr>',
+'<tr><td><b>@ 앱 연결</b></td><td>✓ 가능</td><td>✓</td></tr>',
+'<tr><td><b>Gems 만들기</b></td><td>✓ 가능</td><td>✓</td></tr>',
+'<tr><td><b>Deep Research</b></td><td>제한적</td><td>✓ 풍부</td></tr>',
+'<tr><td><b>동영상 (Veo)</b></td><td>일부 가능 (지역·계정 따라)</td><td>✓ 정식</td></tr>',
+'<tr><td><b>예약된 작업</b></td><td>✗</td><td>✓</td></tr>',
+'</tbody></table>',
+'<p style="font-size:14.5px;color:var(--text-dim)">👉 오늘 실습은 <b>무료 플랜으로 충분</b>합니다. 예약된 작업·Veo 정식 사용만 유료.</p>',
+
+'<h2 class="section-heading">⭐ 꼭 알고 갈 핵심 기능 4가지</h2>',
+
+'<div class="card"><div class="card-title">① 개인 컨텍스트 (= ChatGPT 맞춤형 지침)</div>',
+'<div class="card-desc">Gemini가 나를 기억하게 해서 모든 대화에 자동 적용. <i>"답변 맨 앞에 핵심을 요약해서 보여줘"</i> 같은 규칙을 한 번만 걸어두면 됩니다.</div></div>',
+
+'<div class="card"><div class="card-title">② @ 연결된 앱 — Gemini만의 무기</div>',
+'<div class="card-desc">@Drive, @Gmail, @Calendar 등 Google 서비스를 <b>@ 멘션 한 번</b>으로 바로 호출. Drive 문서를 직접 읽고 요약·비교해줍니다. <span style="color:var(--mustard);font-weight:700">→ 3-4에서 자세히</span></div></div>',
+
+'<div class="card"><div class="card-title">③ Canvas (= ChatGPT 캔버스)</div>',
+'<div class="card-desc">답변이 오른쪽 사이드 패널로 분리돼 AI와 같이 실시간 편집. <span style="color:var(--mustard);font-weight:700">→ 3-3에서 직접 PPT 만들기</span></div></div>',
+
+'<div class="card" style="border-left:4px solid var(--mustard)"><div class="card-title">④ 예약된 작업 (Scheduled Actions) <span style="background:var(--mustard);color:#fff;font-size:11px;padding:2px 8px;border-radius:10px;margin-left:8px;font-weight:700">NEW</span></div>',
+'<div class="card-desc"><b>"매일/매주 언제 이 일 해줘"를 Gemini에게 예약</b>해두는 기능. 출근하면 알아서 정리해놓음.<br><br>예: <i>"매주 월요일 오전 9시, 병무 관련 뉴스 5건 요약해줘"</i><br><br>⚠️ <b>Google AI Pro 이상 + Activity 켜기 필요</b> — 무료 계정에서 메뉴가 안 보이면 정상입니다.</div></div>',
+
+'<h2 class="section-heading">🔄 ChatGPT ↔ Gemini 빠른 매핑</h2>',
+'<p style="font-size:16px;color:var(--text-dim)">이미 1·2교시에 ChatGPT를 배웠으니, Gemini는 "위치만 다른 같은 기능"이라고 생각하시면 됩니다.</p>',
+'<table><thead><tr><th style="width:40%">ChatGPT</th><th style="width:40%">Gemini</th><th>한 줄 메모</th></tr></thead><tbody>',
+'<tr><td>맞춤형 지침</td><td>개인 컨텍스트</td><td>동일 기능 · 메뉴 위치만 다름</td></tr>',
+'<tr><td>GPTs</td><td><b>Gems</b></td><td>Gems가 만들기 더 쉬움</td></tr>',
+'<tr><td>캔버스</td><td><b>Canvas</b></td><td>거의 동일, 변환 옵션 더 풍부</td></tr>',
+'<tr><td>심층 리서치</td><td><b>Deep Research</b></td><td>동일 개념, 둘 다 5~15분 소요</td></tr>',
+'<tr><td>+ 버튼</td><td>+ 버튼</td><td>구조 거의 동일</td></tr>',
+'<tr><td>—</td><td><b>@ Google 앱 연결</b></td><td>Gemini만의 차별점</td></tr>',
+'<tr><td>—</td><td><b>동영상 (Veo) · 음악</b></td><td>Gemini만 (유료)</td></tr>',
+'</tbody></table>',
+
+'<div class="callout"><div class="callout-title">📌 3교시 나머지 흐름</div>',
+'<b>3-3</b> Canvas로 PPT 즉석 생성 → <b>3-4</b> @Gmail·@Drive·@Calendar 시연 → <b>3-5</b> "민원 답변 코치" Gem 만들기 → <b>3-6</b> Veo 동영상 시연',
+'</div>'
+].join('');
+
+pages["3-3"] = [
+'<h1>Canvas로 PPT 8장 즉석 생성</h1>',
+hero('CANVAS', 'Canvas로 <b>8장 PPT</b>를<br>즉석에서 만듭니다',
+  'Google Docs와 AI가 한 화면 — 5분 안에 보고용 슬라이드 초안 완성'),
+
+'<h2 class="section-heading">🎬 Canvas 켜는 법</h2>',
+bigNumGrid([
+  {title:'+ 버튼 클릭', desc:'입력창 왼쪽 + 누르기'},
+  {title:'Canvas 선택', desc:'"Canvas로 만들어줘"라고 입력해도 OK'},
+  {title:'오른쪽 패널 열림', desc:'채팅(왼) ↔ Canvas(오) 분할 화면'},
+  {title:'대화로 수정', desc:'채팅창에서 요청 → Canvas가 실시간 반영'}
+]),
+
+'<h2 class="section-heading">📋 기본 프롬프트 — 8장 PPT 즉석</h2>',
+promptBlock("Canvas로 PPT 만들기 — 병무청 맞춤",
+`Canvas에서 8장짜리 발표자료 초안을 만들어줘.
+주제: 병무청 디지털 전환 — AI를 활용한 행정 효율화
+청중: 부서 5급 사무관 + 부서원 (AI 입문 수준)
+발표 시간: 7분
+
+각 슬라이드마다 다음을 넣어줘:
+- 슬라이드 제목 (한 줄)
+- 화면에 보이는 문장 2개 이하 (간결하게)
+- 발표자가 말할 멘트 3~4문장
+- 슬라이드에 들어갈 이미지 아이디어 1개`),
+
+'<p style="font-size:15px;color:var(--text-dim);margin:-8px 0 16px">💡 주제를 본인 부서 발표 주제로 바꿔보세요. 예: "예비군 동원 효율화", "병역판정검사 디지털 안내" 등</p>',
+
+'<h2 class="section-heading">🎨 수정 요청 — 대화로 다듬기</h2>',
+'<p style="font-size:16px;color:var(--text-dim)">AI 첫 결과물은 초안일 뿐 — Canvas의 진가는 대화로 다듬는 데 있습니다.</p>',
+promptBlock("Canvas 수정 요청 — 청중 수준 낮추기",
+`전체 문장을 더 쉬운 말로 바꿔줘.
+슬라이드마다 화면에 보이는 글자는 더 줄이고,
+설명은 발표자 멘트로 옮겨줘.
+공공기관 보고 톤은 유지하고.`),
+
+'<h3>수정 포인트</h3>',
+iconGrid([
+  {icon:'✂️', title:'화면 글자 줄이기', desc:'슬라이드는 시각, 말은 멘트로'},
+  {icon:'🗣️', title:'발표자 멘트 늘리기', desc:'7분 시간에 맞게 분량 조정'},
+  {icon:'👥', title:'청중 수준 낮추기', desc:'전문용어 → 일상어'}
+]),
+
+'<h2 class="section-heading">💎 Canvas의 진가 — 하나의 자료를 여러 산출물로</h2>',
+'<p style="font-size:16px;color:var(--text-dim)">같은 PPT 자료를 클릭 한 번으로 다른 형태로 변환할 수 있습니다.</p>',
+'<table><thead><tr><th style="width:40%">클릭 한 번</th><th>결과</th></tr></thead><tbody>',
+'<tr><td><b>웹페이지</b></td><td>초보자용 안내 페이지 — 부서원·민원인 안내용</td></tr>',
+'<tr><td><b>인포그래픽</b></td><td>한 장 요약 — 결재 첨부용</td></tr>',
+'<tr><td><b>퀴즈</b></td><td>객관식 + OX 문항 — 부서원 교육용</td></tr>',
+'<tr><td><b>플래시카드</b></td><td>앞면 질문 / 뒷면 답변 — 후임자 인계용</td></tr>',
+'<tr><td><b>오디오 오버뷰</b></td><td>대화형 요약 음성 (3~5분) — 출퇴근 청취용</td></tr>',
+'</tbody></table>',
+
+'<div class="callout callout-mustard"><div class="callout-title">🎯 추천 실습 — 퀴즈 또는 오디오 오버뷰</div>',
+'방금 만든 8장 PPT를 <b>퀴즈</b>로 변환하면 부서원 교육 자료가 즉시 만들어집니다. <b>오디오 오버뷰</b>로 변환하면 출퇴근하며 듣는 5분 요약 팟캐스트가 나옵니다.',
+'</div>',
+
+'<h2 class="section-heading">🏛️ 병무청 5급 활용 시나리오</h2>',
+iconGrid([
+  {icon:'📊', title:'부서 발표 자료', desc:'정책 설명·월간 보고 PPT 5분 만에'},
+  {icon:'📋', title:'후임자 인계용', desc:'PPT → 웹페이지 변환해 인계 노트로'},
+  {icon:'🎓', title:'부서원 교육', desc:'같은 자료를 퀴즈·플래시카드로 변환'},
+  {icon:'🎧', title:'청장님 오디오', desc:'결재 보고서를 5분 음성 요약으로'}
+]),
+
+'<div class="callout callout-caution"><div class="callout-title">⚠️ Canvas 자료 결재·외부 사용 전</div>',
+'· AI가 만든 슬라이드 문구·수치는 <b>반드시 검토</b><br>· 공공기관 보고 양식에 맞게 폰트·디자인 후처리 필요<br>· 비공개 자료·민원인 정보는 Canvas에도 입력 금지',
+'</div>'
+].join('');
+
+pages["3-4"] = [
+'<h1>@Gmail · @Drive · @Calendar 연결</h1>',
+hero('GEMINI 핵심 차별점', '<b>ChatGPT는 파일을 올려야 합니다</b><br>Gemini는 그냥 <b style="background:rgba(200,149,31,0.25);padding:2px 12px;border-radius:6px">@</b> 부릅니다',
+  '내 Google 계정 안의 데이터를 AI가 직접 읽고 정리'),
+
+'<h2 class="section-heading">📍 입력창에서 @ 누르면 Google 앱 목록</h2>',
+iconGrid([
+  {icon:'📅', title:'@Google Calendar', desc:'내 일정 검색·정리'},
+  {icon:'📁', title:'@Google Drive', desc:'내 문서 검색·요약'},
+  {icon:'📧', title:'@Gmail', desc:'메일 검색·할 일 추출'},
+  {icon:'📝', title:'@Google Docs', desc:'특정 문서 직접 호출'},
+  {icon:'✅', title:'@Google Tasks', desc:'할 일 목록 호출'},
+  {icon:'🗺️', title:'@Google Maps', desc:'위치·경로 정보'}
+]),
+
+'<div class="callout callout-mustard"><div class="callout-title">💡 본인 개인 Google 계정으로 직접 실습</div>',
+'· <b>병무청 업무용 계정에서는 막힐 가능성</b>이 있습니다 (IT 정책)<br>· 개인 Google 계정으로 체험해보세요<br>· 업무 활용은 청 IT 정책 확인 후 별도로',
+'</div>',
+
+'<h2 class="section-heading">📅 실습 ① — @Google Calendar</h2>',
+'<p style="font-size:16px;color:var(--text-dim)">내 일정을 AI가 직접 읽고 표로 정리해줍니다. 매주 월요일 아침에 한 번씩 돌리면 주간 점검이 자동.</p>',
+promptBlock("Calendar 프롬프트",
+`@Google Calendar
+이번 주 내 일정 중 회의만 찾아서 표로 정리해줘.
+컬럼: 요일, 시간, 회의명, 내가 미리 준비할 일`),
+'<div class="card"><div class="card-title">왜 좋은가</div>',
+'<div class="card-desc">· <b>내 일정 기반 답변</b> — "이번 주 뭐 있지?" 한 줄에 즉시 정리<br>· <b>회의 준비물 자동 정리</b> — AI가 "이 회의는 ○○ 준비 필요"까지 제안<br>· <b>주간 업무 점검에 유용</b> — 월요일 아침 5분 루틴으로</div></div>',
+
+'<h2 class="section-heading">📁 실습 ② — @Google Drive</h2>',
+'<p style="font-size:16px;color:var(--text-dim)">파일 이름이 기억 안 나도, 키워드로 Drive 전체를 검색·요약. ChatGPT는 파일을 일일이 첨부해야 가능한 작업이에요.</p>',
+promptBlock("Drive 프롬프트",
+`@Google Drive
+내 Drive에서 '병무행정' 관련 문서를 찾아서
+각 문서가 어떤 내용인지 한 줄씩 요약해줘.
+최근 6개월 안에 수정된 것만.`),
+'<div class="card"><div class="card-title">왜 좋은가</div>',
+'<div class="card-desc">· <b>파일 이름 기억 안 나도 검색</b> — "그 ○○ 자료 어디 있더라"<br>· <b>문서 내용 빠르게 파악</b> — 열어보지 않고도 핵심 확인<br>· <b>발표·보고 재료 찾기</b> — "○○ 관련 자료 다 찾아줘" 한 줄로</div></div>',
+
+'<h2 class="section-heading">📧 실습 ③ — @Gmail</h2>',
+'<p style="font-size:16px;color:var(--text-dim)">메일 받은 편지함을 AI가 훑어보고 "오늘 챙겨야 할 5개"만 뽑아줍니다. 메일 더미에서 길을 잃지 않게.</p>',
+promptBlock("Gmail 프롬프트",
+`@Gmail
+최근 7일 받은 메일 중 회의나 일정과 관련된 내용을 찾아
+내가 확인해야 할 것만 5개로 정리해줘.
+형식: 보낸이 / 핵심 요청 / 마감일`),
+'<div class="card"><div class="card-title">왜 좋은가</div>',
+'<div class="card-desc">· <b>메일 더미에서 할 일 찾기</b> — 100통 받아도 5개로 압축<br>· <b>회의 요청 요약</b> — "내가 답해야 할 회의 메일" 자동 추출<br>· <b>놓친 답장 확인</b> — "답장 안 한 것 5개" 같은 질문도 가능</div></div>',
+
+'<h2 class="section-heading">⏰ 보너스 — 예약된 작업 (Scheduled Actions)</h2>',
+'<p style="font-size:16px;color:var(--text-dim)"><b>AI에게 알람을 거는</b> 기능. 매주 월요일 9시에 자동으로 정리해서 보여달라고 예약.</p>',
+promptBlock("예약된 작업 프롬프트",
+`매주 월요일 오전 9시에
+@Gmail로 지난 일주일 받은 회의 메일을 정리하고
+@Calendar로 이번 주 일정을 합쳐서
+"이번 주 우선순위 Top 5"를 보여줘.`),
+'<div class="callout callout-mustard"><div class="callout-title">💡 무료 계정에서 안 보이면 정상</div>',
+'예약된 작업은 <b>Google AI Pro 이상 + Activity 켜기</b>가 필요합니다. 메뉴 못 찾으셔도 걱정 마세요 — "이런 게 있다는 것"만 알아두시면 됩니다.',
+'</div>',
+
+'<h2 class="section-heading">🏛️ 병무청 5급 관리자 활용 시나리오</h2>',
+iconGrid([
+  {icon:'📋', title:'월요일 아침 5분', desc:'@Gmail + @Calendar로 주간 우선순위 자동 정리'},
+  {icon:'📚', title:'정책 자료 찾기', desc:'@Drive로 과거 보고서·자료 빠른 검색'},
+  {icon:'⏰', title:'예약 브리핑', desc:'매일 아침 9시 자동 메일·일정 요약 → Pro 플랜만'}
+]),
+
+'<div class="callout callout-caution"><div class="callout-title">⚠️ 공공기관 핵심 주의</div>',
+'· <b>업무용 계정 사용은 청 IT 정책 확인 후</b><br>· 민감한 일정·메일이 포함된 계정에서는 AI 권한 부여를 신중히<br>· 답변이 틀릴 수 있음 — 출처(어느 메일·어느 일정에서 나온 답인지) 직접 확인<br>· AI가 파일·일정을 <b>삭제·이동하지는 않음</b> — 읽기만 함',
+'</div>'
+].join('');
+
+pages["3-5"] = [
+'<h1>Gems 만들기 — 민원 답변 코치</h1>',
+hero('GEMS', 'Gem = 반복 업무를 <b>저장하는</b> 나만의 AI 비서',
+  '한 번 만들어두면, 다음부터는 자료만 던지면 끝'),
+
+'<h2 class="section-heading">💎 Gem이란?</h2>',
+'<p style="font-size:16px;color:var(--text-dim)">매번 반복해서 입력하던 지시사항을 <b>저장</b>해두는 것. ChatGPT의 GPTs와 같은 개념인데, Gems가 만들기 더 쉽습니다.</p>',
+'<table><thead><tr><th style="width:50%">매번 입력하던 것</th><th>Gem에 저장</th></tr></thead><tbody>',
+'<tr><td>"너는 민원 답변 코치야"</td><td><b>역할 저장</b></td></tr>',
+'<tr><td>"격식 있는 공문 톤으로"</td><td><b>말투 저장</b></td></tr>',
+'<tr><td>"5~7문장으로 정리"</td><td><b>형식 저장</b></td></tr>',
+'<tr><td>"확실하지 않으면 \\"확인 필요\\" 표시"</td><td><b>원칙 저장</b></td></tr>',
+'</tbody></table>',
+
+'<div class="callout callout-mustard"><div class="callout-title">💡 Gem은 반복 업무에 씁니다</div>',
+'한 번만 할 일에는 굳이 만들 필요 없어요. <b>매주·매일 반복되는 업무</b>에 만들어두면 진가가 나옵니다.',
+'</div>',
+
+'<h2 class="section-heading">🆕 새 Gem 만들기 — 6단계</h2>',
+bigNumGrid([
+  {title:'Gems 메뉴 클릭', desc:'왼쪽 사이드바 "Gems" 또는 "Explore Gems"'},
+  {title:'+ New Gem 클릭', desc:'새 Gem 만들기 화면 열림'},
+  {title:'이름: "민원 답변 코치"', desc:'본인 부서 용도에 맞게 자유롭게'},
+  {title:'요청사항 입력', desc:'아래 지침을 복사해서 붙여넣기'},
+  {title:'미리보기 테스트', desc:'오른쪽 미리보기로 가상 민원 던져보기'},
+  {title:'반드시 Save 클릭', desc:'⚠️ 저장 안 하면 사라짐!'}
+]),
+
+'<div class="callout callout-caution"><div class="callout-title">⚠️ 저장 안 하면 사라집니다</div>',
+'미리보기에서 한 테스트 내용은 <b>자동 저장 안 됨</b>. 반드시 오른쪽 위 <b>Save</b> 버튼 클릭.',
+'</div>',
+
+'<h2 class="section-heading">📋 Gem 지침 — 민원 답변 코치 (복사용)</h2>',
+'<p style="font-size:15px;color:var(--text-dim);margin:-8px 0 12px">아래 지침을 그대로 복사해 Gem의 <b>Instructions</b> 칸에 붙여넣으세요.</p>',
+promptBlock("민원 답변 코치 Gem — Instructions",
+`너는 병무청 민원 응대를 도와주는 '민원 답변 코치'야.
+
+목적:
+- 민원 텍스트를 받으면 격식 있는 공식 답변 초안을 만들어준다.
+- 단순 안내 / 항의 / 복잡한 절차 문의를 구분해 톤을 조정한다.
+
+행동 지침:
+1) 민원의 핵심 요청을 한 줄로 먼저 정리해서 보여준다.
+2) 그 다음 5~7문장의 공식 답변 초안을 작성한다.
+3) 필요한 절차·서류 목록이 있으면 표로 추가한다.
+4) 사실 확인이 필요한 부분은 "추가 확인 필요"로 명시한다.
+5) 실제 민원인 이름·연락처·주소가 보이면 "민원인 A"처럼 익명화 후 처리한다.
+
+톤:
+- 격식 있는 공공기관 공문 톤
+- 정중하되 단호하게
+- 어려운 행정 용어는 풀어서 설명
+- 한국어로 답변
+
+내가 "확인"이라고 말하기 전까지는 답변을 최종본으로 간주하지 않는다.`),
+
+'<h2 class="section-heading">🪄 마술봉 — 짧게 써도 AI가 다듬어줌</h2>',
+'<p style="font-size:16px;color:var(--text-dim)">지침을 길게 쓰기 어렵다면 <b>짧게 쓰고 마술봉</b>을 누르세요. Gemini가 길고 정교한 지침으로 다듬어줍니다.</p>',
+bigNumGrid([
+  {title:'먼저 짧게 쓴다', desc:'"민원 답변 도와주는 비서" 한 줄이면 OK'},
+  {title:'마술봉 누른다', desc:'AI가 자동으로 확장'},
+  {title:'생성된 문장 읽는다', desc:'전체 다 적합한지 확인'},
+  {title:'안 맞는 부분 지운다', desc:'내 업무에 안 맞는 부분 삭제'}
+]),
+
+'<div class="callout callout-mustard"><div class="callout-title">💡 마술봉은 완성 버튼이 아니라 초안 확장 버튼</div>',
+'생성된 지침을 그대로 두지 말고, <b>읽어보고 본인 업무에 맞게</b> 다듬는 단계가 꼭 필요합니다.',
+'</div>',
+
+'<h2 class="section-heading">🧪 테스트 — 가상 민원 던져보기</h2>',
+'<p style="font-size:15px;color:var(--text-dim);margin:-8px 0 12px">Gem 저장 후 미리보기에 아래 민원을 던져보세요. 격식 있는 답변 초안이 나오는지 확인.</p>',
+promptBlock("테스트용 가상 민원",
+`안녕하세요. 다음 달 병역판정검사 일정이 잡혀 있는데,
+제가 마침 그 주에 학교 중요한 시험이 있어서
+일정을 한 주 정도 미루고 싶습니다.
+
+신청 방법과 필요한 서류 알려주시면 감사하겠습니다.`),
+
+'<h2 class="section-heading">🏛️ 다른 Gem 아이디어 — 본인 업무로</h2>',
+'<p style="font-size:16px;color:var(--text-dim)">민원 답변 코치 외에도, 본인이 자주 하는 업무로 Gem을 만들어보세요.</p>',
+iconGrid([
+  {icon:'📝', title:'보고서 검토 코치', desc:'결재 보고서 → 약점·보완점 짚어주기'},
+  {icon:'📋', title:'회의록 정리 비서', desc:'녹취·발언 기록 → 결정사항·액션아이템'},
+  {icon:'📑', title:'정책 요약 도우미', desc:'정책 자료 PDF → 한 장 결재용 요약'},
+  {icon:'🌐', title:'영문 공문 번역가', desc:'한↔영 공문, 격식 유지'},
+  {icon:'📊', title:'데이터 분석 비서', desc:'표·통계 → 패턴·시사점 자동 도출'},
+  {icon:'📨', title:'부서원 지시문 작성', desc:'간단한 메모 → 정중한 업무 지시 메일'}
+]),
+
+'<div class="callout callout-caution"><div class="callout-title">⚠️ Gem 사용 시 주의</div>',
+'· Gem 지침에 <b>비공개 정보·실명·민감 데이터 입력 금지</b><br>· 만든 Gem은 본인 Google 계정에만 저장됨 (공유 시 신중히)<br>· Gem 결과물도 결국 AI 답변 — 결재 전 사람이 검수 필수',
+'</div>'
+].join('');
+
+pages["3-6"] = [
+'<h1>동영상 만들기 (Veo) — 시연</h1>',
+hero('BONUS · ChatGPT에 없는 기능', 'Veo로 <b>8초 영상</b>을<br>텍스트로 생성',
+  'Google의 영상 생성 AI — Gemini 안에서 + 버튼 한 번으로'),
+
+'<h2 class="section-heading">🎬 Veo가 뭐야</h2>',
+'<p style="font-size:16.5px;line-height:1.75">Google이 만든 <b>영상 생성 AI</b>입니다. 글자로 장면을 설명하면 8초 안팎의 짧은 영상으로 만들어줍니다. ChatGPT는 글·이미지까지만 만들고 <b>영상은 못 만들어요</b> — Gemini의 차별 기능 중 하나.</p>',
+bigNumGrid([
+  {title:'위치', desc:'Gemini + 버튼 → "동영상 만들기" 선택'},
+  {title:'길이', desc:'8초 안팎 — 짧은 장면 1개 단위'},
+  {title:'소요 시간', desc:'생성에 1~2분 정도'},
+  {title:'요금', desc:'Google AI Plus 이상 / 일일 생성 횟수 제한'}
+]),
+
+'<h2 class="section-heading">🎥 짧은 영상 실습 (3분)</h2>',
+'<p style="font-size:16px;color:var(--text-dim)">"이런 게 있다"는 것만 익히고 가는 짧은 실습입니다. 결과 보는 데 1~2분 걸리니 시간 여유가 있다면 직접 돌려보세요.</p>',
+promptBlock("실습 프롬프트 — 병무행정 홍보 영상",
+`AI 활용 공공기관 교육 홍보용 짧은 영상 장면을 만들어줘.
+
+장면: 정돈된 교육장에서 30~50대 직장인들이 노트북을 펴고
+AI 도구를 배우는 모습. 화면에는 발표자료가 빠르게 완성되는
+분위기. 강의자가 앞에서 설명하고 있음.
+
+스타일: 밝고 신뢰감 있는 톤, 다큐멘터리 느낌
+주의: 실제 회사 로고나 특정 인물 얼굴은 넣지 말 것
+길이: 8초`),
+
+'<div class="callout callout-mustard"><div class="callout-title">💡 영상 생성 팁</div>',
+'<b>장면·스타일·주의사항</b>을 명확히 적을수록 결과가 좋아집니다. 길게 쓸 필요 없이 3가지만 챙기면 충분.',
+'</div>',
+
+'<h2 class="section-heading">🏛️ 병무청 활용 가능성</h2>',
+iconGrid([
+  {icon:'📺', title:'내부 안내 영상', desc:'새 정책·제도 알림용 8초 영상 — 사내 게시판·메신저용'},
+  {icon:'📣', title:'홍보 콘텐츠', desc:'병역의무 안내·사회복무 모집 SNS용 짧은 영상'},
+  {icon:'🎓', title:'교육 영상', desc:'신입 부서원 온보딩용 짧은 안내 영상'},
+  {icon:'💼', title:'발표 첨부', desc:'PPT 표지 영상 — 5초 인트로로 임팩트'}
+]),
+
+'<h2 class="section-heading">🎯 추천 실습 프롬프트 (시간 남으면)</h2>',
+promptBlock("프롬프트 예시 ① 병역의무 안내 인트로",
+`병역의무 안내 영상 인트로를 만들어줘.
+
+장면: 차분한 도시 풍경에서 카메라가 천천히 줌인하며
+"대한민국 청년의 시작"이라는 분위기. 청년의 뒷모습이 보이고
+밝은 미래로 걸어가는 느낌.
+
+스타일: 따뜻하고 희망적인 톤, 영화 같은 색감
+주의: 특정 인물 얼굴 노출 금지, 군사적 색채는 배제
+길이: 8초`),
+
+promptBlock("프롬프트 예시 ② 디지털 행정 홍보",
+`병무청 디지털 서비스 홍보 영상을 만들어줘.
+
+장면: 시민이 스마트폰으로 병무청 서비스를 쉽게 이용하는 모습.
+화면 위에 깔끔한 UI 인터페이스가 떠 있고, 클릭 한 번에 처리되는 느낌.
+
+스타일: 모던, 미니멀, 친근한 톤
+주의: 실제 앱 인터페이스·로고 사용 금지 (가상의 UI로)
+길이: 8초`),
+
+'<div class="callout callout-caution"><div class="callout-title">⚠️ 영상 생성 — 공공기관 주의</div>',
+'· <b>저작권</b>: 실존 인물 얼굴·연예인 모방·기존 영상 재현 금지<br>· <b>로고·브랜드</b>: 실제 회사·기관 로고를 프롬프트에 포함하지 말 것<br>· <b>대외 사용 전 검증</b>: AI 생성 영상은 결재·법무 검토 후 외부 게시<br>· <b>표기 의무</b>: 외부 게시 시 "AI 생성 영상"임을 명시 권장',
+'</div>',
+
+'<h2 class="section-heading">🎁 3교시 마무리</h2>',
+'<div class="callout"><div class="callout-title">🎓 3교시에 얻어가는 5가지</div>',
+'<b>① Gemini 진입 (무료, 구글 계정)</b><br>',
+'<b>② Canvas로 PPT 8장 즉석 생성</b> + 5가지 형태로 변환<br>',
+'<b>③ @Gmail · @Drive · @Calendar 연결</b> (Gemini만의 무기)<br>',
+'<b>④ 민원 답변 코치 Gem 1개</b> (반복 업무 자동화)<br>',
+'<b>⑤ Veo 동영상</b> 가능성 확인 (시연)',
+'</div>',
+
+'<p style="font-size:16px;color:var(--text-dim);text-align:center;margin-top:20px">→ 10분 쉬고 <b>4교시 NotebookLM</b>으로</p>'
+].join('');
+pages["4-1"] = [
+'<h1>NotebookLM 바로가기</h1>',
+hero('NOTEBOOKLM', '<b>내가 넣은 자료 안에서만</b> 답하는 AI', '환각이 거의 없음 — 정책 보고서·법령·통계 다룰 때 최고'),
+ctaButton('🚀', 'NotebookLM 바로가기', 'https://notebooklm.google.com', 'notebooklm.google.com'),
+'<p class="page-desc" style="text-align:center;margin-top:8px">PDF · 문서 · 웹페이지 · YouTube를 넣으면 <b>자료 기반 Q&A · 요약 · 마인드맵 · 오디오 팟캐스트</b>까지</p>',
+'<h2 class="section-heading">🗺️ 4교시 50분 흐름</h2>',
+bigNumGrid([
+  {title:'NotebookLM 소개', desc:'Gemini와 결정적 차이 — 10분'},
+  {title:'[방향 1] 자료 조사·검증', desc:'Discover Sources → 신뢰도 평가 → Studio 산출물 — 25분'},
+  {title:'마무리 — AI 윤리·체크리스트·Q&A', desc:'15분'}
+])
+].join('');
+
+pages["4-2"] = [
+'<h1>NotebookLM이 뭐야</h1>',
+hero('NOTEBOOKLM', '<b>내가 넣은 자료 안에서만</b><br>답하는 AI 연구노트',
+  '환각이 거의 없음 — 자료에 없으면 "모른다"고 답합니다'),
+
+'<h2 class="section-heading">🔍 Gemini vs NotebookLM — 무엇이 다른가</h2>',
+'<p style="font-size:16px;color:var(--text-dim)">같은 Google AI지만 <b>용도와 작동 방식이 근본적으로 다릅니다.</b> 1교시에 배운 <b>환각</b>이 걱정되는 업무일수록 NotebookLM이 답입니다.</p>',
+'<table><thead><tr><th style="width:18%">구분</th><th style="width:38%">Gemini</th><th>NotebookLM</th></tr></thead><tbody>',
+'<tr><td><b>지식 범위</b></td><td>AI 전체 학습 데이터 (범용)</td><td>내가 업로드한 문서만 (전용)</td></tr>',
+'<tr><td><b>출처</b></td><td>명시하지 않는 경우 많음</td><td><b>모든 답변에 원본 출처 번호 표시</b></td></tr>',
+'<tr><td><b>할루시네이션</b></td><td>발생 가능</td><td><b>최소화</b> (문서 기반)</td></tr>',
+'<tr><td><b>산출물</b></td><td>텍스트·이미지·코드</td><td>오디오·동영상·마인드맵·슬라이드·보고서</td></tr>',
+'<tr><td><b>주요 용도</b></td><td>범용 AI 비서</td><td>문서 기반 리서치 & 콘텐츠 생성</td></tr>',
+'<tr><td><b>리서치</b></td><td>Deep Research (범용 웹)</td><td>Fast / Deep Research (문서 + 웹)</td></tr>',
+'</tbody></table>',
+
+'<div class="callout callout-caution"><div class="callout-title">🎯 선택 기준</div>',
+'· 열린 질문 (<i>"AI 트렌드 알려줘"</i>) → <b>Gemini</b><br>',
+'· 내 자료 기반 분석 (<i>"이 보고서에서 핵심 3가지는?"</i>) → <b>NotebookLM</b><br>',
+'· <b>기밀 문서</b>를 다루거나, <b>출처가 중요한 의사결정 지원</b>에는 NotebookLM이 압도적으로 유리',
+'</div>',
+
+'<h2 class="section-heading">📥 어떤 자료를 넣을 수 있나</h2>',
+iconGrid([
+  {icon:'📄', title:'PDF · Word', desc:'정책 보고서·법령 문서·연구 자료'},
+  {icon:'📝', title:'Google Docs', desc:'직접 작성한 문서·회의록·메모'},
+  {icon:'🌐', title:'웹사이트 URL', desc:'기사·블로그·공공기관 사이트'},
+  {icon:'📺', title:'YouTube 영상', desc:'강연·교육 영상 자막 기반 분석'},
+  {icon:'📋', title:'텍스트 직접 입력', desc:'붙여넣기로 즉시 추가'},
+  {icon:'🎙️', title:'음성 녹음', desc:'회의 녹음·인터뷰 자동 전사'}
+]),
+
+'<h2 class="section-heading">🖥️ NotebookLM 화면 구성</h2>',
+'<table><thead><tr><th style="width:30%">영역</th><th>역할</th></tr></thead><tbody>',
+'<tr><td><b>왼쪽 — 소스 (Sources)</b></td><td>업로드한 자료 목록 / 체크박스로 일부만 선택 가능</td></tr>',
+'<tr><td><b>가운데 — 대화 (Chat)</b></td><td>질문 입력 → 자료 기반 답변 + <b>출처 번호 자동 표시</b></td></tr>',
+'<tr><td><b>오른쪽 — 스튜디오 (Studio)</b></td><td>요약·마인드맵·오디오 오버뷰·동영상·보고서 자동 생성</td></tr>',
+'</tbody></table>',
+
+'<h2 class="section-heading">💳 무료 한도 — 5급 관리자에겐 충분</h2>',
+'<div class="card"><div class="card-title">무료 플랜으로 가능한 것</div>',
+'<div class="card-desc">· 노트북 <b>1인당 100개</b>까지 생성<br>· 노트북당 <b>소스 50개</b>까지 (PDF·웹·YouTube 등)<br>· 소스당 <b>50만 단어</b>까지<br>· 오디오 오버뷰·마인드맵·요약 모두 무료<br><br>👉 부서 1개 인계 노트북이라면 무료로도 충분합니다.</div>',
+'</div>',
+
+'<h2 class="section-heading">🏛️ 5급 관리자 활용 시나리오 3가지</h2>',
+'<p style="font-size:15px;color:var(--text-dim)">아래는 모두 <b>방향 1의 Discover Sources를 건너뛰고</b> 손에 든 자료를 바로 업로드하는 방식으로 적용 가능합니다.</p>',
+iconGrid([
+  {icon:'📚', title:'정책 자료 분석', desc:'공개 보도자료·정책설명자료 모아서 인사이트 도출 — 다음 페이지에서 실습'},
+  {icon:'📋', title:'부서 인수인계', desc:'1년치 공개 회의록·보고서 → 후임자가 검색·질문하는 노트북'},
+  {icon:'📑', title:'회의 사전 검토', desc:'안건 공개 자료 다 넣고 "쟁점 3가지·결정 필요사항" 자동 추출'}
+]),
+
+'<h2 class="section-heading">🚀 다 같이 첫 노트북 만들기</h2>',
+bigNumGrid([
+  {title:'+ 새 노트북 클릭', desc:'좌측 상단 "+ 새 노트북" 버튼'},
+  {title:'이름 설정', desc:'"오늘 실습용"이라고 입력'},
+  {title:'소스 추가', desc:'우측 "소스 추가" → PDF·URL·텍스트'},
+  {title:'질문 시작', desc:'가운데 대화창에 자유롭게 질문'}
+]),
+
+'<div class="callout callout-mustard"><div class="callout-title">💡 첫 사용 팁</div>',
+'<b>소스를 너무 많이 넣지 마세요.</b> 처음에는 2~3개로 시작 → 답변 품질 확인 → 점진적으로 추가하는 게 좋습니다. 50개 다 채우면 답변이 산만해질 수 있어요.',
+'</div>',
+
+'<div class="callout callout-caution"><div class="callout-title">⚠️ 공공기관 핵심 주의</div>',
+'· <b>비공개·결재 전 문서는 절대 업로드 금지</b><br>· 업로드한 자료는 Google 계정에 저장됨 → 데이터 보관 정책 확인<br>· <b>업무용 계정 사용은 청 IT 정책 확인 후</b><br>· 오늘 실습에서는 <b>공개 자료만</b> 사용',
+'</div>'
+].join('');
+
+pages["4-3"] = [
+'<h1>[방향 1] 자료가 없을 때 — 조사·검증</h1>',
+hero('METHOD 1', '<b>직접 소스 수집 → 신뢰도 평가</b><br>→ 검증된 자료로 산출물',
+  '새 정책을 검토하기 시작했는데 손에 든 자료가 없을 때 쓰는 흐름'),
+
+'<div class="callout"><div class="callout-title">📌 이 방향이 필요한 순간 (5급 사무관 시점)</div>',
+'· 새로운 정책 검토를 시작했는데 <b>참고 자료가 흩어져 있을 때</b><br>· <b>해외 사례·타 기관 사례</b>를 조사해야 할 때<br>· 국정감사·정책 회의 대비를 위해 <b>최신 동향</b>을 빠르게 모아야 할 때',
+'</div>',
+
+'<h2 class="section-heading">📍 전체 흐름 — 3단계</h2>',
+bigNumGrid([
+  {title:'소스 검색 (Discover Sources)', desc:'키워드만 넣으면 NotebookLM이 관련 자료를 자동 수집'},
+  {title:'AI가 자료 신뢰도 평가', desc:'최신성·신뢰도·편향성 표로 정리해 사용할 자료만 추림'},
+  {title:'Studio 산출물 생성', desc:'검증된 자료로 보고서·오디오·슬라이드·마인드맵 등 자동 생성'}
+]),
+
+'<h2 class="section-heading">🔍 Step 1 — 소스 검색 (Discover Sources)</h2>',
+'<p style="font-size:16px;color:var(--text-dim)">NotebookLM 왼쪽 패널에서 <b>"Discover Sources"</b>를 클릭하고, 아래 키워드를 붙여넣으면 관련 자료가 자동 수집됩니다.</p>',
+
+promptBlock("검색 키워드 — 병무청 맞춤 (복사 → Discover Sources)",
+`사회복무요원 복무환경 개선 정책 동향 및 해외 운영 사례
+(독일·이스라엘·스위스·대만 비교, 최근 3년)
+포함 키워드: 사회복무, 대체복무, 복무환경, 처우 개선, 만족도, 정책 평가`),
+
+'<p style="font-size:15px;color:var(--text-dim);margin:-8px 0 16px">💡 본인이 다루는 정책 주제로 자유롭게 바꿔보세요. 예: <i>"병역명문가 제도 활성화 방안"</i>, <i>"예비군 동원 효율화 정책"</i>, <i>"병역판정검사 디지털 전환 사례"</i></p>',
+
+'<h2 class="section-heading">📋 Step 2 — 수집한 소스를 AI에게 평가시키기</h2>',
+'<p style="font-size:16px;color:var(--text-dim)">검색으로 모인 자료는 <b>최신성과 신뢰도가 제각각</b>입니다. AI에게 평가 표를 만들게 해서 <b>사용할 자료만 추려냅니다</b>.</p>',
+
+promptBlock("소스 평가 프롬프트 (채팅창에 붙여넣기)",
+`현재 참고하는 소스마다 아래 항목을 평가해서 표 형태로 정리해줘.
+
+- 소스명 (Source Title)
+- 요약 (핵심 내용 한 줄)
+- 발행일 (Publication Date)
+- 최신성 (★★★★★ 5점 만점)
+- 신뢰도 (Evidence 기반 / 리뷰된 자료인지: ★★★★★)
+- 저자·기관 자격 (정부·학계·언론 등 전문성: ★★★★★)
+- 편향 가능성 (낮음 / 보통 / 높음)
+- 참고 가치 점수 (0~10점)
+
+공공기관 정책 결정에 활용 가능한지 기준으로 평가해줘.`),
+
+'<div class="callout callout-mustard"><div class="callout-title">✂️ 평가 후 할 일 — 자료 솎아내기</div>',
+'<b>참고 가치 점수 7점 미만</b>인 소스는 좌측 소스 목록에서 <b>체크 해제</b> → 이후 답변·산출물에 반영되지 않습니다.<br><br>이게 NotebookLM의 진가 — 신뢰도 낮은 자료를 빼고 <b>좋은 자료만 남긴 상태에서 답변</b>이 나옵니다.',
+'</div>',
+
+'<h2 class="section-heading">🎨 Step 3 — 검증된 자료로 Studio 산출물 만들기</h2>',
+'<p style="font-size:16px;color:var(--text-dim)">Studio 패널(오른쪽)에서 용도에 맞는 포맷을 하나씩 생성. <b>걸러진 자료만 남아있으므로 출처가 깨끗한 결과물</b>이 나옵니다.</p>',
+
+iconGrid([
+  {icon:'🎙️', title:'오디오 오버뷰', desc:'두 진행자 대화로 자료 요약 — 출퇴근 청취용 MP3 (3~10분)'},
+  {icon:'🖼️', title:'슬라이드 자료', desc:'핵심 요지 발표 슬라이드 세트 자동 생성'},
+  {icon:'🎬', title:'동영상 개요', desc:'내레이션 + 자막 있는 설명 동영상'},
+  {icon:'🧠', title:'마인드맵', desc:'핵심 개념·하위 주제 트리 시각화'},
+  {icon:'📑', title:'보고서', desc:'요약·시사점·인용까지 완성형 보고서'},
+  {icon:'🃏', title:'플래시카드', desc:'부서원 학습용 Q&A 카드'},
+  {icon:'❓', title:'퀴즈', desc:'자료 이해도 점검 객관식·단답형'},
+  {icon:'📊', title:'인포그래픽', desc:'한 장 요약 그래픽'},
+  {icon:'📋', title:'데이터 표', desc:'자료 속 수치·지표 표로 정리'}
+]),
+
+'<h2 class="section-heading">🏛️ 5급 사무관 실전 활용</h2>',
+'<div class="card"><div class="card-title">🎯 활용 시나리오 ① — 정책 검토 시작 단계</div>',
+'<div class="card-desc">"○○ 정책 활성화 방안" 검토를 시작하기 전, Discover Sources로 해외 사례 + 최근 3년 자료 자동 수집 → 신뢰도 평가 → <b>보고서 산출물</b>로 결재용 검토 보고서 초안</div></div>',
+'<div class="card"><div class="card-title">🎯 활용 시나리오 ② — 국정감사 대비</div>',
+'<div class="card-desc">의원 질의 예상 주제 키워드로 자료 수집 → 평가 표로 신뢰도 검증 → <b>플래시카드</b>로 예상 질문·답변 카드 / <b>퀴즈</b>로 부서원 사전 학습</div></div>',
+'<div class="card"><div class="card-title">🎯 활용 시나리오 ③ — 출퇴근 청취 학습</div>',
+'<div class="card-desc">검토 중인 정책 자료 → <b>오디오 오버뷰</b>로 변환 → 출퇴근 시 두 진행자 대화 형식으로 자연스럽게 청취. "읽을 시간 없는 자료"가 "듣는 자료"로</div></div>',
+
+'<h2 class="section-heading">🎨 슬라이드 디자인 참고 사이트</h2>',
+'<p style="font-size:16px;color:var(--text-dim)">Studio에서 뽑은 슬라이드를 더 보기 좋게 다듬을 때 참고할 수 있는 디자인 사이트입니다.</p>',
+ctaButton('🎨', 'BananaX — 디자인 참고', 'https://furoku.github.io/bananaX/projects/infographic-evaluation/ko/', 'furoku.github.io/bananaX — 다양한 인포그래픽·슬라이드 디자인 예시 정리', true),
+
+'<div class="callout"><div class="callout-title">💡 이미 가진 자료가 있다면?</div>',
+'손에 든 자료(회의록·보고서·내부 가이드)가 이미 있다면, <b>Discover Sources를 건너뛰고 바로 업로드</b>하면 됩니다. 위 흐름의 Step 2(신뢰도 평가)부터 시작 → Studio 산출물 생성. <b>인수인계 노트북·회의 사전 검토·FAQ 자동 생성</b> 같은 활용이 가능합니다.',
+'</div>',
+
+'<div class="callout callout-caution"><div class="callout-title">⚠️ Discover Sources 사용 시 주의</div>',
+'· AI가 자동 수집한 자료라도 <b>반드시 출처 확인</b> (특히 통계·법령·인용)<br>· 신뢰도 평가 점수는 참고 — 최종 판단은 사람이<br>· <b>비공개 자료·결재 전 문서는 노트북에 업로드 금지</b>',
+'</div>'
+].join('');
+
+pages["5-1"] = [
+'<h1>공공부문 AI 윤리·보안</h1>',
+hero('PRINCIPLE', '안전한 디지털 행정을 위한<br><b>3가지 원칙</b>',
+  '편리함을 따라가다 보면 놓치기 쉬운 — 5급 관리자가 반드시 알아야 할 핵심'),
+
+'<h2 class="section-heading">🚫 원칙 ① — 절대 입력 금지 정보</h2>',
+'<p style="font-size:16px;color:var(--text-dim)">한 번 AI에 들어간 정보는 <b>회수가 불가능</b>합니다. 처음부터 안 넣는 게 유일한 안전장치.</p>',
+'<table><thead><tr><th style="width:30%">분류</th><th>예시</th></tr></thead><tbody>',
+'<tr><td><b>개인 식별 정보</b></td><td>주민등록번호, 군번, 병적 정보, 본인 실명</td></tr>',
+'<tr><td><b>민원인 정보</b></td><td>민원인 실명·연락처·주소·이메일</td></tr>',
+'<tr><td><b>비공개 문서</b></td><td>결재 전 보고서, 비공개 정책 검토안, 내부 메모</td></tr>',
+'<tr><td><b>대외비 자료</b></td><td>보안 등급 부여 자료, 비공개 통계</td></tr>',
+'<tr><td><b>인사 정보</b></td><td>부서원 평가·인사 자료, 평가 결과</td></tr>',
+'</tbody></table>',
+'<div class="callout callout-mustard"><div class="callout-title">💡 가공해서 쓰는 법</div>',
+'민감 정보가 들어간 문서를 다뤄야 한다면, <b>이름·기관·금액·날짜를 모두 가명·범위 처리</b>한 가공본을 만들어 입력. 예: "김민수 → 민원인 A", "○○과 → 부서 X", "3,250만원 → 약 3천만원대"',
+'</div>',
+
+'<h2 class="section-heading">🔍 원칙 ② — 환각(Hallucination) 검증 의무</h2>',
+'<p style="font-size:16px;color:var(--text-dim)">1교시부터 계속 강조한 그 원칙입니다. AI는 <b>그럴듯하게 거짓말</b>을 합니다. 통계·법령·인용은 반드시 사람이 원문 확인.</p>',
+iconGrid([
+  {icon:'📊', title:'통계 수치', desc:'AI 인용 수치는 통계청·기관 원문에서 직접 재확인'},
+  {icon:'⚖️', title:'법령·조문', desc:'국가법령정보센터(law.go.kr)에서 정확한 조항 검색'},
+  {icon:'📰', title:'기사·사례', desc:'기사 제목·내용이 진짜 존재하는지 검색 엔진으로 확인'},
+  {icon:'🏛️', title:'기관·인물', desc:'존재하지 않는 기관·연구소·전문가 만들어내는 경우 빈번'}
+]),
+'<div class="callout callout-caution"><div class="callout-title">⚠️ 실제 발생 가능한 환각 사례</div>',
+'· "한국형 사회복무 모델은 ○○ 연구원의 2024년 보고서에 따르면…" — <b>존재하지 않는 보고서·연구원</b>일 수 있음<br>· "병역법 제○조 ○항에 따르면…" — <b>조문 번호가 틀린</b> 경우 자주 발생<br>· "○○국은 2023년부터 ○○ 제도 시행" — <b>시행 연도·국가 모두 틀린</b> 경우도 있음',
+'</div>',
+
+'<h2 class="section-heading">⚖️ 원칙 ③ — 책임 소재</h2>',
+'<p style="font-size:16px;color:var(--text-dim)"><b>AI가 쓴 결재 문서도 결재자가 책임집니다.</b> AI는 책임지지 않습니다.</p>',
+'<div class="card" style="border-left:5px solid #b54141"><div class="card-title">결재 책임의 본질</div>',
+'<div class="card-desc">AI를 활용했다는 사실은 책임 면제 사유가 되지 않습니다. <br><br>· <b>작성자</b>: AI 활용 사실을 결재자에게 사전 안내<br>· <b>결재자</b>: 통계·법령·사실관계를 직접 검증 후 결재<br>· <b>오류 발견 시</b>: AI 핑계 X — 검토하지 않은 결재자 책임</div></div>',
+
+'<h2 class="section-heading">📌 5급 관리자 — 부서원 가이드 전달</h2>',
+'<p style="font-size:16px;color:var(--text-dim)">위 3가지 원칙을 부서원에게 명확히 전달하는 것이 관리자의 역할입니다.</p>',
+bigNumGrid([
+  {title:'입력 금지 명문화', desc:'부서 가이드 한 장에 절대 입력 금지 5가지 명시'},
+  {title:'검증 절차 합의', desc:'AI 활용 결과물은 사람이 검증한 후만 활용'},
+  {title:'결재 라인 통보', desc:'AI 활용 문서는 결재자에게 사전 안내 의무'}
+]),
+
+'<div class="callout"><div class="callout-title">📚 참고 — 정부·공공기관 AI 가이드라인</div>',
+'2026년 현재 정부 차원의 공공부문 AI 활용 가이드라인이 정비되는 중입니다. 청 차원의 가이드가 마련되면 그것을 우선 따르고, 없는 시점에서는 <b>개인정보 보호법·공공기관 정보공개법</b>을 기준으로 판단하세요.',
+'</div>',
+
+'<p style="font-size:16px;color:var(--text-dim);text-align:center;margin-top:24px">👇 <b>5-2 체크리스트</b>에서 실천 항목을 한 장 인쇄용으로</p>'
+].join('');
+
+pages["5-2"] = [
+'<h1>5급 관리자 체크리스트</h1>',
+hero('FINAL', '<b>"내가 쓰는 사람"</b>이 아니라<br><b>"부서를 이끄는 관리자"</b> 관점에서', '결재·인사·보고 라인에 있는 5급 사무관이 챙겨야 할 4가지'),
+'<h2 class="section-heading">🎯 내일부터 챙길 4가지</h2>',
+'<div class="card" style="border-left:5px solid var(--mustard)"><div class="card-title">① 부서원의 AI 사용 — 가이드 만들어두기</div><div class="card-desc">부서원이 AI에 <b>무엇은 입력해도 되고 무엇은 안 되는지</b> 명확히 합의해두세요. 한 장짜리 부서 가이드면 충분합니다.<br><br><b>최소 항목:</b><br>· 절대 입력 금지: 개인정보, 비공개 문서, 결재 전 자료<br>· 입력 가능: 공개 자료, 가상 사례<br>· 사용 후 확인: 통계·법령·인용은 반드시 원문 확인<br>· 결재 라인: AI 활용 보고서임을 결재자에게 알릴 것</div></div>',
+'<div class="card" style="border-left:5px solid var(--mustard)"><div class="card-title">② AI 결재 문서 — 검증 책임은 결재자에게</div><div class="card-desc">부서원이 AI로 만든 문서가 올라오면, <b>검증은 결재자(나)의 몫</b>입니다.<br><br><b>검토 체크포인트:</b><br>· 통계 수치 — 원문 출처 확인했는가<br>· 법령·조문 — 정확한 조항인가<br>· 사실관계 — AI가 추측하지 않았는가<br>· 정책 방향 — 부서 입장과 일치하는가</div></div>',
+'<div class="card" style="border-left:5px solid var(--mustard)"><div class="card-title">③ 부서 차원의 AI 활용 — 작게 시작하기</div><div class="card-desc"><b>거창한 도입 말고, 작은 것부터.</b><br><br>· 회의록 정리는 AI로 (개인정보 가린 버전)<br>· 민원 답변 초안은 AI로 (최종 검수는 사람)<br>· 단순 보고서는 AI 초안 → 사람 다듬기<br>· 부서 자료 → NotebookLM 노트북으로 정리<br><br>한 달 운영 후 부서원과 회고.</div></div>',
+'<div class="card" style="border-left:5px solid var(--mustard)"><div class="card-title">④ 본인의 AI 활용 시간 — 매주 30분</div><div class="card-desc">관리자가 안 쓰면 부서원도 잘 못 씁니다. <b>매주 30분만 시간을 빼서 본인 업무에 AI를 한 가지씩 적용해보세요.</b><br><br>· 첫째 주: 맞춤형 지침 손보기<br>· 둘째 주: 자주 쓰는 보고 양식을 Gems(또는 GPTs)로 저장<br>· 셋째 주: 심층 리서치로 정책 동향 조사<br>· 넷째 주: 부서원과 활용 경험 공유</div></div>',
+'<h2 class="section-heading">📋 다운로드</h2>',
+fileCard('5급관리자_AI체크리스트.pdf', '인쇄용 한 장 체크리스트 (PDF)', 'files/ai_checklist_5th_grade.pdf'),
+fileCard('부서_AI활용_가이드_템플릿.txt', '부서원 공유용 AI 가이드 한 장 템플릿', 'files/dept_ai_guide_template.txt'),
+'<details style="margin:14px 0"><summary style="cursor:pointer;font-weight:700;font-size:16px;color:var(--accent)">📄 부서 가이드 템플릿 — 펼쳐서 바로 복사하기</summary>',
+promptBlock("부서 AI 활용 가이드 (한 장 템플릿)",
+`[○○과 AI 활용 가이드] — 시행일: 2026. __. __.
+
+1. 절대 입력 금지
+ · 주민등록번호·군번·병적 정보 등 개인 식별 정보
+ · 민원인 실명·연락처·주소
+ · 결재 전 보고서, 비공개 검토안, 내부 메모
+ · 대외비·보안 등급 자료, 비공개 통계
+ · 부서원 인사·평가 자료
+
+2. 입력 가능
+ · 이미 공개된 자료 (보도자료, 공개 통계, 법령)
+ · 이름·기관·수치를 가명·범위 처리한 가공본
+ · 가상으로 만든 연습용 사례
+
+3. 사용 후 반드시 확인
+ · 통계 수치 → 원문 출처에서 재확인
+ · 법령·조문 → 국가법령정보센터에서 확인
+ · 인용·사례 → 실제 존재하는지 검색으로 확인
+
+4. 결재 관련
+ · AI를 활용해 작성한 문서는 결재자에게 사전 고지
+ · 최종 검증 책임은 결재자에게 있음
+
+5. 문의
+ · 가이드 관련 문의: ○○과 ○○○ (내선 ____)`),
+'</details>',
+'<div class="callout callout-mustard"><div class="callout-title">🙏 오늘 4시간 — 완벽하게 다 익히지 않아도 됩니다</div><b style="font-size:18px">"AI를 내 부서에 어떻게 활용할 수 있을지 감이 잡혔다"</b><br><br>이거 하나만 가져가시면 오늘 교육은 성공입니다. 이 사이트는 강의 종료 후에도 그대로 열려 있어요.</div>'
+].join('');
+
+pages["5-3"] = [
+'<h1>Q&A</h1>',
+'<p class="page-desc">궁금한 점이 있으시면 지금 손 들어주세요. 시간이 부족하면 패들렛에 추가 답변드리겠습니다.</p>',
+'<h2 class="section-heading">📌 자주 나오는 질문</h2>',
+'<div class="card"><div class="card-title">Q. ChatGPT와 Gemini 중 뭐가 더 좋나요?</div><div class="card-desc">용도가 달라요. <b>ChatGPT</b>는 일반 보고서·민원·텍스트에 강하고, <b>Gemini</b>는 Google 앱 연동이 강점. <b>NotebookLM</b>은 내 자료 기반 분석에 압도적. 셋 다 무료로 써보고 메인을 정하세요.</div></div>',
+'<div class="card"><div class="card-title">Q. 유료 결제할 가치가 있나요?</div><div class="card-desc">매일 1시간 이상 쓰면 ChatGPT Plus(월 $20) 추천. 가끔 쓰면 무료로 충분.</div></div>',
+'<div class="card"><div class="card-title">Q. 공공기관에서 법적으로 괜찮나요?</div><div class="card-desc">청 차원 가이드가 나오면 그것을 따르고, 없는 시점에서는 <b>개인정보 보호법·공공기관 정보공개법</b> 기준으로 판단. 핵심은 "민감정보 입력 금지 + 결과물 검증 책임".</div></div>',
+'<div class="card"><div class="card-title">Q. 부서원 도입은 어떻게 시작?</div><div class="card-desc">처음부터 의무화 X. <b>관리자가 먼저 한 달 써보고 → 효과 본 사례 1~2개 공유 → 자발적 도입</b>이 안전하고 빠릅니다.</div></div>',
+'<div class="card"><div class="card-title">Q. 강의 끝나고 막히면?</div><div class="card-desc">이 사이트는 계속 열려 있어요. 패들렛에 질문 남겨주세요.</div></div>',
+'<div style="text-align:center;padding:50px 20px;margin-top:30px"><div style="font-size:70px;margin-bottom:18px">🎓</div><p style="font-size:22px;color:var(--accent);font-weight:800">오늘 수고하셨습니다.</p><p style="font-size:16px;color:var(--text-dim);margin-top:10px">병무행정에 AI가 어떻게 녹아들지, 여러분 손에 달려 있습니다.</p></div>'
+].join('');
+
+let currentPageId = "pre";
+let allSectionIds = [];
+
+function buildAllSectionIds() {
+  allSectionIds = [];
+  chapters.forEach(ch => { ch.sections.forEach(sec => allSectionIds.push({ id: sec.id, chId: ch.id, title: sec.title, chTitle: ch.title })); });
+}
+
+function renderNav() {
+  const nav = document.getElementById("nav");
+  let h = "";
+  chapters.forEach((ch) => {
+    const openClass = (ch.sections.some(s => s.id === currentPageId)) ? "open" : "";
+    h += '<div class="nav-chapter '+openClass+'" data-ch="'+ch.id+'"><div class="nav-chapter-header" onclick="toggleChapter(\''+ch.id+'\')">';
+    h += '<span class="ch-num">'+esc(ch.num)+'</span><div style="flex:1;min-width:0"><div class="ch-title">'+esc(ch.title)+'</div>';
+    if (ch.time) h += '<div class="ch-time">'+esc(ch.time)+'</div>';
+    h += '</div><span class="ch-caret">▼</span></div><div class="sections">';
+    ch.sections.forEach(sec => {
+      const activeClass = sec.id === currentPageId ? "active" : "";
+      h += '<div class="section-item '+activeClass+'" onclick="goToPage(\''+sec.id+'\')"><span class="dot"></span><span class="title">'+esc(sec.title)+'</span>';
+      if (sec.label) h += '<span class="tag '+typeClass[sec.type]+'">'+esc(sec.label || typeLabel[sec.type])+'</span>';
+      h += '</div>';
+    });
+    h += '</div></div>';
+  });
+  nav.innerHTML = h;
+}
+
+function toggleChapter(chId) {
+  document.querySelectorAll(".nav-chapter").forEach(el => { if (el.dataset.ch === chId) el.classList.toggle("open"); });
+}
+
+function goToPage(pageId) {
+  currentPageId = pageId;
+  const meta = allSectionIds.find(s => s.id === pageId);
+  document.getElementById("content").innerHTML = (pages[pageId] || stub(["페이지 준비 중입니다."])) + renderFooterNav();
+  let bc = '<span>Home</span>';
+  if (meta) bc += '<span>'+esc(meta.chTitle)+'</span><span class="current">'+esc(meta.title)+'</span>';
+  document.getElementById("breadcrumb").innerHTML = bc;
+  renderNav();
+  window.scrollTo(0, 0);
+  if (window.innerWidth <= 900) document.getElementById("sidebar").classList.remove("open");
+  history.replaceState(null, "", "#"+pageId);
+}
+
+function renderFooterNav() {
+  const idx = allSectionIds.findIndex(s => s.id === currentPageId);
+  const prev = idx > 0 ? allSectionIds[idx-1] : null;
+  const next = idx < allSectionIds.length-1 ? allSectionIds[idx+1] : null;
+  let h = '<div class="footer-nav">';
+  if (prev) h += '<button class="nav-btn" onclick="goToPage(\''+prev.id+'\')">← '+esc(prev.title)+'</button>';
+  else h += '<button class="nav-btn disabled">← 처음</button>';
+  if (next) h += '<button class="nav-btn next" onclick="goToPage(\''+next.id+'\')">'+esc(next.title)+' →</button>';
+  else h += '<button class="nav-btn next disabled">끝 →</button>';
+  h += '</div>';
+  return h;
+}
+
+function copyPrompt(btn) {
+  const text = btn.closest(".prompt-block").querySelector(".prompt-body").innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.classList.add("copied");
+    btn.textContent = "복사됨 ✓";
+    setTimeout(() => { btn.classList.remove("copied"); btn.textContent = "복사"; }, 1500);
+  });
+}
+
+function toggleSidebar() { document.getElementById("sidebar").classList.toggle("open"); }
+
+function setFont(delta) {
+  const sizes = [15, 17, 19];
+  const idx = delta === -1 ? 0 : delta === 1 ? 2 : 1;
+  document.body.style.fontSize = sizes[idx] + "px";
+  document.querySelectorAll(".font-ctrl button").forEach((b, i) => { b.classList.toggle("active", i === idx); });
+}
+
+buildAllSectionIds();
+const initialPage = location.hash ? location.hash.slice(1) : "pre";
+if (allSectionIds.find(s => s.id === initialPage)) currentPageId = initialPage;
+goToPage(currentPageId);
+</script>
+</body>
+</html>

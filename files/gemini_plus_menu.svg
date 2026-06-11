@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1700 580" font-family="'Pretendard Variable',-apple-system,'Malgun Gothic',sans-serif">
+  <rect width="1700" height="580" fill="#e6edfa"/>
+
+  <!-- 왼쪽 카드: + 버튼 기본 메뉴 -->
+  <rect x="25" y="20" width="850" height="540" rx="28" fill="#ffffff" stroke="#dfe4ee" stroke-width="2"/>
+
+  <!-- ① 파일 업로드 -->
+  <circle cx="85" cy="80" r="17" fill="#d61f1f"/><text x="85" y="86" font-size="18" font-weight="800" fill="#fff" text-anchor="middle">1</text>
+  <g stroke="#1a1a1a" stroke-width="2.8" fill="none" stroke-linecap="round">
+    <path d="M 152 72 l -13 13 a 9 9 0 0 0 13 13 l 15 -15 a 14.5 14.5 0 0 0 -20 -20 l -15 15"/>
+  </g>
+  <text x="210" y="89" font-size="26" fill="#1a1a1a">파일 업로드</text>
+
+  <!-- ② Drive에서 파일 추가 -->
+  <circle cx="85" cy="166" r="17" fill="#d61f1f"/><text x="85" y="172" font-size="18" font-weight="800" fill="#fff" text-anchor="middle">2</text>
+  <g stroke="#1a1a1a" stroke-width="2.8" fill="none" stroke-linejoin="round">
+    <path d="M 146 152 l 16 0 l 12 21 l -8 14 l -24 0 l -8 -14 Z"/>
+    <path d="M 146 152 l 12 21 l 28 0 M 158 173 l -8 14"/>
+  </g>
+  <text x="210" y="175" font-size="26" fill="#1a1a1a">Drive에서 파일 추가</text>
+
+  <!-- ③ 업로드 더보기 -->
+  <circle cx="85" cy="252" r="17" fill="#d61f1f"/><text x="85" y="258" font-size="18" font-weight="800" fill="#fff" text-anchor="middle">3</text>
+  <g fill="#1a1a1a">
+    <circle cx="142" cy="252" r="4"/><circle cx="156" cy="252" r="4"/><circle cx="170" cy="252" r="4"/>
+  </g>
+  <text x="210" y="261" font-size="26" fill="#1a1a1a">업로드 더보기</text>
+  <path d="M 812 240 l 12 12 l -12 12" stroke="#1a1a1a" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+
+  <!-- 구분선 -->
+  <line x1="55" y1="300" x2="845" y2="300" stroke="#ececec" stroke-width="2"/>
+
+  <!-- ④ 이미지 만들기 -->
+  <circle cx="85" cy="352" r="17" fill="#d61f1f"/><text x="85" y="358" font-size="18" font-weight="800" fill="#fff" text-anchor="middle">4</text>
+  <g stroke="#1a1a1a" stroke-width="2.8" fill="none" stroke-linecap="round">
+    <rect x="140" y="334" width="36" height="36" rx="10"/>
+    <path d="M 148 362 q 7 -16 14 -13"/>
+  </g>
+  <text x="210" y="361" font-size="26" fill="#1a1a1a">이미지 만들기</text>
+
+  <!-- ⑤ 동영상 만들기 -->
+  <circle cx="85" cy="438" r="17" fill="#d61f1f"/><text x="85" y="444" font-size="18" font-weight="800" fill="#fff" text-anchor="middle">5</text>
+  <g stroke="#1a1a1a" stroke-width="2.8" fill="none" stroke-linecap="round">
+    <rect x="140" y="420" width="36" height="32" rx="9"/>
+    <path d="M 140 432 l 10 -12 M 156 432 l 10 -12"/>
+  </g>
+  <text x="210" y="447" font-size="26" fill="#1a1a1a">동영상 만들기</text>
+
+  <!-- ⑥ 도구 더보기 (하이라이트) -->
+  <rect x="48" y="492" width="800" height="52" rx="14" fill="#f0f0f0"/>
+  <circle cx="85" cy="518" r="17" fill="#d61f1f"/><text x="85" y="524" font-size="18" font-weight="800" fill="#fff" text-anchor="middle">6</text>
+  <g fill="#1a1a1a">
+    <circle cx="142" cy="518" r="4"/><circle cx="156" cy="518" r="4"/><circle cx="170" cy="518" r="4"/>
+  </g>
+  <text x="210" y="527" font-size="26" fill="#1a1a1a">도구 더보기</text>
+  <path d="M 812 506 l 12 12 l -12 12" stroke="#1a1a1a" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+
+  <!-- 연결선 -->
+  <path d="M 875 518 q 30 0 40 -40 l 0 -330" stroke="#b9c4da" stroke-width="2.5" fill="none" stroke-dasharray="6 5"/>
+
+  <!-- 오른쪽 카드: 도구 더보기 패널 -->
+  <rect x="940" y="60" width="730" height="480" rx="28" fill="#ffffff" stroke="#dfe4ee" stroke-width="2"/>
+
+  <!-- ⑦ Canvas -->
+  <circle cx="1000" cy="130" r="17" fill="#d61f1f"/><text x="1000" y="136" font-size="18" font-weight="800" fill="#fff" text-anchor="middle">7</text>
+  <g stroke="#1a1a1a" stroke-width="2.8" fill="none" stroke-linecap="round">
+    <rect x="1052" y="112" width="28" height="28" rx="8"/>
+    <rect x="1062" y="122" width="28" height="28" rx="8"/>
+    <path d="M 1076 130 v 12 M 1070 136 h 12"/>
+  </g>
+  <text x="1120" y="139" font-size="26" fill="#1a1a1a">Canvas</text>
+
+  <!-- ⑧ Deep Research -->
+  <circle cx="1000" cy="216" r="17" fill="#d61f1f"/><text x="1000" y="222" font-size="18" font-weight="800" fill="#fff" text-anchor="middle">8</text>
+  <g stroke="#1a1a1a" stroke-width="2.8" fill="none">
+    <ellipse cx="1071" cy="216" rx="20" ry="9" transform="rotate(45 1071 216)"/>
+    <ellipse cx="1071" cy="216" rx="20" ry="9" transform="rotate(-45 1071 216)"/>
+  </g>
+  <text x="1120" y="225" font-size="26" fill="#1a1a1a">Deep Research</text>
+
+  <!-- ⑨ 음악 만들기 -->
+  <circle cx="1000" cy="302" r="17" fill="#d61f1f"/><text x="1000" y="308" font-size="18" font-weight="800" fill="#fff" text-anchor="middle">9</text>
+  <g stroke="#1a1a1a" stroke-width="2.8" fill="none" stroke-linecap="round">
+    <path d="M 1062 316 v -26 l 22 -6 v 26"/>
+    <circle cx="1056" cy="316" r="6"/>
+    <circle cx="1078" cy="310" r="6"/>
+  </g>
+  <text x="1120" y="311" font-size="26" fill="#1a1a1a">음악 만들기</text>
+
+  <!-- ⑩ 가이드 학습 -->
+  <circle cx="1000" cy="388" r="17" fill="#d61f1f"/><text x="1000" y="394" font-size="18" font-weight="800" fill="#fff" text-anchor="middle">10</text>
+  <g stroke="#1a1a1a" stroke-width="2.8" fill="none" stroke-linecap="round">
+    <path d="M 1050 378 q 11 -6 21 0 v 22 q -10 -6 -21 0 Z"/>
+    <path d="M 1071 378 q 11 -6 21 0 v 22 q -10 -6 -21 0 Z"/>
+    <line x1="1071" y1="370" x2="1071" y2="374"/>
+    <circle cx="1071" cy="366" r="1.6" fill="#1a1a1a"/>
+  </g>
+  <text x="1120" y="397" font-size="26" fill="#1a1a1a">가이드 학습</text>
+
+  <!-- ⑪ 개인 인텔리전스 (Labs) -->
+  <circle cx="1000" cy="474" r="17" fill="#d61f1f"/><text x="1000" y="480" font-size="18" font-weight="800" fill="#fff" text-anchor="middle">11</text>
+  <g stroke="#1a1a1a" stroke-width="2.8" fill="none" stroke-linecap="round">
+    <circle cx="1062" cy="462" r="8"/>
+    <path d="M 1050 484 a 13 10 0 0 1 24 0"/>
+    <path d="M 1084 470 q 2 6 8 8 q -6 2 -8 8 q -2 -6 -8 -8 q 6 -2 8 -8 Z" fill="#1a1a1a" stroke="none"/>
+  </g>
+  <text x="1120" y="476" font-size="26" fill="#1a1a1a">개인 인텔리전스</text>
+  <text x="1120" y="508" font-size="20" fill="#9aa0a6">Labs</text>
+  <!-- 토글 -->
+  <rect x="1540" y="456" width="84" height="44" rx="22" fill="#3b5bdb"/>
+  <circle cx="1602" cy="478" r="17" fill="#ffffff"/>
+  <path d="M 1595 478 l 5 5 l 9 -10" stroke="#3b5bdb" stroke-width="3" fill="none" stroke-linecap="round"/>
+</svg>

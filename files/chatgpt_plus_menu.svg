@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 525" font-family="'Pretendard Variable',-apple-system,'Malgun Gothic',sans-serif">
+  <!-- 카드 -->
+  <rect x="3" y="3" width="514" height="519" rx="26" fill="#ffffff" stroke="#e2e2e2" stroke-width="2"/>
+
+  <!-- ① 사진 및 파일 추가 -->
+  <circle cx="42" cy="60" r="16" fill="#d61f1f"/><text x="42" y="66" font-size="17" font-weight="800" fill="#fff" text-anchor="middle">1</text>
+  <g stroke="#1a1a1a" stroke-width="2.6" fill="none" stroke-linecap="round">
+    <path d="M 96 54 l -12 12 a 8.5 8.5 0 0 0 12 12 l 14 -14 a 13.5 13.5 0 0 0 -19 -19 l -14 14"/>
+  </g>
+  <text x="128" y="68" font-size="24" fill="#1a1a1a">사진 및 파일 추가</text>
+
+  <!-- ② 최근 파일 -->
+  <circle cx="42" cy="116" r="16" fill="#d61f1f"/><text x="42" y="122" font-size="17" font-weight="800" fill="#fff" text-anchor="middle">2</text>
+  <g stroke="#1a1a1a" stroke-width="2.6" fill="none" stroke-linecap="round">
+    <rect x="80" y="100" width="30" height="30" rx="7"/>
+    <line x1="88" y1="111" x2="102" y2="111"/>
+    <line x1="88" y1="119" x2="96" y2="119"/>
+  </g>
+  <text x="128" y="124" font-size="24" fill="#1a1a1a">최근 파일</text>
+  <path d="M 462 105 l 11 11 l -11 11" stroke="#1a1a1a" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+
+  <!-- 구분선 -->
+  <line x1="28" y1="155" x2="492" y2="155" stroke="#ececec" stroke-width="2"/>
+
+  <!-- ③ 이미지 만들기 -->
+  <circle cx="42" cy="199" r="16" fill="#d61f1f"/><text x="42" y="205" font-size="17" font-weight="800" fill="#fff" text-anchor="middle">3</text>
+  <g stroke="#1a1a1a" stroke-width="2.6" fill="none" stroke-linecap="round">
+    <rect x="80" y="183" width="32" height="32" rx="9"/>
+    <circle cx="91" cy="194" r="3.5"/>
+    <path d="M 82 209 l 9 -8 l 7 6 l 8 -9 l 6 7"/>
+  </g>
+  <text x="128" y="208" font-size="24" fill="#1a1a1a">이미지 만들기</text>
+
+  <!-- ④ 심층 리서치 -->
+  <circle cx="42" cy="262" r="16" fill="#d61f1f"/><text x="42" y="268" font-size="17" font-weight="800" fill="#fff" text-anchor="middle">4</text>
+  <g stroke="#1a1a1a" stroke-width="2.6" fill="none" stroke-linecap="round">
+    <path d="M 82 262 l 26 -14 l 6 11 l -26 14 Z"/>
+    <line x1="96" y1="271" x2="90" y2="287"/>
+    <line x1="100" y1="271" x2="108" y2="285"/>
+    <line x1="112" y1="247" x2="118" y2="258"/>
+  </g>
+  <text x="128" y="270" font-size="24" fill="#1a1a1a">심층 리서치</text>
+
+  <!-- ⑤ 웹 검색 -->
+  <circle cx="42" cy="324" r="16" fill="#d61f1f"/><text x="42" y="330" font-size="17" font-weight="800" fill="#fff" text-anchor="middle">5</text>
+  <g stroke="#1a1a1a" stroke-width="2.6" fill="none">
+    <circle cx="95" cy="324" r="16"/>
+    <ellipse cx="95" cy="324" rx="7" ry="16"/>
+    <line x1="79" y1="324" x2="111" y2="324"/>
+  </g>
+  <text x="128" y="332" font-size="24" fill="#1a1a1a">웹 검색</text>
+
+  <!-- ⑥ 더 보기 -->
+  <circle cx="42" cy="386" r="16" fill="#d61f1f"/><text x="42" y="392" font-size="17" font-weight="800" fill="#fff" text-anchor="middle">6</text>
+  <g fill="#1a1a1a">
+    <circle cx="84" cy="386" r="3.6"/>
+    <circle cx="96" cy="386" r="3.6"/>
+    <circle cx="108" cy="386" r="3.6"/>
+  </g>
+  <text x="128" y="394" font-size="24" fill="#1a1a1a">더 보기</text>
+  <path d="M 462 375 l 11 11 l -11 11" stroke="#1a1a1a" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+
+  <!-- 구분선 -->
+  <line x1="28" y1="428" x2="492" y2="428" stroke="#ececec" stroke-width="2"/>
+
+  <!-- ⑦ 프로젝트 -->
+  <circle cx="42" cy="472" r="16" fill="#d61f1f"/><text x="42" y="478" font-size="17" font-weight="800" fill="#fff" text-anchor="middle">7</text>
+  <g stroke="#1a1a1a" stroke-width="2.6" fill="none" stroke-linecap="round">
+    <path d="M 80 456 h 12 l 6 7 h 16 a 5 5 0 0 1 5 5 v 16 a 5 5 0 0 1 -5 5 h -34 a 5 5 0 0 1 -5 -5 v -23 a 5 5 0 0 1 5 -5 Z"/>
+  </g>
+  <text x="128" y="480" font-size="24" fill="#1a1a1a">프로젝트</text>
+  <path d="M 462 461 l 11 11 l -11 11" stroke="#1a1a1a" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+  <!-- v2 -->
+</svg>

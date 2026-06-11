@@ -1,0 +1,141 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1750 620" font-family="'Pretendard Variable',-apple-system,'Malgun Gothic',sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#eef3fc"/>
+      <stop offset="1" stop-color="#dde8fa"/>
+    </linearGradient>
+    <linearGradient id="spark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#4285f4"/>
+      <stop offset="1" stop-color="#9b72cb"/>
+    </linearGradient>
+  </defs>
+  <rect width="1750" height="620" fill="url(#bg)"/>
+  <!-- 사이드바 -->
+  <rect width="90" height="620" fill="#f4f7fd"/>
+  <line x1="90" y1="0" x2="90" y2="620" stroke="#e1e7f2" stroke-width="1.5"/>
+  <!-- 로고 (스파클) -->
+  <path d="M 45 30 q 3 12 15 15 q -12 3 -15 15 q -3 -12 -15 -15 q 12 -3 15 -15 Z" fill="url(#spark)"/>
+
+  <!-- ① 새 채팅 -->
+  <circle cx="45" cy="135" r="20" fill="#e9eef8"/>
+  <g stroke="#3c4043" stroke-width="2.3" fill="none">
+    <rect x="35" y="126" width="17" height="17" rx="4"/>
+    <path d="M 43 134 L 55 122"/>
+  </g>
+  <rect x="21" y="111" width="48" height="48" stroke="#d61f1f" stroke-width="4" fill="none"/>
+  <line x1="69" y1="135" x2="96" y2="135" stroke="#d61f1f" stroke-width="2.5"/>
+  <circle cx="111" cy="135" r="13" fill="#d61f1f"/><text x="111" y="140" font-size="14" font-weight="800" fill="#fff" text-anchor="middle">1</text>
+  <rect x="130" y="119" width="78" height="32" rx="8" fill="#fff" stroke="#cfd6e4" stroke-width="1.5"/>
+  <text x="142" y="140" font-size="16" font-weight="700" fill="#1f2730">새 채팅</text>
+
+  <!-- ② 검색 -->
+  <g stroke="#3c4043" stroke-width="2.3" fill="none">
+    <circle cx="43" cy="208" r="9"/>
+    <line x1="50" y1="215" x2="57" y2="222"/>
+  </g>
+  <rect x="21" y="188" width="48" height="44" stroke="#d61f1f" stroke-width="4" fill="none"/>
+  <line x1="69" y1="210" x2="96" y2="210" stroke="#d61f1f" stroke-width="2.5"/>
+  <circle cx="111" cy="210" r="13" fill="#d61f1f"/><text x="111" y="215" font-size="14" font-weight="800" fill="#fff" text-anchor="middle">2</text>
+  <rect x="130" y="194" width="62" height="32" rx="8" fill="#fff" stroke="#cfd6e4" stroke-width="1.5"/>
+  <text x="142" y="215" font-size="16" font-weight="700" fill="#1f2730">검색</text>
+
+  <!-- ③ 라이브러리 -->
+  <g stroke="#3c4043" stroke-width="2.3" fill="none">
+    <rect x="33" y="268" width="24" height="24" rx="7"/>
+    <path d="M 39 286 q 6 -14 12 -12"/>
+  </g>
+  <rect x="21" y="256" width="48" height="48" stroke="#d61f1f" stroke-width="4" fill="none"/>
+  <line x1="69" y1="280" x2="96" y2="280" stroke="#d61f1f" stroke-width="2.5"/>
+  <circle cx="111" cy="280" r="13" fill="#d61f1f"/><text x="111" y="285" font-size="14" font-weight="800" fill="#fff" text-anchor="middle">3</text>
+  <rect x="130" y="264" width="110" height="32" rx="8" fill="#fff" stroke="#cfd6e4" stroke-width="1.5"/>
+  <text x="142" y="285" font-size="16" font-weight="700" fill="#1f2730">라이브러리</text>
+
+  <!-- ④ 앱/확장 기능 -->
+  <g stroke="#3c4043" stroke-width="2.3" fill="none">
+    <circle cx="38" cy="344" r="4"/>
+    <circle cx="53" cy="344" r="4"/>
+    <rect x="34" y="356" width="8" height="8" rx="2"/>
+    <rect x="49" y="356" width="8" height="8" rx="2"/>
+  </g>
+  <rect x="21" y="328" width="48" height="48" stroke="#d61f1f" stroke-width="4" fill="none"/>
+  <line x1="69" y1="352" x2="96" y2="352" stroke="#d61f1f" stroke-width="2.5"/>
+  <circle cx="111" cy="352" r="13" fill="#d61f1f"/><text x="111" y="357" font-size="14" font-weight="800" fill="#fff" text-anchor="middle">4</text>
+  <rect x="130" y="336" width="124" height="32" rx="8" fill="#fff" stroke="#cfd6e4" stroke-width="1.5"/>
+  <text x="142" y="357" font-size="16" font-weight="700" fill="#1f2730">앱/확장 기능</text>
+
+  <!-- 하트 (라벨 없음) -->
+  <path d="M 45 415 l -8 -8 a 5.5 5.5 0 0 1 8 -8 a 5.5 5.5 0 0 1 8 8 Z" stroke="#3c4043" stroke-width="2.2" fill="none"/>
+
+  <!-- ⑨ 설정 (톱니) -->
+  <g stroke="#3c4043" stroke-width="2.3" fill="none">
+    <circle cx="45" cy="505" r="9"/>
+    <circle cx="45" cy="505" r="3.5"/>
+    <g stroke-width="2.6">
+      <line x1="45" y1="492" x2="45" y2="487"/><line x1="45" y1="518" x2="45" y2="523"/>
+      <line x1="32" y1="505" x2="27" y2="505"/><line x1="58" y1="505" x2="63" y2="505"/>
+      <line x1="36" y1="496" x2="32" y2="492"/><line x1="54" y1="514" x2="58" y2="518"/>
+      <line x1="36" y1="514" x2="32" y2="518"/><line x1="54" y1="496" x2="58" y2="492"/>
+    </g>
+  </g>
+  <rect x="21" y="481" width="48" height="48" stroke="#d61f1f" stroke-width="4" fill="none"/>
+  <line x1="69" y1="505" x2="96" y2="505" stroke="#d61f1f" stroke-width="2.5"/>
+  <circle cx="111" cy="505" r="13" fill="#d61f1f"/><text x="111" y="510" font-size="14" font-weight="800" fill="#fff" text-anchor="middle">9</text>
+  <rect x="130" y="489" width="62" height="32" rx="8" fill="#fff" stroke="#cfd6e4" stroke-width="1.5"/>
+  <text x="142" y="510" font-size="16" font-weight="700" fill="#1f2730">설정</text>
+
+  <!-- ⑩ 계정 -->
+  <circle cx="45" cy="575" r="18" fill="#b48ead"/>
+  <circle cx="45" cy="569" r="6" fill="#f3e6f0"/>
+  <path d="M 34 583 a 11 7 0 0 1 22 0" fill="#f3e6f0"/>
+  <rect x="21" y="551" width="48" height="48" stroke="#d61f1f" stroke-width="4" fill="none"/>
+  <line x1="69" y1="575" x2="96" y2="575" stroke="#d61f1f" stroke-width="2.5"/>
+  <circle cx="111" cy="575" r="13" fill="#d61f1f"/><text x="111" y="580" font-size="14" font-weight="800" fill="#fff" text-anchor="middle">10</text>
+  <rect x="130" y="559" width="62" height="32" rx="8" fill="#fff" stroke="#cfd6e4" stroke-width="1.5"/>
+  <text x="142" y="580" font-size="16" font-weight="700" fill="#1f2730">계정</text>
+
+  <!-- 인사말 -->
+  <text x="930" y="155" font-size="36" text-anchor="middle" fill="#3c4043" font-weight="500">○○님, 지금 어떤 생각을 하고 계시나요?</text>
+
+  <!-- ⑤ 프롬프트 입력창 라벨 -->
+  <circle cx="845" cy="222" r="13" fill="#d61f1f"/><text x="845" y="227" font-size="14" font-weight="800" fill="#fff" text-anchor="middle">5</text>
+  <rect x="864" y="206" width="148" height="32" rx="8" fill="#fff" stroke="#cfd6e4" stroke-width="1.5"/>
+  <text x="876" y="227" font-size="16" font-weight="700" fill="#1f2730">프롬프트 입력창</text>
+  <line x1="930" y1="238" x2="930" y2="252" stroke="#d61f1f" stroke-width="2.5"/>
+
+  <!-- 입력 영역 -->
+  <rect x="330" y="252" width="1215" height="110" stroke="#d61f1f" stroke-width="4.5" fill="none"/>
+  <rect x="352" y="270" width="1171" height="74" rx="37" fill="#ffffff" stroke="#e3e7ef" stroke-width="1.6"/>
+  <!-- + -->
+  <text x="400" y="318" font-size="30" text-anchor="middle" fill="#3c4043">+</text>
+  <rect x="377" y="288" width="46" height="40" stroke="#d61f1f" stroke-width="3.5" fill="none"/>
+  <!-- 플레이스홀더 -->
+  <text x="448" y="316" font-size="19" fill="#9aa0a6">Gemini에게 물어보기</text>
+  <!-- Flash -->
+  <text x="1290" y="316" font-size="18" fill="#5f6368">Flash</text>
+  <path d="M 1355 304 l 8 9 l 8 -9" stroke="#5f6368" stroke-width="2.2" fill="none"/>
+  <rect x="1268" y="287" width="120" height="42" stroke="#d61f1f" stroke-width="3.5" fill="none"/>
+  <!-- 마이크 -->
+  <g stroke="#3c4043" stroke-width="2.3" fill="none">
+    <rect x="1449" y="294" width="12" height="19" rx="6"/>
+    <path d="M 1444 306 a 11 11 0 0 0 22 0 M 1455 317 v 8"/>
+  </g>
+  <rect x="1431" y="284" width="48" height="48" stroke="#d61f1f" stroke-width="3.5" fill="none"/>
+
+  <!-- ⑥ 파일 첨부 -->
+  <line x1="400" y1="362" x2="400" y2="394" stroke="#d61f1f" stroke-width="2.5"/>
+  <circle cx="365" cy="414" r="13" fill="#d61f1f"/><text x="365" y="419" font-size="14" font-weight="800" fill="#fff" text-anchor="middle">6</text>
+  <rect x="384" y="398" width="100" height="32" rx="8" fill="#fff" stroke="#cfd6e4" stroke-width="1.5"/>
+  <text x="396" y="419" font-size="16" font-weight="700" fill="#1f2730">파일 첨부</text>
+
+  <!-- ⑦ 모델 선택 -->
+  <line x1="1328" y1="362" x2="1328" y2="394" stroke="#d61f1f" stroke-width="2.5"/>
+  <circle cx="1273" cy="414" r="13" fill="#d61f1f"/><text x="1273" y="419" font-size="14" font-weight="800" fill="#fff" text-anchor="middle">7</text>
+  <rect x="1292" y="398" width="100" height="32" rx="8" fill="#fff" stroke="#cfd6e4" stroke-width="1.5"/>
+  <text x="1304" y="419" font-size="16" font-weight="700" fill="#1f2730">모델 선택</text>
+
+  <!-- ⑧ 음성 입력 -->
+  <line x1="1455" y1="362" x2="1455" y2="394" stroke="#d61f1f" stroke-width="2.5"/>
+  <circle cx="1430" cy="414" r="13" fill="#d61f1f"/><text x="1430" y="419" font-size="14" font-weight="800" fill="#fff" text-anchor="middle">8</text>
+  <rect x="1449" y="398" width="100" height="32" rx="8" fill="#fff" stroke="#cfd6e4" stroke-width="1.5"/>
+  <text x="1461" y="419" font-size="16" font-weight="700" fill="#1f2730">음성 입력</text>
+</svg>
