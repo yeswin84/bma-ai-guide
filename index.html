@@ -1944,9 +1944,7 @@ function setFont(delta) {
   const idx = delta === -1 ? 0 : delta === 1 ? 2 : 1;
   document.documentElement.style.setProperty("--font-scale", scales[idx]);
   document.querySelectorAll(".font-ctrl button").forEach((b, i) => { b.classList.toggle("active", i === idx); });
-});
 }
-
 buildAllSectionIds();
 const initialPage = location.hash ? location.hash.slice(1) : "pre";
 if (allSectionIds.find(s => s.id === initialPage)) currentPageId = initialPage;
